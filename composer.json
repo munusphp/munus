@@ -1,0 +1,42 @@
+{
+    "name": "akondas/munus",
+    "type": "library",
+    "description": "Power of object-oriented programming with the elegance of functional programming.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Arkadiusz Kondas",
+            "email": "arkadiusz.kondas@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.15",
+        "phpunit/phpunit": "^8.4",
+        "vimeo/psalm": "^3.6",
+        "psalm/plugin-phpunit": "^0.7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Munus\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Munus\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "check-cs": [
+            "php-cs-fixer fix --dry-run --diff"
+        ],
+        "fix-cs": [
+            "php-cs-fixer fix"
+        ],
+        "tests": [
+            "@check-cs",
+            "psalm",
+            "phpunit"
+        ]
+    }
+}
