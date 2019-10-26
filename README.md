@@ -7,6 +7,12 @@ At the moment, in the experimental phase.
 
 Due to the lack of generic types, Munus achieves genericity with the help of [Psalm](https://github.com/vimeo/psalm) `template` annotation.
 
+Option example:
+```php
+/** @var Option<Success> $option */
+$option = Option::of(domainOperation());
+```
+
 Either example:
 ```php
 /**
@@ -29,13 +35,13 @@ $result->getOrElse(new Result())
 
  - Try
  - Either
+ - Option
 
 ### Roadmap
 
  - More sugar in Value
     - helper methods
     - collection support
- - Option
  - Future
  - Lazy
  - List
