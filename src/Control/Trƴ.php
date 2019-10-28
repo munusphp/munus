@@ -26,6 +26,11 @@ abstract class Trƴ extends Value
         }
     }
 
+    public function isSingleValued(): bool
+    {
+        return true;
+    }
+
     abstract public function isSuccess(): bool;
 
     abstract public function isFailure(): bool;

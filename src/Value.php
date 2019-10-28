@@ -11,6 +11,8 @@ abstract class Value
 {
     abstract public function isEmpty(): bool;
 
+    abstract public function isSingleValued(): bool;
+
     /**
      * @return T
      */

@@ -23,4 +23,9 @@ abstract class Option extends Value
     {
         return $value === null ? new None() : new Some($value);
     }
+
+    public function isSingleValued(): bool
+    {
+        return true;
+    }
 }

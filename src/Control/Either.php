@@ -27,6 +27,11 @@ abstract class Either extends Value
      */
     abstract public function getLeft();
 
+    public function isSingleValued(): bool
+    {
+        return true;
+    }
+
     public function isEmpty(): bool
     {
         return $this->isLeft();
