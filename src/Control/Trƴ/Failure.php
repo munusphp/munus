@@ -49,4 +49,9 @@ final class Failure extends Trƴ
     {
         return true;
     }
+
+    public function equals($object): bool
+    {
+        return $this->cause == $object;
+    }
 }

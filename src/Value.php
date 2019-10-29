@@ -27,4 +27,13 @@ abstract class Value
     {
         return $this->isEmpty() ? $other : $this->get();
     }
+
+    public function equals($object): bool
+    {
+        if (is_object($object)) {
+            return $this->get() == $object;
+        }
+
+        return $this->get() === $object;
+    }
 }

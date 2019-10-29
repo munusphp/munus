@@ -7,6 +7,7 @@ namespace Munus\Tests\Control;
 use Munus\Control\Trƴ;
 use Munus\Tests\Stub\Expect;
 use Munus\Tests\Stub\Result;
+use Munus\Tests\Stub\Success;
 use PHPUnit\Framework\TestCase;
 
 final class TrƴTest extends TestCase
@@ -35,5 +36,12 @@ final class TrƴTest extends TestCase
 
         Expect::result($result);
         self::assertEquals(new Result(), $result);
+    }
+
+    public function testEquals(): void
+    {
+        $exception = new \DomainException('use ddd');
+        self::assertTrue(Trƴ::of(function (): Success {return new Success(); })->equals(new Success()));
+        self::assertTrue(Trƴ::of(function () use ($exception) {throw $exception; })->equals($exception));
     }
 }

@@ -7,6 +7,12 @@ At the moment, in the experimental phase.
 
 Due to the lack of generic types, Munus achieves genericity with the help of [Psalm](https://github.com/vimeo/psalm) `template` annotation.
 
+Stream example:
+```php
+/** @var Stream<int> $stream */
+$stream = Stream::range(1, 10)->map(function(int $int): int {return $int * 5});
+```
+
 Option example:
 ```php
 /** @var Option<Success> $option */
@@ -37,6 +43,7 @@ $result->getOrElse(new Result())
  - Either
  - Option
  - Lazy
+ - Stream
 
 ### Roadmap
 
@@ -44,12 +51,15 @@ $result->getOrElse(new Result())
     - helper methods
     - collection support
  - Future
- - Lazy
  - List
- - Stream
+ - Stream - more methods
  - Pattern matching
  - Try with recover
  - Tuples
+
+### Todo
+
+ - [ ] Add tests for all `Object::equals`
 
 ## Inspiration
 

@@ -15,20 +15,35 @@ abstract class Stream extends Traversable
 {
     /**
      * @param T $element
+     *
+     * @return Stream<T>
      */
     public static function of($element): self
     {
-        return new Cons($element, function () {return new Emptƴ(); });
+        return new Cons($element, function () {return Emptƴ::instance(); });
     }
 
     /**
      * @param T[] $elements
+     *
+     * @return Stream<T>
      */
     public static function ofAll(array $elements): self
     {
-        return new Cons(current($elements), function () use ($elements) {return next($elements); });
+        if (current($elements) === false) {
+            return Emptƴ::instance();
+        }
+
+        return new Cons(current($elements), function () use ($elements) {
+            next($elements);
+
+            return self::ofAll($elements);
+        });
     }
 
+    /**
+     * @return Stream<int>
+     */
     public static function range(int $start = 1, ?int $end = null): self
     {
         if ($start === $end) {
@@ -38,5 +53,21 @@ abstract class Stream extends Traversable
         return new Cons($start, function () use ($start, $end) {
             return self::range($start + 1, $end);
         });
+    }
+
+    /**
+     * @template U
+     *
+     * @param callable(T):U $mapper
+     *
+     * @return Stream<U>
+     */
+    public function map(callable $mapper): self
+    {
+        if ($this->isEmpty()) {
+            return Emptƴ::instance();
+        }
+
+        return new Cons($mapper($this->head()), function () use ($mapper) {return $this->tail()->map($mapper); });
     }
 }

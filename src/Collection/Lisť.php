@@ -6,7 +6,8 @@ namespace Munus\Collection;
 
 /**
  * @template T
- * @template-extends Traversable<T>
+ * @template U
+ * @template-extends Traversable<T, U>
  */
 abstract class Lisť extends Traversable
 {

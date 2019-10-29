@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Munus;
 
+use Munus\Functiοn\Supplier;
+
 /**
  * @template T
- * @template-extends Value<T>
+ * @extends Value<T>
+ * @implements Supplier<T>
  */
-final class Lazy extends Value
+final class Lazy extends Value implements Supplier
 {
     /**
      * @var T
@@ -37,6 +40,18 @@ final class Lazy extends Value
     public static function of(callable $supplier): self
     {
         return new self($supplier);
+    }
+
+    /**
+     * @param T $value
+     *
+     * @return Lazy<T>
+     */
+    public static function ofValue($value)
+    {
+        return new self(function () use ($value) {
+            return $value;
+        });
     }
 
     public function isEmpty(): bool
