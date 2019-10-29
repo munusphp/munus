@@ -36,6 +36,7 @@ $result->getOrElse(new Result())
  - Try
  - Either
  - Option
+ - Lazy
 
 ### Roadmap
 
