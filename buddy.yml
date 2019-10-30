@@ -4,7 +4,7 @@
   ref_type: "WILDCARD"
   trigger_condition: "ALWAYS"
   actions:
-    - action: "Execute: vendor/bin/phpunit"
+    - action: "composer build"
       type: "BUILD"
       working_directory: "/buddy/munus"
       docker_image_name: "library/php"
