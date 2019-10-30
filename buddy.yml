@@ -18,3 +18,24 @@
       mount_filesystem_path: "/buddy/munus"
       shell: "BASH"
       trigger_condition: "ALWAYS"
+
+- pipeline: "event test"
+  trigger_mode: "ON_EVERY_PUSH"
+  ref_name: "refs/heads/*"
+  ref_type: "WILDCARD"
+  trigger_condition: "ALWAYS"
+  actions:
+    - action: "Execute: vendor/bin/phpunit"
+      type: "BUILD"
+      working_directory: "/buddy/munus"
+      docker_image_name: "library/php"
+      docker_image_tag: "7.2-stretch"
+      execute_commands:
+        - "composer install"
+        - "composer check-cs"
+        - "vendor/bin/phpunit"
+      setup_commands:
+        - "curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer"
+      mount_filesystem_path: "/buddy/munus"
+      shell: "BASH"
+      trigger_condition: "ALWAYS"
