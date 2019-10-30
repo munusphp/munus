@@ -1,6 +1,6 @@
 - pipeline: "test"
   trigger_mode: "ON_EVERY_PUSH"
-  ref_name: "refs/pull/*"
+  ref_name: "*"
   ref_type: "WILDCARD"
   trigger_condition: "ALWAYS"
   actions:
