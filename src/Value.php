@@ -32,6 +32,14 @@ abstract class Value
         return $this->isEmpty() ? $other : $this->get();
     }
 
+    /**
+     * @return T|null
+     */
+    public function getOrNull()
+    {
+        return $this->isEmpty() ? null : $this->get();
+    }
+
     public function equals($object): bool
     {
         if (is_object($object)) {

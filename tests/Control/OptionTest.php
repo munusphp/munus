@@ -30,4 +30,12 @@ final class OptionTest extends TestCase
         Expect::success($option->get());
         self::assertEquals(new Success(), $option->get());
     }
+
+    public function testGetOrSomething(): void
+    {
+        /** @var Option<string> $option */
+        $option = Option::of(null);
+        self::assertNull($option->getOrNull());
+        self::assertTrue($option->getOrElse(true));
+    }
 }

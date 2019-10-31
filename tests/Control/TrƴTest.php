@@ -28,7 +28,7 @@ final class TrƴTest extends TestCase
         self::assertEquals(new \DomainException('use ddd'), $try->getCause());
     }
 
-    public function testGetOrElse(): void
+    public function testGetOrSomething(): void
     {
         /** @var Trƴ<Result> $try */
         $try = Trƴ::of(function () {throw new \DomainException('use ddd'); });
@@ -36,6 +36,7 @@ final class TrƴTest extends TestCase
 
         Expect::result($result);
         self::assertEquals(new Result(), $result);
+        self::assertNull($try->getOrNull());
     }
 
     public function testEquals(): void
