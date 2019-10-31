@@ -11,7 +11,7 @@ use Munus\Lazy;
 
 /**
  * @template T
- * @template-extends Stream<T>
+ * @extends Stream<T>
  */
 final class Cons extends Stream
 {

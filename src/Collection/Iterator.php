@@ -37,4 +37,17 @@ class Iterator
 
         return $result;
     }
+
+    /**
+     * @return array<T>
+     */
+    public function toArray(): array
+    {
+        $elements = [];
+        while ($this->hasNext()) {
+            $elements[] = $this->next();
+        }
+
+        return $elements;
+    }
 }

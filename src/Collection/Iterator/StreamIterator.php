@@ -22,9 +22,9 @@ final class StreamIterator extends Iterator
     private $current;
 
     /**
-     * @param Cons<T> $current
+     * @param Stream<T> $current
      */
-    public function __construct(Cons $current)
+    public function __construct(Stream $current)
     {
         $this->current = Lazy::ofValue($current);
     }
@@ -42,12 +42,17 @@ final class StreamIterator extends Iterator
         if (!$this->hasNext()) {
             throw new \LogicException('next() on empty iterator');
         }
-        /** @var Stream<T> $stream */
+        /** @var Cons<T> $stream */
         $stream = $this->current->get();
         $this->current = Lazy::of(function () use ($stream) {
             return $stream->tail();
         });
 
         return $stream->head();
+    }
+
+    public function toArray(): array
+    {
+        throw new \LogicException('toArray() on stream');
     }
 }

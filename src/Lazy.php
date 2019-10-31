@@ -33,9 +33,11 @@ final class Lazy extends Value implements Supplier
     }
 
     /**
-     * @param callable():T $supplier
+     * @template U
      *
-     * @return Lazy<T>
+     * @param callable():U $supplier
+     *
+     * @return Lazy<U>
      */
     public static function of(callable $supplier): self
     {
@@ -43,9 +45,11 @@ final class Lazy extends Value implements Supplier
     }
 
     /**
-     * @param T $value
+     * @template U
      *
-     * @return Lazy<T>
+     * @param U $value
+     *
+     * @return Lazy<U>
      */
     public static function ofValue($value)
     {

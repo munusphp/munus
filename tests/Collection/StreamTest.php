@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Munus\Tests\Collection;
 
 use Munus\Collection\Stream;
+use Munus\Control\Option;
 use PHPUnit\Framework\TestCase;
 
 final class StreamTest extends TestCase
@@ -18,6 +19,16 @@ final class StreamTest extends TestCase
         self::assertEquals(2, $iterator->next());
         self::assertEquals(3, $iterator->next());
         self::assertFalse($iterator->hasNext());
+    }
+
+    public function testStreamFind(): void
+    {
+        self::assertEquals(Option::of('munus'), Stream::ofAll(['lambda', 'munus', 'function'])->find(function ($name) {
+            return $name === 'munus';
+        }));
+        self::assertEquals(Option::of(null), Stream::ofAll(['lambda', 'missing', 'function'])->find(function ($name) {
+            return $name === 'munus';
+        }));
     }
 
     public function testStreamMap(): void

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Munus\Collection;
 
+use Munus\Control\Option;
 use Munus\Value;
 
 /**
@@ -54,6 +55,24 @@ abstract class Traversable extends Value
     public function iterator(): Iterator
     {
         return new Iterator($this);
+    }
+
+    /**
+     * @param callable(T): bool $predicate
+     *
+     * @return Option<T>
+     */
+    public function find(callable $predicate): Option
+    {
+        $iterator = $this->iterator();
+        while ($iterator->hasNext()) {
+            $next = $iterator->next();
+            if ($predicate($next) === true) {
+                return Option::of($next);
+            }
+        }
+
+        return Option::of(null);
     }
 
     public function equals($object): bool

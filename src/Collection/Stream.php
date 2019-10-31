@@ -9,14 +9,14 @@ use Munus\Collection\Stream\Emptƴ;
 
 /**
  * @template T
- * @template-extends Traversable<T>
+ * @extends Traversable<T>
  */
 abstract class Stream extends Traversable
 {
     /**
      * @param T $element
      *
-     * @return Stream<T>
+     * @return Cons<T>
      */
     public static function of($element): self
     {
@@ -42,7 +42,7 @@ abstract class Stream extends Traversable
     }
 
     /**
-     * @return Stream<int>
+     * @return Cons<int>
      */
     public static function range(int $start = 1, ?int $end = null): self
     {
@@ -54,6 +54,13 @@ abstract class Stream extends Traversable
             return self::range($start + 1, $end);
         });
     }
+
+    /**
+     * @throws \RuntimeException if is empty
+     *
+     * @return Stream<T>
+     */
+    abstract public function tail();
 
     /**
      * @template U
