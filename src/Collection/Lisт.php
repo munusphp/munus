@@ -18,9 +18,9 @@ abstract class Lisт extends Traversable
      *
      * @return Lisт<T>
      */
-    public static function of($element): self
+    public static function of(...$elements): self
     {
-        return new Cons($element, Nil::instance());
+        return self::ofAll($elements);
     }
 
     /**

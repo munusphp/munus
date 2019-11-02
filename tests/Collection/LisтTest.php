@@ -41,4 +41,11 @@ final class LisтTest extends TestCase
             Lisт::ofAll([1, 2, 3])->toStream()->equals(Stream::ofAll([1, 2, 3]))
         );
     }
+
+    public function testListOfMultipleParames(): void
+    {
+        self::assertTrue(
+            Lisт::of('a', 'b', 'c')->equals(Lisт::ofAll(['a', 'b', 'c']))
+        );
+    }
 }
