@@ -58,6 +58,18 @@ final class Lazy extends Value implements Supplier
         });
     }
 
+    /**
+     * @template U
+     *
+     * @param callable(T): U $mapper
+     *
+     * @return Lazy<U>
+     */
+    public function map(callable $mapper)
+    {
+        return self::of(function () use ($mapper) {return $mapper($this->get()); });
+    }
+
     public function isEmpty(): bool
     {
         return false;

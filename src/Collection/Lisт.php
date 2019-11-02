@@ -14,7 +14,7 @@ use Munus\Collection\Lisт\Nil;
 abstract class Lisт extends Traversable
 {
     /**
-     * @param T $element
+     * @param array<T> $elements
      *
      * @return Lisт<T>
      */

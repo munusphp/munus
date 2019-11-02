@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Munus\Control;
 
+use Munus\Control\Either\Right;
 use Munus\Value;
 
 /**
@@ -35,5 +36,21 @@ abstract class Either extends Value
     public function isEmpty(): bool
     {
         return $this->isLeft();
+    }
+
+    /**
+     * @template U
+     *
+     * @param callable(T): U $mapper
+     *
+     * @return Either<U>
+     */
+    public function map(callable $mapper)
+    {
+        if ($this->isRight()) {
+            return new Right($mapper($this->get()));
+        }
+
+        return $this;
     }
 }

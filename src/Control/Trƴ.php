@@ -31,6 +31,26 @@ abstract class Trƴ extends Value
         return true;
     }
 
+    /**
+     * @template U
+     *
+     * @param callable(T): U $mapper
+     *
+     * @return Trƴ<U>
+     */
+    public function map(callable $mapper)
+    {
+        if ($this->isFailure()) {
+            return $this;
+        }
+
+        try {
+            return new Success($mapper($this->get()));
+        } catch (\Throwable $throwable) {
+            return new Failure($throwable);
+        }
+    }
+
     abstract public function isSuccess(): bool;
 
     abstract public function isFailure(): bool;

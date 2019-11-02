@@ -45,4 +45,24 @@ final class TrƴTest extends TestCase
         self::assertTrue(Trƴ::of(function (): Success {return new Success(); })->equals(new Success()));
         self::assertTrue(Trƴ::of(function () use ($exception) {throw $exception; })->equals($exception));
     }
+
+    public function testMapFailure(): void
+    {
+        $try = Trƴ::of(function () {throw new \DomainException('use ddd'); });
+        self::assertEquals(new \DomainException('use ddd'), $try->map('strtolower')->getCause());
+    }
+
+    public function testMapWithMapperFailure(): void
+    {
+        $try = Trƴ::of('time');
+
+        self::assertInstanceOf(\TypeError::class, $try->map('strtoupper')->getCause());
+    }
+
+    public function testMapWitMapperSuccess(): void
+    {
+        $try = Trƴ::of(function () {return 'success'; });
+
+        self::assertEquals('SUCCESS', $try->map('strtoupper')->get());
+    }
 }

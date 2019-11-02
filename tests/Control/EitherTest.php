@@ -56,4 +56,18 @@ final class EitherTest extends TestCase
         $this->expectException(\BadMethodCallException::class);
         (new Right(null))->getLeft();
     }
+
+    public function testMapOnLeft(): void
+    {
+        $either = new Left('error');
+
+        self::assertEquals($either, $either->map('strtoupper'));
+    }
+
+    public function testMapOnRight(): void
+    {
+        $either = new Right('munus');
+
+        self::assertEquals('MUNUS', $either->map('strtoupper')->get());
+    }
 }

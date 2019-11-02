@@ -23,6 +23,15 @@ abstract class Value
     abstract public function get();
 
     /**
+     * @template U
+     *
+     * @param callable(T): U $mapper
+     *
+     * @return Value<U>
+     */
+    abstract public function map(callable $mapper);
+
+    /**
      * @param T $other
      *
      * @return T

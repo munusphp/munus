@@ -38,4 +38,12 @@ final class OptionTest extends TestCase
         self::assertNull($option->getOrNull());
         self::assertTrue($option->getOrElse(true));
     }
+
+    public function testMap(): void
+    {
+        $option = Option::of('munus');
+
+        self::assertInstanceOf(Option::class, $option->map('strtolower'));
+        self::assertEquals('MUNUS', $option->map('strtoupper')->get());
+    }
 }

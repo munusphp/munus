@@ -24,6 +24,18 @@ abstract class Option extends Value
         return $value === null ? new None() : new Some($value);
     }
 
+    /**
+     * @template U
+     *
+     * @param callable(T): U $mapper
+     *
+     * @return Option<U>
+     */
+    public function map(callable $mapper)
+    {
+        return $this->isEmpty() ? new None() : new Some($mapper($this->get()));
+    }
+
     public function isSingleValued(): bool
     {
         return true;
