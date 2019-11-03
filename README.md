@@ -42,6 +42,7 @@ The goal is to help achieve:
  - Stream (implemented as lazy linked list)
  - Lisт
  - Iterator
+ - Value
 
 ### Roadmap
 
@@ -51,7 +52,9 @@ The goal is to help achieve:
  - Future
  - Stream and Lisт - more methods
  - Pattern matching
+ - Property checking
  - Try with recover
+ - Immutable Data Structures
  - Tuples
 
 ### Todo
