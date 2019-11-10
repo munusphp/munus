@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Munus;
 
+use Munus\Collection\Iterator;
 use Munus\Collection\Stream;
 use Munus\Collection\Stream\Emptƴ;
 use Munus\Collection\Traversable;
@@ -30,6 +31,27 @@ abstract class Value
      * @return Value<U>
      */
     abstract public function map(callable $mapper);
+
+    /**
+     * @return Iterator<T>
+     */
+    abstract public function iterator(): Iterator;
+
+    /**
+     * @param T $element
+     */
+    public function contains($element): bool
+    {
+        if ($this->isSingleValued()) {
+            return $this->equals($element);
+        }
+
+        if ($this instanceof Traversable) {
+            //foreach ($this->iterator())
+        }
+
+        return false;
+    }
 
     /**
      * @param T $other

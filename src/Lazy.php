@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Munus;
 
+use Munus\Collection\Iterator;
 use Munus\Functiοn\Supplier;
 
 /**
@@ -86,6 +87,11 @@ final class Lazy extends Value implements Supplier
     public function get()
     {
         return $this->supplier === null ? $this->value : $this->computeValue();
+    }
+
+    public function iterator(): Iterator
+    {
+        return Iterator::of($this->get());
     }
 
     public function isEvaluated(): bool

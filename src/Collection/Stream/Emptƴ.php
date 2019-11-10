@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Munus\Collection\Stream;
 
 use Munus\Collection\Iterator;
-use Munus\Collection\Iterator\EmptyIterator;
 use Munus\Collection\Stream;
 
 /**
@@ -40,6 +39,6 @@ final class Emptƴ extends Stream
 
     public function iterator(): Iterator
     {
-        return EmptyIterator::instance();
+        return Iterator::empty();
     }
 }

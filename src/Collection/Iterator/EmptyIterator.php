@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Munus\Collection\Iterator;
 
 use Munus\Collection\Iterator;
+use Munus\Exception\NoSuchElementException;
 
 final class EmptyIterator extends Iterator
 {
@@ -24,6 +25,6 @@ final class EmptyIterator extends Iterator
 
     public function next()
     {
-        throw new \LogicException('next on EmptyIterator');
+        throw new NoSuchElementException();
     }
 }

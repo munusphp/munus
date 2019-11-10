@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Munus\Control;
 
+use Munus\Collection\Iterator;
 use Munus\Control\Trƴ\Failure;
 use Munus\Control\Trƴ\Success;
 use Munus\Value;
@@ -49,6 +50,11 @@ abstract class Trƴ extends Value
         } catch (\Throwable $throwable) {
             return new Failure($throwable);
         }
+    }
+
+    public function iterator(): Iterator
+    {
+        return $this->isSuccess() ? Iterator::of($this->get()) : Iterator::empty();
     }
 
     abstract public function isSuccess(): bool;

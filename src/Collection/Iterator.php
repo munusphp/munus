@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Munus\Collection;
 
+use Munus\Collection\Iterator\ArrayIterator;
+use Munus\Collection\Iterator\EmptyIterator;
+use Munus\Collection\Iterator\SingletonIterator;
+
 /**
  * @template T
  */
-class Iterator
+class Iterator implements \Iterator
 {
     /**
      * @var Traversable<T>
@@ -15,16 +19,41 @@ class Iterator
     private $traversable;
 
     /**
+     * @var Traversable<T>
+     */
+    private $current;
+
+    /**
+     * @var int
+     */
+    private $index;
+
+    /**
      * @param Traversable<T> $traversable
      */
     public function __construct(Traversable $traversable)
     {
-        $this->traversable = $traversable;
+        $this->traversable = $this->current = $traversable;
+        $this->index = 0;
+    }
+
+    public static function of(...$elements): self
+    {
+        if (count($elements) === 1) {
+            return new SingletonIterator(current($elements));
+        }
+
+        return new ArrayIterator($elements);
+    }
+
+    public static function empty(): self
+    {
+        return EmptyIterator::instance();
     }
 
     public function hasNext(): bool
     {
-        return !$this->traversable->isEmpty();
+        return !$this->current->isEmpty();
     }
 
     /**
@@ -32,8 +61,9 @@ class Iterator
      */
     public function next()
     {
-        $result = $this->traversable->head();
-        $this->traversable = $this->traversable->tail();
+        $result = $this->current->head();
+        $this->current = $this->current->tail();
+        ++$this->index;
 
         return $result;
     }
@@ -49,5 +79,31 @@ class Iterator
         }
 
         return $elements;
+    }
+
+    /**
+     * @return T
+     */
+    public function current()
+    {
+        return $this->current->head();
+    }
+
+    /**
+     * @return int
+     */
+    public function key()
+    {
+        return $this->index;
+    }
+
+    public function valid()
+    {
+        return $this->hasNext();
+    }
+
+    public function rewind()
+    {
+        $this->current = $this->traversable;
     }
 }

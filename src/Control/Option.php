@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Munus\Control;
 
+use Munus\Collection\Iterator;
 use Munus\Control\Option\None;
 use Munus\Control\Option\Some;
 use Munus\Value;
@@ -39,5 +40,10 @@ abstract class Option extends Value
     public function isSingleValued(): bool
     {
         return true;
+    }
+
+    public function iterator(): Iterator
+    {
+        return $this->isEmpty() ? Iterator::empty() : Iterator::of($this->get());
     }
 }

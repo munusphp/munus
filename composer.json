@@ -16,7 +16,8 @@
         "friendsofphp/php-cs-fixer": "^2.15",
         "phpunit/phpunit": "^8.4",
         "vimeo/psalm": "^3.6",
-        "psalm/plugin-phpunit": "^0.7.0"
+        "psalm/plugin-phpunit": "^0.7.0",
+        "phpstan/phpstan": "^0.11.19"
     },
     "autoload": {
         "psr-4": {
@@ -34,6 +35,9 @@
         ],
         "fix-cs": [
             "php-cs-fixer fix"
+        ],
+        "phpstan": [
+            "phpstan analyse src tests --level=1"
         ],
         "tests": [
             "@check-cs",

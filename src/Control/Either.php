@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Munus\Control;
 
+use Munus\Collection\Iterator;
 use Munus\Control\Either\Right;
 use Munus\Value;
 
@@ -52,5 +53,10 @@ abstract class Either extends Value
         }
 
         return $this;
+    }
+
+    public function iterator(): Iterator
+    {
+        return $this->isRight() ? Iterator::of($this->get()) : Iterator::empty();
     }
 }
