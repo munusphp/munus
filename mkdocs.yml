@@ -1,0 +1,8 @@
+site_name: Munus - Power of object-oriented programming with the elegance of functional programming
+pages:
+  - Home: ../README.md
+  - Usage guide:
+    - Collection:
+      - Set: collection/set.md
+
+theme: readthedocs

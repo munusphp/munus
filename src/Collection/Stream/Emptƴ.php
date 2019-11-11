@@ -22,6 +22,11 @@ final class Emptƴ extends Stream
         return new self();
     }
 
+    public function length(): int
+    {
+        return 0;
+    }
+
     public function head()
     {
         throw new \RuntimeException('head of empty stream');

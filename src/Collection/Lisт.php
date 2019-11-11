@@ -23,6 +23,11 @@ abstract class Lisт extends Traversable
         return self::ofAll($elements);
     }
 
+    public static function empty(): self
+    {
+        return Nil::instance();
+    }
+
     /**
      * @param array<T> $elements
      *

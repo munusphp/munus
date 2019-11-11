@@ -13,6 +13,8 @@ use Munus\Value;
  */
 abstract class Traversable extends Value
 {
+    abstract public function length(): int;
+
     /**
      * @throws \RuntimeException if is empty
      *

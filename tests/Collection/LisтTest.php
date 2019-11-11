@@ -17,6 +17,13 @@ final class LisтTest extends TestCase
         );
     }
 
+    public function testListLength(): void
+    {
+        self::assertEquals(3, Lisт::ofAll([1, 2, 3])->length());
+        self::assertEquals(0, Lisт::empty()->length());
+        self::assertEquals(4, Lisт::ofAll([1, 2, 3])->prepend(0)->length());
+    }
+
     public function testListMap(): void
     {
         self::assertTrue(

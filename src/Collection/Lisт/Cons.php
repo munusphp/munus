@@ -24,6 +24,11 @@ final class Cons extends Lisт
     private $tail;
 
     /**
+     * @var int
+     */
+    private $length;
+
+    /**
      * @param T        $head
      * @param Lisт<T> $tail
      */
@@ -31,6 +36,12 @@ final class Cons extends Lisт
     {
         $this->head = $head;
         $this->tail = $tail;
+        $this->length = 1 + $tail->length();
+    }
+
+    public function length(): int
+    {
+        return $this->length;
     }
 
     public function isEmpty(): bool

@@ -22,6 +22,11 @@ final class Nil extends Lisт
         return new self();
     }
 
+    public function length(): int
+    {
+        return 0;
+    }
+
     public function isEmpty(): bool
     {
         return true;

@@ -42,12 +42,11 @@ abstract class Value
      */
     public function contains($element): bool
     {
-        if ($this->isSingleValued()) {
-            return $this->equals($element);
-        }
-
-        if ($this instanceof Traversable) {
-            //foreach ($this->iterator())
+        $iterator = $this->iterator();
+        while ($iterator->hasNext()) {
+            if ($iterator->next() === $element) {
+                return true;
+            }
         }
 
         return false;

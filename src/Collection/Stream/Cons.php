@@ -7,6 +7,7 @@ namespace Munus\Collection\Stream;
 use Munus\Collection\Iterator;
 use Munus\Collection\Iterator\StreamIterator;
 use Munus\Collection\Stream;
+use Munus\Exception\NotImplementedException;
 use Munus\Lazy;
 
 /**
@@ -33,6 +34,11 @@ final class Cons extends Stream
     {
         $this->head = $head;
         $this->tail = Lazy::of($tail);
+    }
+
+    public function length(): int
+    {
+        throw new NotImplementedException();
     }
 
     /**
