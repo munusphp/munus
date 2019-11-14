@@ -64,7 +64,7 @@ class Set extends Traversable
     public function contains($element): bool
     {
         foreach ($this->elements as $current) {
-            if ($current === $element) {
+            if ($current == $element) {
                 return true;
             }
         }
