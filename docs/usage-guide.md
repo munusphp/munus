@@ -1,3 +1,9 @@
+---
+id: usage-guide
+title: Usage guide
+sidebar_label: Collection
+---
+
 # Set
 
 Data structure which only holds unique values. Set is implemented as immutable array.

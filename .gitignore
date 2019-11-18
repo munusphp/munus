@@ -1,3 +1,5 @@
 /vendor/
 .php_cs.cache
 .phpunit.result.cache
+/website/node_modules/
+/website/build/
