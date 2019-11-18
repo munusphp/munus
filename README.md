@@ -2,11 +2,11 @@
 
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.2-8892BF.svg)](https://php.net/)
 [![buddy pipeline](https://app.buddy.works/akondas/munus/pipelines/pipeline/220416/badge.svg?token=f043fc3d0fb3414a7b5c2cff118b2a43cc1e39f64b155c73661e03bb4b0d6fb9 "buddy pipeline")](https://app.buddy.works/akondas/munus/pipelines/pipeline/220416)
-[![Latest Stable Version](https://poser.pugx.org/akondas/munus/v/stable?format=flat)](https://packagist.org/packages/akondas/munus)
-[![CodeFactor](https://www.codefactor.io/repository/github/akondas/munus/badge)](https://www.codefactor.io/repository/github/akondas/munus)
-[![Maintainability](https://api.codeclimate.com/v1/badges/4b9585a0fb57553737d5/maintainability)](https://codeclimate.com/github/akondas/munus/maintainability)
-[![Total Downloads](https://poser.pugx.org/akondas/munus/downloads?format=flat)](https://packagist.org/packages/akondas/munus)
-![GitHub](https://img.shields.io/github/license/akondas/munus)
+[![Latest Stable Version](https://poser.pugx.org/munusphp/munus/v/stable?format=flat)](https://packagist.org/packages/munusphp/munus)
+[![CodeFactor](https://www.codefactor.io/repository/github/munusphp/munus/badge)](https://www.codefactor.io/repository/github/munusphp/munus)
+[![Maintainability](https://api.codeclimate.com/v1/badges/4b9585a0fb57553737d5/maintainability)](https://codeclimate.com/github/munusphp/munus/maintainability)
+[![Total Downloads](https://poser.pugx.org/munusphp/munus/downloads?format=flat)](https://packagist.org/packages/munusphp/munus)
+![GitHub](https://img.shields.io/github/license/munusphp/munus)
 
 Power of object-oriented programming with the elegance of functional programming.
 Increase the robustness with reduced amount of code.
