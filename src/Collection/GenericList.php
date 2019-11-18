@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Munus\Collection;
 
-use Munus\Collection\Lisт\Cons;
-use Munus\Collection\Lisт\Nil;
+use Munus\Collection\GenericList\Cons;
+use Munus\Collection\GenericList\Nil;
 
 /**
  * @template T
  * @template-extends Traversable<T>
  */
-abstract class Lisт extends Traversable
+abstract class GenericList extends Traversable
 {
     /**
      * @param array<T> $elements
      *
-     * @return Lisт<T>
+     * @return GenericList<T>
      */
     public static function of(...$elements): self
     {
@@ -31,7 +31,7 @@ abstract class Lisт extends Traversable
     /**
      * @param array<T> $elements
      *
-     * @return Lisт<T>
+     * @return GenericList<T>
      */
     public static function ofAll(array $elements): self
     {
@@ -48,7 +48,7 @@ abstract class Lisт extends Traversable
      *
      * @param callable(T):U $mapper
      *
-     * @return Lisт<U>
+     * @return GenericList<U>
      */
     public function map(callable $mapper): self
     {
@@ -62,7 +62,7 @@ abstract class Lisт extends Traversable
     /**
      * @param T $element
      *
-     * @return Lisт<T>
+     * @return GenericList<T>
      */
     public function prepend($element)
     {
@@ -70,7 +70,7 @@ abstract class Lisт extends Traversable
     }
 
     /**
-     * @return Lisт<T>
+     * @return GenericList<T>
      */
     public function reverse()
     {

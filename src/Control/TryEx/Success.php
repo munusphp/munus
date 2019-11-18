@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Munus\Control\Trƴ;
+namespace Munus\Control\TryEx;
 
-use Munus\Control\Trƴ;
+use Munus\Control\TryEx;
 
 /**
  * @template T
- * @template-extends Trƴ<T>
+ * @template-extends TryEx<T>
  */
-final class Success extends Trƴ
+final class Success extends TryEx
 {
     /**
      * @var T

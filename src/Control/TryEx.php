@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace Munus\Control;
 
 use Munus\Collection\Iterator;
-use Munus\Control\Trƴ\Failure;
-use Munus\Control\Trƴ\Success;
+use Munus\Control\TryEx\Failure;
+use Munus\Control\TryEx\Success;
 use Munus\Value;
 
 /**
  * @template T
  * @template-extends Value<T>
  */
-abstract class Trƴ extends Value
+abstract class TryEx extends Value
 {
     /**
-     * @return Trƴ<T>
+     * @return TryEx<T>
      */
     public static function of(callable $supplier)
     {
@@ -37,7 +37,7 @@ abstract class Trƴ extends Value
      *
      * @param callable(T): U $mapper
      *
-     * @return Trƴ<U>
+     * @return TryEx<U>
      */
     public function map(callable $mapper)
     {

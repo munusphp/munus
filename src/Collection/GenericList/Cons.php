@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Munus\Collection\Lisт;
+namespace Munus\Collection\GenericList;
 
-use Munus\Collection\Lisт;
+use Munus\Collection\GenericList;
 use Munus\Collection\T;
 
 /**
  * @template T
  * @extends Lisт<T>
  */
-final class Cons extends Lisт
+final class Cons extends GenericList
 {
     /**
      * @var T
@@ -19,7 +19,7 @@ final class Cons extends Lisт
     private $head;
 
     /**
-     * @var Lisт<T>
+     * @var GenericList<T>
      */
     private $tail;
 
@@ -29,10 +29,10 @@ final class Cons extends Lisт
     private $length;
 
     /**
-     * @param T        $head
-     * @param Lisт<T> $tail
+     * @param T              $head
+     * @param GenericList<T> $tail
      */
-    public function __construct($head, Lisт $tail)
+    public function __construct($head, GenericList $tail)
     {
         $this->head = $head;
         $this->tail = $tail;
@@ -58,7 +58,7 @@ final class Cons extends Lisт
     }
 
     /**
-     * @return Lisт<T>
+     * @return GenericList<T>
      */
     public function tail()
     {
