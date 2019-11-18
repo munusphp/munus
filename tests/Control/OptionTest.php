@@ -46,4 +46,10 @@ final class OptionTest extends TestCase
         self::assertInstanceOf(Option::class, $option->map('strtolower'));
         self::assertEquals('MUNUS', $option->map('strtoupper')->get());
     }
+
+    public function testContains(): void
+    {
+        self::assertTrue(Option::of('munus')->contains('munus'));
+        self::assertFalse(Option::of('munus')->contains('coffe'));
+    }
 }

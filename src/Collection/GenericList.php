@@ -70,6 +70,24 @@ abstract class GenericList extends Traversable
     }
 
     /**
+     * @param T $element
+     *
+     * @return GenericList<T>
+     */
+    public function append($element)
+    {
+        $list = Nil::instance();
+        $list = $list->prepend($element);
+
+        $iterator = $this->iterator();
+        while ($iterator->hasNext()) {
+            $list = $list->prepend($iterator->next());
+        }
+
+        return $list;
+    }
+
+    /**
      * @return GenericList<T>
      */
     public function reverse()

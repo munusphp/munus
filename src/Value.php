@@ -8,6 +8,7 @@ use Munus\Collection\Iterator;
 use Munus\Collection\Stream;
 use Munus\Collection\Stream\Emptƴ;
 use Munus\Collection\Traversable;
+use Munus\Value\Comparator;
 
 /**
  * @template T
@@ -44,7 +45,7 @@ abstract class Value
     {
         $iterator = $this->iterator();
         while ($iterator->hasNext()) {
-            if ($iterator->next() === $element) {
+            if (Comparator::equals($iterator->next(), $element)) {
                 return true;
             }
         }

@@ -61,17 +61,6 @@ class Set extends Traversable
         return count($this->elements);
     }
 
-    public function contains($element): bool
-    {
-        foreach ($this->elements as $current) {
-            if ($current == $element) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public function add($element): self
     {
         if ($this->contains($element)) {

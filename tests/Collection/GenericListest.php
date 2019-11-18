@@ -55,4 +55,11 @@ final class GenericListest extends TestCase
             GenericList::of('a', 'b', 'c')->equals(GenericList::ofAll(['a', 'b', 'c']))
         );
     }
+
+    public function testListAppend(): void
+    {
+        self::assertTrue(
+            GenericList::of('a', 'b', 'c')->equals(GenericList::of(['a', 'b'])->append('c'))
+        );
+    }
 }

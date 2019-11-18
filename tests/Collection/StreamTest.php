@@ -40,6 +40,11 @@ final class StreamTest extends TestCase
         );
     }
 
+    public function testStreamContains(): void
+    {
+        self::assertTrue(Stream::ofAll([1, 2, 3])->contains(2));
+    }
+
     public function testStreamMapSingle(): void
     {
         self::assertTrue(
