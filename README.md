@@ -60,10 +60,6 @@ The goal is to help achieve:
  - Immutable Data Structures
  - Tuples
 
-### Todo
-
- - [ ] Add tests for all `Object::equals`
-
 ## Inspiration
 
 This library is inspired by [vavr.io](https://www.vavr.io/)

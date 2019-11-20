@@ -40,6 +40,11 @@ final class StreamTest extends TestCase
         );
     }
 
+    public function testStreamReduce(): void
+    {
+        self::assertEquals(10, Stream::of(1, 2, 3, 4)->reduce(function (int $a, int $b): int {return $a + $b; }));
+    }
+
     public function testStreamContains(): void
     {
         self::assertTrue(Stream::ofAll([1, 2, 3])->contains(2));
