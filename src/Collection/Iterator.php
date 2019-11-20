@@ -126,4 +126,20 @@ class Iterator implements \Iterator
 
         return $accumulator;
     }
+
+    /**
+     * @template U
+     *
+     * @param U $zero
+     *
+     * @return U
+     */
+    public function fold($zero, callable $combine)
+    {
+        while ($this->hasNext()) {
+            $zero = $combine($zero, $this->next());
+        }
+
+        return $zero;
+    }
 }

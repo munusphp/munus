@@ -6,6 +6,7 @@ namespace Munus\Tests\Collection;
 
 use Munus\Collection\Stream;
 use Munus\Control\Option;
+use Munus\Lazy;
 use PHPUnit\Framework\TestCase;
 
 final class StreamTest extends TestCase
@@ -43,6 +44,17 @@ final class StreamTest extends TestCase
     public function testStreamReduce(): void
     {
         self::assertEquals(10, Stream::of(1, 2, 3, 4)->reduce(function (int $a, int $b): int {return $a + $b; }));
+    }
+
+    public function testStreamFold(): void
+    {
+        self::assertEquals(14, Stream::of(
+            Lazy::of(function () {return 'Munus'; }),
+            Lazy::of(function () {return 'is'; }),
+            Lazy::of(function () {return 'awesome'; })
+        )->fold(0, function (int $a, Lazy $b): int {
+            return $a + mb_strlen($b->get());
+        }));
     }
 
     public function testStreamContains(): void
