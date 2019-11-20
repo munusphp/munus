@@ -14,13 +14,13 @@ use Munus\Collection\Stream\Emptƴ;
 abstract class Stream extends Traversable
 {
     /**
-     * @param T $element
+     * @param array<T> $elements
      *
      * @return Cons<T>
      */
-    public static function of($element): self
+    public static function of(...$elements): self
     {
-        return new Cons($element, function () {return Emptƴ::instance(); });
+        return self::ofAll($elements);
     }
 
     /**

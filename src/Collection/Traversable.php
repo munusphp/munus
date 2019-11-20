@@ -6,6 +6,7 @@ namespace Munus\Collection;
 
 use Munus\Control\Option;
 use Munus\Value;
+use Munus\Value\Comparator;
 
 /**
  * @template T
@@ -87,15 +88,11 @@ abstract class Traversable extends Value
             return false;
         }
 
-        if (get_class($object) !== get_class($this)) {
-            return false;
-        }
-
         $iterator1 = $object->iterator();
         $iterator2 = $this->iterator();
 
         while ($iterator1->hasNext() && $iterator2->hasNext()) {
-            if ($iterator1->next() != $iterator2->next()) {
+            if (!Comparator::equals($iterator1->next(), $iterator2->next())) {
                 return false;
             }
         }

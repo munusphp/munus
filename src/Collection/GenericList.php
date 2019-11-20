@@ -79,7 +79,7 @@ abstract class GenericList extends Traversable
         $list = Nil::instance();
         $list = $list->prepend($element);
 
-        $iterator = $this->iterator();
+        $iterator = $this->reverse()->iterator();
         while ($iterator->hasNext()) {
             $list = $list->prepend($iterator->next());
         }

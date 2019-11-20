@@ -8,7 +8,7 @@ use Munus\Collection\GenericList;
 use Munus\Collection\Stream;
 use PHPUnit\Framework\TestCase;
 
-final class GenericListest extends TestCase
+final class GenericListTest extends TestCase
 {
     public function testListReverse(): void
     {
@@ -59,7 +59,7 @@ final class GenericListest extends TestCase
     public function testListAppend(): void
     {
         self::assertTrue(
-            GenericList::of('a', 'b', 'c')->equals(GenericList::of(['a', 'b'])->append('c'))
+            GenericList::of('a', 'b', 'c')->equals(GenericList::of('a', 'b')->append('c'))
         );
     }
 }

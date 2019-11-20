@@ -73,11 +73,7 @@ abstract class Value
 
     public function equals($object): bool
     {
-        if (is_object($object)) {
-            return $this->get() == $object;
-        }
-
-        return $this->get() === $object;
+        return Comparator::equals($this->get(), $object);
     }
 
     public function toStream(): Stream
