@@ -13,7 +13,6 @@ final class TraversableTest extends TestCase
 {
     public function testStrictEquals(): void
     {
-        'different';
         self::assertFalse(
             GenericList::of(1, 2, 3)->equals(GenericList::of(1, '2', 3))
         );
