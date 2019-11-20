@@ -99,4 +99,9 @@ abstract class Traversable extends Value
 
         return $iterator1->hasNext() === $iterator2->hasNext();
     }
+
+    public function reduce(callable $operation)
+    {
+        return $this->iterator()->reduce($operation);
+    }
 }

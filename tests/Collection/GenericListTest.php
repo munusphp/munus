@@ -42,6 +42,11 @@ final class GenericListTest extends TestCase
         );
     }
 
+    public function testListReduce(): void
+    {
+        self::assertEquals('abcd', GenericList::of('a', 'b', 'c', 'd')->reduce(function (string $a, string $b): string {return $a.$b; }));
+    }
+
     public function testListToStream(): void
     {
         self::assertTrue(

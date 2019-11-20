@@ -37,6 +37,11 @@ final class SetTest extends TestCase
         self::assertEquals(2, $new->length());
     }
 
+    public function testSetReduce(): void
+    {
+        self::assertEquals(10, Set::of(1, 2, 3, 4)->reduce(function (int $a, int $b): int {return $a + $b; }));
+    }
+
     public function testSetUnion(): void
     {
         $set = Set::ofAll(['alpha', 'beta', 'gamma']);

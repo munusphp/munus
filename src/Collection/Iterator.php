@@ -7,6 +7,7 @@ namespace Munus\Collection;
 use Munus\Collection\Iterator\ArrayIterator;
 use Munus\Collection\Iterator\EmptyIterator;
 use Munus\Collection\Iterator\SingletonIterator;
+use Munus\Exception\NoSuchElementException;
 
 /**
  * @template T
@@ -37,6 +38,11 @@ class Iterator implements \Iterator
         $this->index = 0;
     }
 
+    /**
+     * @param T ...$elements
+     *
+     * @return self<T>
+     */
     public static function of(...$elements): self
     {
         if (count($elements) === 1) {
@@ -105,5 +111,19 @@ class Iterator implements \Iterator
     public function rewind()
     {
         $this->current = $this->traversable;
+    }
+
+    public function reduce(callable $operation)
+    {
+        if (!$this->hasNext()) {
+            throw new NoSuchElementException('reduce on empty Iterator');
+        }
+
+        $accumulator = $this->next();
+        while ($this->hasNext()) {
+            $accumulator = $operation($accumulator, $this->next());
+        }
+
+        return $accumulator;
     }
 }
