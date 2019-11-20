@@ -104,4 +104,16 @@ abstract class Traversable extends Value
     {
         return $this->iterator()->reduce($operation);
     }
+
+    /**
+     * @template U
+     *
+     * @param U $zero
+     *
+     * @return U
+     */
+    public function fold($zero, callable $combine)
+    {
+        return $this->iterator()->fold($zero, $combine);
+    }
 }

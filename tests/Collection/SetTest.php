@@ -42,6 +42,11 @@ final class SetTest extends TestCase
         self::assertEquals(10, Set::of(1, 2, 3, 4)->reduce(function (int $a, int $b): int {return $a + $b; }));
     }
 
+    public function testListFold(): void
+    {
+        self::assertEquals(6, Set::of('a', 'bbb', 'cc')->fold(0, function (int $a, string $b): int {return $a + mb_strlen($b); }));
+    }
+
     public function testSetUnion(): void
     {
         $set = Set::ofAll(['alpha', 'beta', 'gamma']);
