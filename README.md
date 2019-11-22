@@ -13,7 +13,7 @@ Increase the robustness with reduced amount of code.
 
 At the moment, in the experimental phase.
 
-**[Documentation](https://munusphp.github.io/docs/usage-guide.html)**
+**[Documentation](https://munusphp.github.io/docs/start)**
 
 Due to the lack of generic types, Munus achieves genericity with the help of [Psalm](https://github.com/vimeo/psalm) `template` annotation.
 
