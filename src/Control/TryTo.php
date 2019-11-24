@@ -57,6 +57,20 @@ abstract class TryTo extends Value
         return $this->isSuccess() ? Iterator::of($this->get()) : Iterator::empty();
     }
 
+    public function recover(string $throwable, callable $recovery): self
+    {
+        if ($this->isFailure()) {
+            $cause = $this->getCause();
+            if ($cause instanceof $throwable) {
+                return self::run(function () use ($cause, $recovery) {
+                    return $recovery($cause);
+                });
+            }
+        }
+
+        return $this;
+    }
+
     abstract public function isSuccess(): bool;
 
     abstract public function isFailure(): bool;
