@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Munus\Control\TryEx;
+namespace Munus\Control\TryTo;
 
-use Munus\Control\TryEx;
+use Munus\Control\TryTo;
 
 /**
  * @template T
  * @template-extends TryEx<T>
  */
-final class Failure extends TryEx
+final class Failure extends TryTo
 {
     /**
      * @var \Throwable
