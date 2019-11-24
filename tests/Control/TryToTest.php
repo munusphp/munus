@@ -65,4 +65,21 @@ final class TryToTest extends TestCase
 
         self::assertEquals('SUCCESS', $try->map('strtoupper')->get());
     }
+
+    public function testRecover(): void
+    {
+        $try = TryTo::run(function () {throw new \DomainException('use ddd'); });
+
+        self::assertEquals('ddd implemented', $try->recover(\DomainException::class, function () {return 'ddd implemented'; })->get());
+    }
+
+    public function testMultipleRecover(): void
+    {
+        $value = TryTo::run(function () {throw new \DomainException('use ddd'); })
+        ->recover(\RuntimeException::class, function () {return 'runtime handled'; })
+        ->recover(\DomainException::class, function () {return 'domain handled'; })
+        ->get();
+
+        self::assertEquals('domain handled', $value);
+    }
 }
