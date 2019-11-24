@@ -28,8 +28,8 @@ $option = Option::of(domainOperation());
 /** @return Either<Failure,Success> */
 function domainOperation(): Either {}
 
-/** @var TryEx<Result> $result */
-$result = TryEx::of(function(){throw new \DomainException('use ddd');});
+/** @var TryTo<Result> $result */
+$result = TryTo::run(function(){throw new \DomainException('use ddd');});
 $result->getOrElse(new Result())
 ```
 
@@ -38,22 +38,20 @@ The goal is to help achieve:
 
 ### Features
 
- - TryEx
+**Values:**
+ - TryTo
  - Either
  - Option
- - Lazy (implemented as immutable linked list)
+ - Lazy 
+ 
+**Collections:**
+ - Set
  - Stream (implemented as lazy linked list)
- - GenericList
+ - GenericList (implemented as immutable linked list)
  - Iterator
- - Value
 
 ### Roadmap
 
- - More sugar in Value
-    - helper methods
-    - collection support
- - Future
- - Stream and GenericList - more methods
  - Pattern matching
  - Property checking
  - Try with recover
