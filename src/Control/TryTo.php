@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace Munus\Control;
 
 use Munus\Collection\Iterator;
-use Munus\Control\TryEx\Failure;
-use Munus\Control\TryEx\Success;
+use Munus\Control\TryTo\Failure;
+use Munus\Control\TryTo\Success;
 use Munus\Value;
 
 /**
  * @template T
  * @template-extends Value<T>
  */
-abstract class TryEx extends Value
+abstract class TryTo extends Value
 {
     /**
-     * @return TryEx<T>
+     * @return TryTo<T>
      */
-    public static function of(callable $supplier)
+    public static function run(callable $supplier)
     {
         try {
             return new Success($supplier());
@@ -37,7 +37,7 @@ abstract class TryEx extends Value
      *
      * @param callable(T): U $mapper
      *
-     * @return TryEx<U>
+     * @return TryTo<U>
      */
     public function map(callable $mapper)
     {
