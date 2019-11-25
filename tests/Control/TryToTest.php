@@ -82,4 +82,73 @@ final class TryToTest extends TestCase
 
         self::assertEquals('domain handled', $value);
     }
+
+    public function testAndThenWithSuccess(): void
+    {
+        $control = 1;
+        TryTo::run(function () {
+            return 2;
+        })->andThen(function (int $first) use (&$control) {
+            $control += $first;
+        });
+
+        self::assertEquals($control, 3);
+    }
+
+    public function testAndThenWithFailure(): void
+    {
+        $try = TryTo::run(function () {
+            throw new \DomainException('use ddd');
+        })->andThen(function (int $first) use (&$control) {
+            throw new \RuntimeException('this should not happen');
+        });
+
+        self::assertEquals(new \DomainException('use ddd'), $try->getCause());
+    }
+
+    public function testAndThenThrowException(): void
+    {
+        $try = TryTo::run(function () {
+            return 42;
+        })->andThen(function (int $first) use (&$control) {
+            throw new \RuntimeException('and then fails');
+        });
+
+        self::assertEquals(new \RuntimeException('and then fails'), $try->getCause());
+    }
+
+    public function testFinallyWithSuccess(): void
+    {
+        $control = 1;
+        TryTo::run(function () {
+            return 'result';
+        })->andFinally(function () use (&$control) {
+            ++$control;
+        });
+
+        self::assertEquals(2, $control);
+    }
+
+    public function testFinallyWithFailure(): void
+    {
+        $control = 1;
+        TryTo::run(function () {
+            throw new \DomainException('ACID not supported');
+        })->andFinally(function () use (&$control) {
+            ++$control;
+        });
+
+        self::assertEquals(2, $control);
+    }
+
+    public function testFinallyThrowException(): void
+    {
+        $try = TryTo::run(function () {
+            return 'ACID supported';
+        })->andFinally(function () use (&$control) {
+            throw new \DomainException('ACID not supported');
+        });
+
+        self::assertEquals(new \DomainException('ACID not supported'), $try->getCause());
+    }
 }
