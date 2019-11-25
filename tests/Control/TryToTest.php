@@ -151,4 +151,70 @@ final class TryToTest extends TestCase
 
         self::assertEquals(new \DomainException('ACID not supported'), $try->getCause());
     }
+
+    public function testOnSuccess(): void
+    {
+        $control = 1;
+        TryTo::run(function () {
+            return 42;
+        })->onSuccess(function (int $value) use (&$control) {
+            $control += $value;
+        });
+
+        self::assertEquals(43, $control);
+    }
+
+    public function testOnSuccessWithFailure(): void
+    {
+        $control = 1;
+        TryTo::run(function () {
+            throw new \DomainException('ACID not supported');
+        })->onSuccess(function () use (&$control) {
+            ++$control;
+        });
+
+        self::assertEquals(1, $control);
+    }
+
+    public function testOnFailure(): void
+    {
+        $control = 1;
+        TryTo::run(function () {
+            throw new \RuntimeException('PHP not supported');
+        })->onFailure(function (\Throwable $throwable) use (&$control) {
+            ++$control;
+            self::assertInstanceOf(\RuntimeException::class, $throwable);
+        })->onSuccess(function () use (&$control) {
+            --$control;
+        });
+
+        self::assertEquals(2, $control);
+    }
+
+    public function testOnFailureWithFailure(): void
+    {
+        $control = 1;
+        TryTo::run(function () {
+            return 'success';
+        })->onFailure(function () use (&$control) {
+            ++$control;
+        });
+
+        self::assertEquals(1, $control);
+    }
+
+    public function testOnSpecificFailure(): void
+    {
+        $control = 1;
+        TryTo::run(function () {
+            throw new \LogicException('AI is not reasonable');
+        })->onSpecificFailure(\RuntimeException::class, function () use (&$control) {
+            $control += 5;
+        })->onSpecificFailure(\LogicException::class, function (\LogicException $exception) use (&$control) {
+            ++$control;
+            self::assertEquals('AI is not reasonable', $exception->getMessage());
+        });
+
+        self::assertEquals(2, $control);
+    }
 }
