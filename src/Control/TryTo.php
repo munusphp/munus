@@ -71,6 +71,32 @@ abstract class TryTo extends Value
         return $this;
     }
 
+    public function andThen(callable $callable): self
+    {
+        if ($this->isFailure()) {
+            return $this;
+        }
+
+        try {
+            $callable($this->get());
+
+            return $this;
+        } catch (\Throwable $throwable) {
+            return new Failure($throwable);
+        }
+    }
+
+    public function andFinally(callable $callable): self
+    {
+        try {
+            $callable();
+
+            return $this;
+        } catch (\Throwable $throwable) {
+            return new Failure($throwable);
+        }
+    }
+
     abstract public function isSuccess(): bool;
 
     abstract public function isFailure(): bool;
