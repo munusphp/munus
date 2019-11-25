@@ -97,6 +97,36 @@ abstract class TryTo extends Value
         }
     }
 
+    public function onSuccess(callable $consumer): self
+    {
+        if ($this->isSuccess()) {
+            $consumer($this->get());
+        }
+
+        return $this;
+    }
+
+    public function onFailure(callable $consumer): self
+    {
+        if ($this->isFailure()) {
+            $consumer($this->getCause());
+        }
+
+        return $this;
+    }
+
+    public function onSpecificFailure(string $throwable, callable $consumer): self
+    {
+        if ($this->isFailure()) {
+            $cause = $this->getCause();
+            if ($cause instanceof $throwable) {
+                $consumer($this->getCause());
+            }
+        }
+
+        return $this;
+    }
+
     abstract public function isSuccess(): bool;
 
     abstract public function isFailure(): bool;
