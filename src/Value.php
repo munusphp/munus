@@ -51,6 +51,23 @@ abstract class Value
     }
 
     /**
+     * Checks, if the given predicate is true for all elements.
+     *
+     * @param callable<T>:bool $predicate
+     */
+    public function forAll(callable $predicate): bool
+    {
+        $iterator = $this->iterator();
+        while ($iterator->hasNext()) {
+            if ($predicate($iterator->next()) === false) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * @param T $element
      */
     public function contains($element): bool
@@ -58,6 +75,21 @@ abstract class Value
         $iterator = $this->iterator();
         while ($iterator->hasNext()) {
             if (Comparator::equals($iterator->next(), $element)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param callable<T>:bool $predicate
+     */
+    public function exists(callable $predicate): bool
+    {
+        $iterator = $this->iterator();
+        while ($iterator->hasNext()) {
+            if ($predicate($iterator->next()) === true) {
                 return true;
             }
         }
