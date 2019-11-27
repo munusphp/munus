@@ -47,6 +47,15 @@ final class GenericListTest extends TestCase
         self::assertEquals('abcd', GenericList::of('a', 'b', 'c', 'd')->reduce(function (string $a, string $b): string {return $a.$b; }));
     }
 
+    public function testListForEach(): void
+    {
+        $counter = 0;
+        GenericList::of(1, 2, 3)->forEach(function (int $x) use (&$counter) {
+            self::assertEquals(++$counter, $x);
+        });
+        self::assertEquals(3, $counter);
+    }
+
     public function testListFold(): void
     {
         self::assertEquals(6, GenericList::of('a', 'bbb', 'cc')->fold(0, function (int $a, string $b): int {return $a + mb_strlen($b); }));

@@ -41,6 +41,15 @@ final class StreamTest extends TestCase
         );
     }
 
+    public function testStreamForEach(): void
+    {
+        $counter = 0;
+        Stream::range(1, 3)->forEach(function (int $x) use (&$counter) {
+            self::assertEquals(++$counter, $x);
+        });
+        self::assertEquals(3, $counter);
+    }
+
     public function testStreamReduce(): void
     {
         self::assertEquals(10, Stream::of(1, 2, 3, 4)->reduce(function (int $a, int $b): int {return $a + $b; }));

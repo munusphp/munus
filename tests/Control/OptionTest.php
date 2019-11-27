@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Munus\Tests\Control;
 
 use Munus\Control\Option;
+use Munus\Lazy;
 use Munus\Tests\Stub\Expect;
 use Munus\Tests\Stub\Success;
 use PHPUnit\Framework\TestCase;
@@ -45,6 +46,14 @@ final class OptionTest extends TestCase
 
         self::assertInstanceOf(Option::class, $option->map('strtolower'));
         self::assertEquals('MUNUS', $option->map('strtoupper')->get());
+    }
+
+    public function testOptionForEach(): void
+    {
+        $lazy = Lazy::ofValue(1);
+        Option::of($lazy)->forEach(function (Lazy $lazy) {$lazy->get(); });
+
+        self::assertTrue($lazy->isEvaluated());
     }
 
     public function testContains(): void
