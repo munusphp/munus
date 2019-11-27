@@ -39,6 +39,17 @@ abstract class Value
     abstract public function iterator(): Iterator;
 
     /**
+     * @param callable<T>
+     */
+    public function forEach(callable $consumer): void
+    {
+        $iterator = $this->iterator();
+        while ($iterator->hasNext()) {
+            $consumer($iterator->next());
+        }
+    }
+
+    /**
      * @param T $element
      */
     public function contains($element): bool

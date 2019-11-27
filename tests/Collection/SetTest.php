@@ -37,6 +37,24 @@ final class SetTest extends TestCase
         self::assertEquals(2, $new->length());
     }
 
+    public function testSetMap(): void
+    {
+        self::assertTrue(
+            Set::ofAll([1, 2, 3])->map(function (int $int): int {
+                return $int * 2;
+            })->equals(Set::ofAll([2, 4, 6]))
+        );
+    }
+
+    public function testSetForEach(): void
+    {
+        $counter = 0;
+        Set::of(1, 2, 3)->forEach(function (int $x) use (&$counter) {
+            self::assertEquals(++$counter, $x);
+        });
+        self::assertEquals(3, $counter);
+    }
+
     public function testSetReduce(): void
     {
         self::assertEquals(10, Set::of(1, 2, 3, 4)->reduce(function (int $a, int $b): int {return $a + $b; }));
