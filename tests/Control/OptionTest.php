@@ -61,4 +61,26 @@ final class OptionTest extends TestCase
         self::assertTrue(Option::of('munus')->contains('munus'));
         self::assertFalse(Option::of('munus')->contains('coffe'));
     }
+
+    public function testGetOrElseThrowOnSome(): void
+    {
+        self::assertEquals(1, Option::of(1)->getOrElseThrow(new \RuntimeException('bad architecture')));
+    }
+
+    public function testGetOrElseThrowOnNone(): void
+    {
+        $this->expectException(\RuntimeException::class);
+
+        Option::none()->getOrElseThrow(new \RuntimeException('bad architecture'));
+    }
+
+    public function testGetOrElseTryOnSome(): void
+    {
+        self::assertEquals(1, Option::of(1)->getOrElseTry(function () {return 2; }));
+    }
+
+    public function testGetOrElseTryOnNone(): void
+    {
+        self::assertEquals(2, Option::none()->getOrElseTry(function () {return 2; }));
+    }
 }

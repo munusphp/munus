@@ -8,6 +8,7 @@ use Munus\Collection\Iterator;
 use Munus\Collection\Stream;
 use Munus\Collection\Stream\Emptƴ;
 use Munus\Collection\Traversable;
+use Munus\Control\TryTo;
 use Munus\Value\Comparator;
 
 /**
@@ -80,6 +81,28 @@ abstract class Value
     public function getOrNull()
     {
         return $this->isEmpty() ? null : $this->get();
+    }
+
+    /**
+     * @return T
+     */
+    public function getOrElseThrow(\Throwable $throwable)
+    {
+        if ($this->isEmpty()) {
+            throw $throwable;
+        }
+
+        return $this->get();
+    }
+
+    /**
+     * @param callable:T $supplier
+     *
+     * @return T
+     */
+    public function getOrElseTry(callable $supplier)
+    {
+        return $this->isEmpty() ? TryTo::run($supplier)->get() : $this->get();
     }
 
     public function equals($object): bool
