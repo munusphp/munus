@@ -83,4 +83,16 @@ final class SetTest extends TestCase
         self::assertFalse($set->contains(new \stdClass()));
         self::assertTrue($set->contains(Set::of(1, 2, 3)));
     }
+
+    public function testSetExists(): void
+    {
+        self::assertTrue(Set::of(1, 2, 3, 4)->exists(function (int $x) {return $x % 4 === 0; }));
+        self::assertFalse(Set::of(1, 2, 3, 5)->exists(function (int $x) {return $x % 4 === 0; }));
+    }
+
+    public function testSetForAll(): void
+    {
+        self::assertTrue(Set::of(4, 8, 12)->forAll(function (int $x) {return $x % 4 === 0; }));
+        self::assertFalse(Set::of(4, 8, 13)->forAll(function (int $x) {return $x % 4 === 0; }));
+    }
 }

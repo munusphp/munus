@@ -83,4 +83,16 @@ final class OptionTest extends TestCase
     {
         self::assertEquals(2, Option::none()->getOrElseTry(function () {return 2; }));
     }
+
+    public function testExists(): void
+    {
+        self::assertTrue(Option::of(7)->exists(function (int $x) {return $x % 7 === 0; }));
+        self::assertFalse(Option::of(9)->exists(function (int $x) {return $x % 7 === 0; }));
+    }
+
+    public function testForAll(): void
+    {
+        self::assertTrue(Option::of(7)->forAll(function (int $x) {return $x % 7 === 0; }));
+        self::assertFalse(Option::of(9)->forAll(function (int $x) {return $x % 7 === 0; }));
+    }
 }
