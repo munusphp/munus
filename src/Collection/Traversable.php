@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Munus\Collection;
 
 use Munus\Control\Option;
+use Munus\Exception\UnsupportedOperationException;
 use Munus\Value;
 use Munus\Value\Comparator;
 
@@ -115,5 +116,22 @@ abstract class Traversable extends Value
     public function fold($zero, callable $combine)
     {
         return $this->iterator()->fold($zero, $combine);
+    }
+
+    public function average(): float
+    {
+        if ($this->isEmpty()) {
+            throw new UnsupportedOperationException('division by zero not possible');
+        }
+
+        $sum = $this->fold(0, function ($sum, $x) {
+            if (!is_numeric($x)) {
+                throw new UnsupportedOperationException('not numeric value');
+            }
+
+            return $sum + (float) $x;
+        });
+
+        return (float) ($sum / $this->length());
     }
 }
