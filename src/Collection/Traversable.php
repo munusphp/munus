@@ -124,14 +124,14 @@ abstract class Traversable extends Value
             throw new UnsupportedOperationException('division by zero not possible');
         }
 
-        try {
-            $sum = $this->fold(0, function ($sum, $x) {
-                return $sum + (float) $x;
-            });
+        $sum = $this->fold(0, function ($sum, $x) {
+            if (!is_numeric($x)) {
+                throw new UnsupportedOperationException('not numeric value');
+            }
 
-            return (float) ($sum / $this->length());
-        } catch (\Throwable $exception) {
-            throw new UnsupportedOperationException('not numeric values');
-        }
+            return $sum + (float) $x;
+        });
+
+        return (float) ($sum / $this->length());
     }
 }
