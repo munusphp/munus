@@ -40,7 +40,9 @@ abstract class Value
     abstract public function iterator(): Iterator;
 
     /**
-     * @param callable<T>
+     * Run consumer on each element.
+     *
+     * @param callable<T> $consumer
      */
     public function forEach(callable $consumer): void
     {
@@ -137,11 +139,17 @@ abstract class Value
         return $this->isEmpty() ? TryTo::run($supplier)->get() : $this->get();
     }
 
+    /**
+     * @param T $object
+     */
     public function equals($object): bool
     {
         return Comparator::equals($this->get(), $object);
     }
 
+    /**
+     * @return Stream<T>
+     */
     public function toStream(): Stream
     {
         if ($this->isEmpty()) {
