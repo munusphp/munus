@@ -118,20 +118,40 @@ abstract class Traversable extends Value
         return $this->iterator()->fold($zero, $combine);
     }
 
+    /**
+     * @return int|float
+     */
+    public function sum()
+    {
+        return $this->fold(0, function ($sum, $x) {
+            if (!is_numeric($x)) {
+                throw new UnsupportedOperationException('not numeric value');
+            }
+
+            return $sum + ($x * 1);
+        });
+    }
+
+    /**
+     * @return int|float
+     */
+    public function product()
+    {
+        return $this->fold(1, function ($product, $x) {
+            if (!is_numeric($x)) {
+                throw new UnsupportedOperationException('not numeric value');
+            }
+
+            return $product * ($x * 1);
+        });
+    }
+
     public function average(): float
     {
         if ($this->isEmpty()) {
             throw new UnsupportedOperationException('division by zero not possible');
         }
 
-        $sum = $this->fold(0, function ($sum, $x) {
-            if (!is_numeric($x)) {
-                throw new UnsupportedOperationException('not numeric value');
-            }
-
-            return $sum + (float) $x;
-        });
-
-        return (float) ($sum / $this->length());
+        return (float) ($this->sum() / $this->length());
     }
 }
