@@ -106,4 +106,13 @@ final class TraversableTest extends TestCase
         self::assertEquals(Option::of('z'), Set::of('x', 'y', 'z', 'a')->max());
         self::assertEquals(Option::none(), Set::empty()->max());
     }
+
+    public function testCount(): void
+    {
+        self::assertEquals(0, Set::empty()->count(function ($value) {return false; }));
+        self::assertEquals(2, Set::of(1, 2, 3, 4)->count(function ($value) {return $value % 2 === 0; }));
+        self::assertEquals(0, Set::of(1, 2, 3, 4)->count(function ($value) {return $value % 7 === 0; }));
+
+        self::assertEquals(1, Set::of('munus', 'is', 'awesome')->count(function ($value) {return strpos($value, 'some') !== false; }));
+    }
 }
