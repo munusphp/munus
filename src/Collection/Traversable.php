@@ -154,4 +154,32 @@ abstract class Traversable extends Value
 
         return (float) ($this->sum() / $this->length());
     }
+
+    /**
+     * @return Option<T>
+     */
+    public function min(): Option
+    {
+        if ($this->isEmpty()) {
+            return Option::none();
+        }
+
+        return Option::of($this->fold($this->head(), function ($min, $x) {
+            return $min <= $x ? $min : $x;
+        }));
+    }
+
+    /**
+     * @return Option<T>
+     */
+    public function max(): Option
+    {
+        if ($this->isEmpty()) {
+            return Option::none();
+        }
+
+        return Option::of($this->fold($this->head(), function ($max, $x) {
+            return $max >= $x ? $max : $x;
+        }));
+    }
 }
