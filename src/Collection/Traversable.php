@@ -109,7 +109,8 @@ abstract class Traversable extends Value
     /**
      * @template U
      *
-     * @param U $zero
+     * @param U               $zero
+     * @param callable(U,T):U $combine
      *
      * @return U
      */
@@ -181,5 +182,15 @@ abstract class Traversable extends Value
         return Option::of($this->fold($this->head(), function ($max, $x) {
             return $max >= $x ? $max : $x;
         }));
+    }
+
+    /**
+     * @param callable(T): bool $predicate
+     */
+    public function count(callable $predicate): int
+    {
+        return $this->fold(0, function ($count, $value) use ($predicate) {
+            return $predicate($value) ? ++$count : $count;
+        });
     }
 }
