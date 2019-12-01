@@ -190,7 +190,7 @@ abstract class Traversable extends Value
     public function count(callable $predicate): int
     {
         return $this->fold(0, function ($count, $value) use ($predicate) {
-            return $predicate($value) ? ++$count : $count;
+            return $predicate($value) === true ? ++$count : $count;
         });
     }
 }
