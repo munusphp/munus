@@ -82,9 +82,34 @@ final class StreamTest extends TestCase
 
     public function testStreamRange(): void
     {
-        self::assertTrue(
-            Stream::range(1, 5)->equals(Stream::ofAll([1, 2, 3, 4, 5]))
-        );
+        self::assertTrue(Stream::range(1, 5)->equals(Stream::ofAll([1, 2, 3, 4, 5])));
+    }
+
+    public function testStreamFrom(): void
+    {
+        self::assertTrue(Stream::range(1, 5)->equals(Stream::from(1)->take(5)));
+        self::assertTrue(Stream::range(3, 5)->equals(Stream::from(3)->take(3)));
+        self::assertTrue(Stream::of(101, 102, 103)->equals(Stream::from(101)->take(3)));
+    }
+
+    public function testStreamContinually(): void
+    {
+        mt_srand(43);
+        self::assertTrue(Stream::of(9, 9, 6)->equals(Stream::continually(function () {return mt_rand(1, 10); })->take(3)));
+        self::assertTrue(Stream::of('m', 'm', 'm')->equals(Stream::continually(function () {return 'm'; })->take(3)));
+    }
+
+    public function testStreamIterate(): void
+    {
+        self::assertTrue(Stream::of(2, 4, 8)->equals(Stream::iterate(1, function (int $i) {return $i * 2; })->take(3)));
+        self::assertTrue(Stream::of(-1, -2, -3)->equals(Stream::iterate(0, function (int $i) {return --$i; })->take(3)));
+    }
+
+    public function testStreamCons(): void
+    {
+        mt_srand(43);
+        self::assertTrue(Stream::of(5, 9, 9, 6)->equals(Stream::cons(5, function () {return mt_rand(1, 10); })->take(4)));
+        self::assertTrue(Stream::of('M', 'u')->equals(Stream::cons('M', function () {return 'u'; })->take(2)));
     }
 
     public function testStreamTake(): void
