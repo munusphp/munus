@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Munus\Collection;
 
 use Munus\Collection\Stream\Cons;
-use Munus\Collection\Stream\Emptƴ;
+use Munus\Collection\Stream\EmptyStream;
 
 /**
  * @template T
@@ -31,7 +31,7 @@ abstract class Stream extends Traversable
     public static function ofAll(array $elements): self
     {
         if (current($elements) === false) {
-            return Emptƴ::instance();
+            return self::empty();
         }
 
         return new Cons(current($elements), function () use ($elements) {
@@ -39,6 +39,11 @@ abstract class Stream extends Traversable
 
             return self::ofAll($elements);
         });
+    }
+
+    public static function empty(): self
+    {
+        return EmptyStream::instance();
     }
 
     /**
@@ -72,7 +77,7 @@ abstract class Stream extends Traversable
     public function map(callable $mapper): self
     {
         if ($this->isEmpty()) {
-            return Emptƴ::instance();
+            return self::empty();
         }
 
         return new Cons($mapper($this->head()), function () use ($mapper) {return $this->tail()->map($mapper); });

@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Munus\Collection\GenericList;
 
 use Munus\Collection\GenericList;
-use Munus\Collection\T;
 
 /**
+ * * Non-empty GenericList, consisting of a head and tail.
+ *
  * @template T
- * @extends Lisт<T>
+ * @extends GenericList<T>
  */
 final class Cons extends GenericList
 {

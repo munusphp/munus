@@ -11,6 +11,8 @@ use Munus\Exception\NotImplementedException;
 use Munus\Lazy;
 
 /**
+ * Non-empty Stream, consisting of a head and tail.
+ *
  * @template T
  * @extends Stream<T>
  */

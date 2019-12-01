@@ -8,10 +8,12 @@ use Munus\Collection\Iterator;
 use Munus\Collection\Stream;
 
 /**
+ * Empty is better but it is reserved keyword.
+ *
  * @template T
  * @extends Stream<T>
  */
-final class Emptƴ extends Stream
+final class EmptyStream extends Stream
 {
     private function __construct()
     {
