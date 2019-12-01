@@ -86,4 +86,13 @@ final class StreamTest extends TestCase
             Stream::range(1, 5)->equals(Stream::ofAll([1, 2, 3, 4, 5]))
         );
     }
+
+    public function testStreamTake(): void
+    {
+        self::assertTrue(Stream::of(1, 2, 3)->equals(Stream::of(1, 2, 3)->take(3)));
+        self::assertTrue(Stream::of(1, 2, 3)->equals(Stream::of(1, 2, 3)->take(4)));
+        self::assertTrue(Stream::empty()->equals(Stream::empty()->take(3)));
+        self::assertTrue(Stream::of(1, 2, 3)->equals(Stream::of(1, 2, 3, 4)->take(3)));
+        self::assertTrue(Stream::range(1, 3)->equals(Stream::range(1, 10)->take(3)));
+    }
 }

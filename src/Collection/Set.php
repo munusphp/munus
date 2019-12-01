@@ -146,4 +146,16 @@ class Set extends Traversable
 
         return self::fromPointer($mapped);
     }
+
+    public function take(int $n)
+    {
+        if ($n <= 0) {
+            return self::empty();
+        }
+        if ($n >= $this->length()) {
+            return $this;
+        }
+
+        return self::ofAll(array_slice($this->elements, 0, $n));
+    }
 }

@@ -81,4 +81,13 @@ final class GenericListTest extends TestCase
             GenericList::of('a', 'b', 'c')->equals(GenericList::of('a', 'b')->append('c'))
         );
     }
+
+    public function testListTake(): void
+    {
+        $list = GenericList::of(1, 2, 3);
+        self::assertSame($list, $list->take(3));
+        self::assertSame($list, $list->take(4));
+        self::assertTrue(GenericList::empty()->equals(GenericList::empty()->take(3)));
+        self::assertTrue(GenericList::of(1, 2, 3)->equals(GenericList::of(1, 2, 3, 4)->take(3)));
+    }
 }

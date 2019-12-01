@@ -59,6 +59,23 @@ abstract class GenericList extends Traversable
         return new Cons($mapper($this->head()), $this->tail()->map($mapper));
     }
 
+    public function take(int $n)
+    {
+        if ($n <= 0) {
+            return self::empty();
+        }
+        if ($n >= $this->length()) {
+            return $this;
+        }
+        $result = self::empty();
+        $list = $this;
+        for ($i = 0; $i < $n; $i++,$list = $list->tail()) {
+            $result = $result->prepend($list->head());
+        }
+
+        return $result->reverse();
+    }
+
     /**
      * @param T $element
      *
