@@ -41,6 +41,11 @@ abstract class Traversable extends Value
     abstract public function map(callable $mapper);
 
     /**
+     * @return Traversable<T>
+     */
+    abstract public function take(int $n);
+
+    /**
      * @return T
      */
     public function get()

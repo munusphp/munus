@@ -95,4 +95,13 @@ final class SetTest extends TestCase
         self::assertTrue(Set::of(4, 8, 12)->forAll(function (int $x) {return $x % 4 === 0; }));
         self::assertFalse(Set::of(4, 8, 13)->forAll(function (int $x) {return $x % 4 === 0; }));
     }
+
+    public function testSetTake(): void
+    {
+        $set = Set::of(1, 2, 3);
+        self::assertSame($set, $set->take(3));
+        self::assertSame($set, $set->take(4));
+        self::assertEquals(Set::empty(), Set::empty()->take(3));
+        self::assertEquals(Set::of(1, 2, 3), Set::of(1, 2, 3, 4)->take(3));
+    }
 }
