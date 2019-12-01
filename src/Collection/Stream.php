@@ -61,7 +61,62 @@ abstract class Stream extends Traversable
     }
 
     /**
-     * @throws \RuntimeException if is empty
+     * @return Cons<int>
+     */
+    public static function from(int $value): self
+    {
+        return new Cons($value, function () use ($value) {
+            return self::from($value + 1);
+        });
+    }
+
+    /**
+     * Create infinitely long Stream using a function to calculate the next value
+     * based on the previous.
+     *
+     * @param callable:T $supplier
+     *
+     * @return Cons<T>
+     */
+    public static function continually(callable $supplier): self
+    {
+        return new Cons($supplier(), function () use ($supplier) {
+            return self::continually($supplier);
+        });
+    }
+
+    /**
+     * @param T             $seed
+     * @param callable<T>:T $iterator
+     *
+     * @return Cons<T>
+     */
+    public static function iterate($seed, callable $iterator): self
+    {
+        $current = $iterator($seed);
+
+        return new Cons($current, function () use ($iterator, $current) {
+            return self::iterate($current, $iterator);
+        });
+    }
+
+    /**
+     * Constructs a Stream of a head element and a tail supplier.
+     *
+     * @param T          $head
+     * @param callable:T $supplier
+     *
+     * @return Cons<T>
+     */
+    public static function cons($head, callable $supplier): self
+    {
+        return new Cons($head, function () use ($supplier) {
+            return self::cons($supplier(), $supplier);
+        });
+    }
+
+    /**
+     * @throws \RuntimeEception if is empty
      *
      * @return Stream<T>
      */
