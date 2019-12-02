@@ -16,12 +16,24 @@ final class OptionTest extends TestCase
     {
         $option = Option::of('foo');
         self::assertFalse($option->isEmpty());
+
+        $option = Option::some('bar');
+        self::assertFalse($option->isEmpty());
     }
 
     public function testNone(): void
     {
         $option = Option::of(null);
         self::assertTrue($option->isEmpty());
+    }
+
+    public function testOptionWhen(): void
+    {
+        $option = Option::when(true, 5);
+        self::assertEquals(5, $option->getOrElse(42));
+
+        $option = Option::when(false, 5);
+        self::assertEquals(42, $option->getOrElse(42));
     }
 
     public function testDocblock(): void
