@@ -7,7 +7,6 @@ namespace Munus\Collection\Stream;
 use Munus\Collection\Iterator;
 use Munus\Collection\Iterator\StreamIterator;
 use Munus\Collection\Stream;
-use Munus\Exception\NotImplementedException;
 use Munus\Lazy;
 
 /**
@@ -40,7 +39,7 @@ final class Cons extends Stream
 
     public function length(): int
     {
-        throw new NotImplementedException();
+        return $this->fold(0, function ($n, $ignored) {return $n + 1; });
     }
 
     /**
