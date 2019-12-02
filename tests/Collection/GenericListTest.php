@@ -90,4 +90,18 @@ final class GenericListTest extends TestCase
         self::assertTrue(GenericList::empty()->equals(GenericList::empty()->take(3)));
         self::assertTrue(GenericList::of(1, 2, 3)->equals(GenericList::of(1, 2, 3, 4)->take(3)));
     }
+
+    public function testListFilter(): void
+    {
+        self::assertTrue(GenericList::of(3, 6, 9)->equals(GenericList::ofAll(range(1, 30))->filter(function (int $n): bool {
+            return $n % 3 === 0;
+        })->take(3)));
+    }
+
+    public function testListFilterNot(): void
+    {
+        self::assertTrue(GenericList::of(1, 2, 4)->equals(GenericList::ofAll(range(1, 30))->filterNot(function (int $n): bool {
+            return $n % 3 === 0;
+        })->take(3)));
+    }
 }

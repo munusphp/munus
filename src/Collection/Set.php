@@ -8,6 +8,7 @@ use Munus\Collection\Iterator\ArrayIterator;
 
 /**
  * @template T
+ * @extends Traversable<T>
  */
 class Set extends Traversable
 {
@@ -136,6 +137,13 @@ class Set extends Traversable
         return new self($tail);
     }
 
+    /**
+     * @template U
+     *
+     * @param callable<T>:U $mapper
+     *
+     * @return Set<U>
+     */
     public function map(callable $mapper)
     {
         $mapped = [];
@@ -147,6 +155,21 @@ class Set extends Traversable
         return self::fromPointer($mapped);
     }
 
+    /**
+     * @param callable<T>:bool $predicate
+     *
+     * @return Set<T>
+     */
+    public function filter(callable $predicate)
+    {
+        $filtered = array_filter($this->elements, $predicate);
+
+        return self::fromPointer($filtered);
+    }
+
+    /**
+     * @return Set<T>
+     */
     public function take(int $n)
     {
         if ($n <= 0) {
@@ -156,6 +179,8 @@ class Set extends Traversable
             return $this;
         }
 
-        return self::ofAll(array_slice($this->elements, 0, $n));
+        $sliced = array_slice($this->elements, 0, $n);
+
+        return self::fromPointer($sliced);
     }
 }
