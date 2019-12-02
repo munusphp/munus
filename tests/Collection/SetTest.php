@@ -104,4 +104,18 @@ final class SetTest extends TestCase
         self::assertEquals(Set::empty(), Set::empty()->take(3));
         self::assertEquals(Set::of(1, 2, 3), Set::of(1, 2, 3, 4)->take(3));
     }
+
+    public function testSetFilter(): void
+    {
+        self::assertTrue(Set::of(3, 6, 9)->equals(Set::ofAll(range(1, 30))->filter(function (int $n): bool {
+            return $n % 3 === 0;
+        })->take(3)));
+    }
+
+    public function testSetFilterNot(): void
+    {
+        self::assertTrue(Set::of(1, 2, 4)->equals(Set::ofAll(range(1, 30))->filterNot(function (int $n): bool {
+            return $n % 3 === 0;
+        })->take(3)));
+    }
 }

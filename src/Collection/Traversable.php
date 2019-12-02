@@ -41,9 +41,32 @@ abstract class Traversable extends Value
     abstract public function map(callable $mapper);
 
     /**
+     * Returns a new traversable consisting of all elements which satisfy the given predicate.
+     *
+     * @param callable<T>:bool $predicate
+     *
+     * @return Traversable<T>
+     */
+    abstract public function filter(callable $predicate);
+
+    /**
      * @return Traversable<T>
      */
     abstract public function take(int $n);
+
+    /**
+     * Returns a new traversable consisting of all elements which do not satisfy the given predicate.
+     *
+     * @param callable<T>:bool $predicate
+     *
+     * @return Traversable<T>
+     */
+    public function filterNot(callable $predicate)
+    {
+        return $this->filter(function ($value) use ($predicate) {
+            return !$predicate($value);
+        });
+    }
 
     /**
      * @return T
@@ -77,11 +100,11 @@ abstract class Traversable extends Value
         while ($iterator->hasNext()) {
             $next = $iterator->next();
             if ($predicate($next) === true) {
-                return Option::of($next);
+                return Option::some($next);
             }
         }
 
-        return Option::of(null);
+        return Option::none();
     }
 
     public function equals($object): bool

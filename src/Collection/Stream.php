@@ -138,6 +138,32 @@ abstract class Stream extends Traversable
         return new Cons($mapper($this->head()), function () use ($mapper) {return $this->tail()->map($mapper); });
     }
 
+    /**
+     * @param callable<T>:bool $predicate
+     *
+     * @return Stream<T>
+     */
+    public function filter(callable $predicate)
+    {
+        if ($this->isEmpty()) {
+            return $this;
+        }
+
+        $stream = $this;
+        while (!$stream->isEmpty() && !$predicate($stream->head())) {
+            $stream = $stream->tail();
+        }
+
+        $finalStream = $stream;
+
+        return $stream->isEmpty() ? self::empty() : new Cons($stream->head(), function () use ($finalStream, $predicate) {
+            return $finalStream->tail()->filter($predicate);
+        });
+    }
+
+    /**
+     * @return Stream<T>
+     */
     public function take(int $n)
     {
         if ($n <= 0 || $this->isEmpty()) {

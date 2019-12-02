@@ -51,8 +51,16 @@ final class StreamIterator extends Iterator
         return $stream->head();
     }
 
+    /**
+     * Warning: stream can be infinite.
+     */
     public function toArray(): array
     {
-        throw new \LogicException('toArray() on stream');
+        $array = [];
+        while ($this->hasNext()) {
+            $array[] = $this->next();
+        }
+
+        return $array;
     }
 }

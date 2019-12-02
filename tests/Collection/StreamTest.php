@@ -66,6 +66,26 @@ final class StreamTest extends TestCase
         }));
     }
 
+    public function testStreamFilter(): void
+    {
+        self::assertTrue(Stream::of(3, 6, 9)->equals(Stream::from(1)->filter(function (int $n): bool {
+            return $n % 3 === 0;
+        })->take(3)));
+        self::assertTrue(Stream::of('u', 'u')->equals(Stream::ofAll(str_split('Munus'))->filter(function (string $char): bool {
+            return $char === 'u';
+        })));
+    }
+
+    public function testStreamFilterNot(): void
+    {
+        self::assertTrue(Stream::of(1, 2, 4)->equals(Stream::from(1)->filterNot(function (int $n): bool {
+            return $n % 3 === 0;
+        })->take(3)));
+        self::assertTrue(Stream::of('M', 'n', 's')->equals(Stream::ofAll(str_split('Munus'))->filterNot(function (string $char): bool {
+            return $char === 'u';
+        })));
+    }
+
     public function testStreamLength(): void
     {
         self::assertEquals(5, Stream::from(0)->take(5)->length());

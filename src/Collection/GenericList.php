@@ -59,6 +59,36 @@ abstract class GenericList extends Traversable
         return new Cons($mapper($this->head()), $this->tail()->map($mapper));
     }
 
+    /**
+     * @param callable<T>:bool $predicate
+     *
+     * @return GenericList<T>
+     */
+    public function filter(callable $predicate)
+    {
+        if ($this->isEmpty()) {
+            return $this;
+        }
+
+        /** @var GenericList $filtered */
+        $filtered = $this->fold(self::empty(), function (GenericList $list, $value) use ($predicate) {
+            return $predicate($value) === true ? $list->prepend($value) : $list;
+        });
+
+        if ($filtered->isEmpty()) {
+            return self::empty();
+        }
+
+        if ($filtered->length() === $this->length()) {
+            return $this;
+        }
+
+        return $filtered->reverse();
+    }
+
+    /**
+     * @return GenericList<T>
+     */
     public function take(int $n)
     {
         if ($n <= 0) {
