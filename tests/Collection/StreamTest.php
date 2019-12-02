@@ -66,6 +66,13 @@ final class StreamTest extends TestCase
         }));
     }
 
+    public function testStreamLength(): void
+    {
+        self::assertEquals(5, Stream::from(0)->take(5)->length());
+        self::assertEquals(5, Stream::range(6, 10)->length());
+        self::assertEquals(5, Stream::ofAll(str_split('Munus'))->length());
+    }
+
     public function testStreamContains(): void
     {
         self::assertTrue(Stream::ofAll([1, 2, 3])->contains(2));
