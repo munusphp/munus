@@ -17,7 +17,16 @@ At the moment, in the experimental phase.
 
 Due to the lack of generic types, Munus achieves genericity with the help of [Psalm](https://github.com/vimeo/psalm) `template` annotation.
 
-Munus examples:
+Stream example: find the sum of the first ten squares of even numbers
+```php
+Stream::from(1)
+    ->filter(fn($n) => $n%2===0)
+    ->map(fn($n) => $n**2)
+    ->take(10)
+    ->sum();
+```
+
+Other examples:
 ```php
 /** @var Stream<int> $stream */
 $stream = Stream::range(1, 10)->map(function(int $int): int {return $int * 5});
@@ -50,13 +59,14 @@ The goal is to help achieve:
  - GenericList (implemented as immutable linked list)
  - Iterator
 
+**Other:**
+ - Tuple
+
 ### Roadmap
 
  - Pattern matching
  - Property checking
- - Try with recover
- - Immutable Data Structures
- - Tuples
+
 
 ## Inspiration
 
