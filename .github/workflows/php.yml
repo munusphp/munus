@@ -16,5 +16,5 @@ jobs:
     - name: Check code style
       run: composer check-cs
     
-    - name: Run unit tests
+    - name: Run PHPUnit
       run: vendor/bin/phpunit
