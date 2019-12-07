@@ -60,6 +60,11 @@ final class Tuple implements \ArrayAccess
         return call_user_func($transformer, ...$this->data->toArray());
     }
 
+    public function map(callable $mapper): self
+    {
+        return self::of(...array_map($mapper, $this->data->toArray()));
+    }
+
     public function offsetExists($offset)
     {
         return isset($this->data[$offset]);

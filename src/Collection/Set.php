@@ -10,7 +10,7 @@ use Munus\Collection\Iterator\ArrayIterator;
  * @template T
  * @extends Traversable<T>
  */
-class Set extends Traversable
+final class Set extends Traversable
 {
     /**
      * @var T[]

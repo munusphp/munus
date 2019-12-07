@@ -91,4 +91,10 @@ final class TupleTest extends TestCase
         $this->expectException(UnsupportedOperationException::class);
         unset(Tuple::of('a')[0]);
     }
+
+    public function testTupleMap(): void
+    {
+        self::assertTrue(Tuple::of(3.0, 4.0)->equals(Tuple::of(9, 16)->map('sqrt')));
+        self::assertTrue(Tuple::of('A', 'B', 'C')->equals(Tuple::of('a', 'b', 'c')->map('strtoupper')));
+    }
 }
