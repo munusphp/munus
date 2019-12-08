@@ -145,6 +145,38 @@ final class Map extends Traversable
     }
 
     /**
+     * @param callable<string>:string $keyMapper
+     *
+     * @return Map<string,T>
+     */
+    public function mapKeys(callable $keyMapper): self
+    {
+        $map = [];
+        foreach ($this->map as $key => $value) {
+            $map[$keyMapper($key)] = $value;
+        }
+
+        return self::fromPointer($map);
+    }
+
+    /**
+     * @template U
+     *
+     * @param callable<T>:U $valueMapper
+     *
+     * @return Map<string,U>
+     */
+    public function mapValues(callable $valueMapper): self
+    {
+        $map = [];
+        foreach ($this->map as $key => $value) {
+            $map[$key] = $valueMapper($value);
+        }
+
+        return self::fromPointer($map);
+    }
+
+    /**
      * @param callable<Tuple<string,T>>:bool $predicate
      *
      * @return Map<T>

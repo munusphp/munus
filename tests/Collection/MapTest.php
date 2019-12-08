@@ -118,6 +118,28 @@ final class MapTest extends TestCase
         self::assertNotSame($map, $map->map(function ($entry) {return $entry; }));
     }
 
+    public function testMapMapKeys(): void
+    {
+        $map = Map::fromArray(['a' => 'b', 'c' => 'd']);
+
+        self::assertTrue(Map::fromArray(['A' => 'b', 'C' => 'd'])->equals(
+            $map->mapKeys('strtoupper')
+        ));
+
+        self::assertNotSame($map, $map->mapKeys('ucfirst'));
+    }
+
+    public function testMapMapValues(): void
+    {
+        $map = Map::fromArray(['a' => 'b', 'c' => 'd']);
+
+        self::assertTrue(Map::fromArray(['a' => 'B', 'c' => 'D'])->equals(
+            $map->mapValues('strtoupper')
+        ));
+
+        self::assertNotSame($map, $map->mapValues('ucfirst'));
+    }
+
     public function testMapContains(): void
     {
         $map = Map::fromArray(['a' => 'b', 'c' => 'd']);
