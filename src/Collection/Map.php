@@ -8,6 +8,7 @@ use Munus\Collection\Iterator\MapIterator;
 use Munus\Control\Option;
 use Munus\Exception\NoSuchElementException;
 use Munus\Tuple;
+use Munus\Value\Comparator;
 
 /**
  * @template T
@@ -184,5 +185,70 @@ final class Map extends Traversable
     public function iterator(): Iterator
     {
         return new MapIterator($this->map);
+    }
+
+    /**
+     * @return T[]
+     */
+    public function values(): array
+    {
+        return array_values($this->map);
+    }
+
+    /**
+     * @return Set<string>
+     */
+    public function keys(): Set
+    {
+        return Set::ofAll(array_keys($this->map));
+    }
+
+    /**
+     * Default contains() method will search for Tuple of key and value.
+     *
+     * @param Tuple<string,T> $element
+     */
+    public function contains($element): bool
+    {
+        return $this->get($element[0])->map(function ($value) use ($element) {
+            return Comparator::equals($value, $element[1]);
+        })->getOrElse(false);
+    }
+
+    public function containsKey(string $key): bool
+    {
+        return isset($this->map[$key]);
+    }
+
+    /**
+     * @param T $value
+     */
+    public function containsValue($value): bool
+    {
+        foreach ($this->map as $v) {
+            if (Comparator::equals($v, $value)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     *  If collisions occur, the value of this map is taken.
+     */
+    public function merge(self $map): self
+    {
+        if ($this->isEmpty()) {
+            return $map;
+        }
+
+        if ($map->isEmpty()) {
+            return $this;
+        }
+
+        return $map->fold($this, function (Map $result, Tuple $entry) {
+            return !$result->containsKey($entry[0]) ? $result->put($entry[0], $entry[1]) : $result;
+        });
     }
 }
