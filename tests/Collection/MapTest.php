@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Munus\Tests\Collection;
 
 use Munus\Collection\Map;
+use Munus\Collection\Set;
 use Munus\Control\Option;
 use Munus\Exception\NoSuchElementException;
 use Munus\Tuple;
@@ -115,5 +116,58 @@ final class MapTest extends TestCase
         ));
 
         self::assertNotSame($map, $map->map(function ($entry) {return $entry; }));
+    }
+
+    public function testMapContains(): void
+    {
+        $map = Map::fromArray(['a' => 'b', 'c' => 'd']);
+
+        self::assertTrue($map->contains(Tuple::of('a', 'b')));
+        self::assertFalse($map->contains(Tuple::of('a', 'c')));
+    }
+
+    public function testMapContainsKey(): void
+    {
+        $map = Map::fromArray(['a' => 'b', 'c' => 'd']);
+
+        self::assertTrue($map->containsKey('a'));
+        self::assertFalse($map->containsKey('b'));
+    }
+
+    public function testMapContainsValue(): void
+    {
+        $map = Map::fromArray(['a' => 'b', 'c' => 'd', 'e' => Option::of('munus')]);
+
+        self::assertTrue($map->containsValue('d'));
+        self::assertFalse($map->containsValue('a'));
+        self::assertTrue($map->containsValue('munus'));
+    }
+
+    public function testMapValues(): void
+    {
+        self::assertEquals(['b', 'd'], Map::fromArray(['a' => 'b', 'c' => 'd'])->values());
+    }
+
+    public function testMapKeys(): void
+    {
+        self::assertTrue(Set::ofAll(['a', 'b', 'c'])->equals(Map::fromArray(['a' => '1', 'b' => '2', 'c' => '3'])->keys()));
+    }
+
+    public function testMapMerge(): void
+    {
+        $merged = Map::fromArray(['a' => 'b', 'c' => 'd']);
+
+        self::assertTrue($merged->equals(Map::fromArray(['a' => 'b'])->merge(Map::fromArray(['c' => 'd']))));
+        self::assertSame($merged, $merged->merge(Map::empty()));
+        self::assertSame($merged, Map::empty()->merge($merged));
+    }
+
+    public function testMapMergeAndDropKeyOnConflict(): void
+    {
+        $merged = Map::fromArray(['a' => 'b', 'c' => 'd']);
+
+        self::assertTrue($merged->equals(Map::fromArray(['a' => 'b'])->merge(
+            Map::fromArray(['a' => 'conflict', 'c' => 'd'])
+        )));
     }
 }
