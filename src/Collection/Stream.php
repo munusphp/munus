@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Munus\Collection;
 
+use Munus\Collection\Stream\Collector;
 use Munus\Collection\Stream\Cons;
 use Munus\Collection\Stream\EmptyStream;
 
@@ -177,5 +178,20 @@ abstract class Stream extends Traversable
         return new Cons($this->head(), function () use ($n) {
             return $this->tail()->take($n - 1);
         });
+    }
+
+    /**
+     * @param Collector<T,R> $collector
+     *
+     * @return R
+     */
+    public function collect(Collector $collector)
+    {
+        $iterator = $this->iterator();
+        while ($iterator->hasNext()) {
+            $collector->accumulate($iterator->next());
+        }
+
+        return $collector->finish();
     }
 }
