@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Munus\Tests\Control;
 
+use Munus\Collection\Set;
+use Munus\Collection\Stream\Collectors;
 use Munus\Control\Option;
 use Munus\Lazy;
 use Munus\Tests\Stub\Expect;
@@ -106,5 +108,15 @@ final class OptionTest extends TestCase
     {
         self::assertTrue(Option::of(7)->forAll(function (int $x) {return $x % 7 === 0; }));
         self::assertFalse(Option::of(9)->forAll(function (int $x) {return $x % 7 === 0; }));
+    }
+
+    public function testOptionCollect(): void
+    {
+        self::assertTrue(Set::of('munus')->equals(
+            Option::of('munus')->collect(Collectors::toSet())
+        ));
+        self::assertTrue(Set::empty()->equals(
+            Option::none()->collect(Collectors::toSet())
+        ));
     }
 }

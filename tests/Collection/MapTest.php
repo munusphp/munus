@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Munus\Tests\Collection;
 
+use Munus\Collection\GenericList;
 use Munus\Collection\Map;
 use Munus\Collection\Set;
+use Munus\Collection\Stream\Collectors;
 use Munus\Control\Option;
 use Munus\Exception\NoSuchElementException;
 use Munus\Tuple;
@@ -191,5 +193,13 @@ final class MapTest extends TestCase
         self::assertTrue($merged->equals(Map::fromArray(['a' => 'b'])->merge(
             Map::fromArray(['a' => 'conflict', 'c' => 'd'])
         )));
+    }
+
+    public function testMapCollect(): void
+    {
+        self::assertTrue(GenericList::of('b', 'd')->equals(
+            Map::fromArray(['a' => 'b', 'c' => 'd'])->collect(Collectors::toList())
+        ));
+        self::assertTrue(GenericList::empty()->equals(Map::empty()->collect(Collectors::toList())));
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Munus\Control;
 
 use Munus\Collection\Iterator;
+use Munus\Control\Either\Left;
 use Munus\Control\Either\Right;
 use Munus\Value;
 
@@ -15,6 +16,20 @@ use Munus\Value;
  */
 abstract class Either extends Value
 {
+    private function __construct()
+    {
+    }
+
+    final public static function left($left): self
+    {
+        return new Left($left);
+    }
+
+    final public static function right($right): self
+    {
+        return new Right($right);
+    }
+
     abstract public function isLeft(): bool;
 
     abstract public function isRight(): bool;
@@ -29,12 +44,12 @@ abstract class Either extends Value
      */
     abstract public function getLeft();
 
-    public function isSingleValued(): bool
+    final public function isSingleValued(): bool
     {
         return true;
     }
 
-    public function isEmpty(): bool
+    final public function isEmpty(): bool
     {
         return $this->isLeft();
     }

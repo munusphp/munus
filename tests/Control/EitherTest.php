@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Munus\Tests\Control;
 
+use Munus\Collection\Map;
+use Munus\Collection\Stream\Collectors;
+use Munus\Control\Either;
 use Munus\Control\Either\Left;
 use Munus\Control\Either\Right;
 use Munus\Tests\Stub\Expect;
@@ -66,8 +69,16 @@ final class EitherTest extends TestCase
 
     public function testMapOnRight(): void
     {
-        $either = new Right('munus');
+        self::assertEquals('MUNUS', Either::right('munus')->map('strtoupper')->get());
+    }
 
-        self::assertEquals('MUNUS', $either->map('strtoupper')->get());
+    public function testEitherCollect(): void
+    {
+        self::assertTrue(Map::fromArray(['a' => 'b'])->equals(
+            Either::right('b')->collect(Collectors::toMap(function () {return 'a'; }))
+        ));
+        self::assertTrue(Map::empty()->equals(
+            Either::left('b')->collect(Collectors::toMap(function () {return 'a'; }))
+        ));
     }
 }
