@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Munus\Tests;
 
+use Munus\Collection\Set;
+use Munus\Collection\Stream\Collectors;
 use Munus\Lazy;
 use PHPUnit\Framework\TestCase;
 
@@ -37,5 +39,12 @@ final class LazyTest extends TestCase
 
         self::assertInstanceOf(Lazy::class, $lazy->map('range'));
         self::assertEquals(2, $lazy->map('sqrt')->get());
+    }
+
+    public function testCollect(): void
+    {
+        self::assertTrue(Set::of(42)->equals(
+            Lazy::ofValue(42)->collect(Collectors::toSet())
+        ));
     }
 }

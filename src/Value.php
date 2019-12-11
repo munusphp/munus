@@ -6,6 +6,7 @@ namespace Munus;
 
 use Munus\Collection\Iterator;
 use Munus\Collection\Stream;
+use Munus\Collection\Stream\Collector;
 use Munus\Collection\Traversable;
 use Munus\Control\TryTo;
 use Munus\Value\Comparator;
@@ -144,6 +145,18 @@ abstract class Value
     public function equals($object): bool
     {
         return Comparator::equals($this->get(), $object);
+    }
+
+    /**
+     * @template R
+     *
+     * @param Collector<T,R> $collector
+     *
+     * @return R
+     */
+    public function collect(Collector $collector)
+    {
+        return $this->toStream()->collect($collector);
     }
 
     /**

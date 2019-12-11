@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Munus\Tests\Collection;
 
+use Munus\Collection\GenericList;
 use Munus\Collection\Set;
+use Munus\Collection\Stream\Collectors;
 use PHPUnit\Framework\TestCase;
 
 final class SetTest extends TestCase
@@ -117,5 +119,13 @@ final class SetTest extends TestCase
         self::assertTrue(Set::of(1, 2, 4)->equals(Set::ofAll(range(1, 30))->filterNot(function (int $n): bool {
             return $n % 3 === 0;
         })->take(3)));
+    }
+
+    public function testSetCollect(): void
+    {
+        self::assertTrue(GenericList::of('a', 'b', 'c')->equals(
+            Set::of('a', 'b', 'c')->collect(Collectors::toList())
+        ));
+        self::assertTrue(GenericList::empty()->equals(Set::empty()->collect(Collectors::toList())));
     }
 }

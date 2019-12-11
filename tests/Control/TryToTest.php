@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Munus\Tests\Control;
 
+use Munus\Collection\GenericList;
+use Munus\Collection\Stream\Collectors;
 use Munus\Control\TryTo;
 use Munus\Tests\Stub\Expect;
 use Munus\Tests\Stub\Result;
@@ -216,5 +218,15 @@ final class TryToTest extends TestCase
         });
 
         self::assertEquals(2, $control);
+    }
+
+    public function testTryToCollect(): void
+    {
+        self::assertTrue(GenericList::of('success')->equals(
+            TryTo::run(function () {return 'success'; })->collect(Collectors::toList())
+        ));
+        self::assertTrue(GenericList::empty()->equals(
+            TryTo::run(function () {throw new \LogicException(); })->collect(Collectors::toList())
+        ));
     }
 }
