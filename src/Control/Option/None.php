@@ -24,4 +24,9 @@ final class None extends Option
     {
         throw new \RuntimeException('No value present');
     }
+
+    public function equals($object): bool
+    {
+        return $object instanceof self;
+    }
 }

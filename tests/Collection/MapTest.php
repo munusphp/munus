@@ -7,6 +7,7 @@ namespace Munus\Tests\Collection;
 use Munus\Collection\GenericList;
 use Munus\Collection\Map;
 use Munus\Collection\Set;
+use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
 use Munus\Control\Option;
 use Munus\Exception\NoSuchElementException;
@@ -35,8 +36,8 @@ final class MapTest extends TestCase
 
     public function testMapGetWithoutArgument(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        Map::fromArray(['a' => 'b'])->get();
+        self::assertTrue(Option::of('b')->equals(Map::fromArray(['a' => 'b'])->get()));
+        self::assertTrue(Option::none()->equals(Map::empty()->get()));
     }
 
     public function testMapImmutability(): void
@@ -197,9 +198,23 @@ final class MapTest extends TestCase
 
     public function testMapCollect(): void
     {
-        self::assertTrue(GenericList::of('b', 'd')->equals(
+        self::assertTrue(GenericList::of(Tuple::of('a', 'b'), Tuple::of('c', 'd'))->equals(
             Map::fromArray(['a' => 'b', 'c' => 'd'])->collect(Collectors::toList())
         ));
         self::assertTrue(GenericList::empty()->equals(Map::empty()->collect(Collectors::toList())));
+    }
+
+    public function testMapToOption(): void
+    {
+        self::assertTrue(Option::none()->equals(Map::empty()->toOption()));
+        self::assertTrue(Option::of('b')->equals(Map::fromArray(['a' => 'b', 'c' => 'd'])->toOption()));
+    }
+
+    public function testMapToStream(): void
+    {
+        self::assertTrue(Stream::of(Tuple::of('a', 'b'), Tuple::of('c', 'd'))->equals(
+            Map::fromArray(['a' => 'b', 'c' => 'd'])->toStream()
+        ));
+        self::assertTrue(Stream::empty()->equals(Map::empty()->toStream()));
     }
 }

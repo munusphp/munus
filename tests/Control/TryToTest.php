@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Munus\Tests\Control;
 
 use Munus\Collection\GenericList;
+use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
+use Munus\Control\Option;
 use Munus\Control\TryTo;
 use Munus\Tests\Stub\Expect;
 use Munus\Tests\Stub\Result;
@@ -227,6 +229,26 @@ final class TryToTest extends TestCase
         ));
         self::assertTrue(GenericList::empty()->equals(
             TryTo::run(function () {throw new \LogicException(); })->collect(Collectors::toList())
+        ));
+    }
+
+    public function testTryToOption(): void
+    {
+        self::assertTrue(Option::of('munus')->equals(
+            TryTo::run(function () {return 'munus'; })->toOption()
+        ));
+        self::assertTrue(Option::none()->equals(
+            TryTo::run(function () {throw new \LogicException(); })->toOption()
+        ));
+    }
+
+    public function testTryToStream(): void
+    {
+        self::assertTrue(Stream::of('php')->equals(
+            TryTo::run(function () {return 'php'; })->toStream()
+        ));
+        self::assertTrue(Stream::empty()->equals(
+            TryTo::run(function () {throw new \LogicException(); })->toStream()
         ));
     }
 }

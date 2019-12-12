@@ -8,6 +8,7 @@ use Munus\Collection\GenericList;
 use Munus\Collection\Set;
 use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
+use Munus\Control\Option;
 use PHPUnit\Framework\TestCase;
 
 final class GenericListTest extends TestCase
@@ -63,13 +64,6 @@ final class GenericListTest extends TestCase
         self::assertEquals(6, GenericList::of('a', 'bbb', 'cc')->fold(0, function (int $a, string $b): int {return $a + mb_strlen($b); }));
     }
 
-    public function testListToStream(): void
-    {
-        self::assertTrue(
-            GenericList::ofAll([1, 2, 3])->toStream()->equals(Stream::ofAll([1, 2, 3]))
-        );
-    }
-
     public function testListOfMultipleParames(): void
     {
         self::assertTrue(
@@ -112,5 +106,19 @@ final class GenericListTest extends TestCase
         self::assertTrue(Set::of('a', 'b', 'c')->equals(
             GenericList::of('a', 'b', 'c')->collect(Collectors::toSet())
         ));
+    }
+
+    public function testListToOption(): void
+    {
+        self::assertTrue(Option::of('php')->equals(GenericList::of('php', 'is', 'awesome')->toOption()));
+        self::assertTrue(Option::none()->equals(GenericList::empty()->toOption()));
+    }
+
+    public function testListToStream(): void
+    {
+        self::assertTrue(
+            GenericList::ofAll([1, 2, 3])->toStream()->equals(Stream::ofAll([1, 2, 3]))
+        );
+        self::assertTrue(Stream::empty()->equals(GenericList::empty()));
     }
 }

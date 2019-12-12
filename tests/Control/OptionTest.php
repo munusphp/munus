@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Munus\Tests\Control;
 
 use Munus\Collection\Set;
+use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
 use Munus\Control\Option;
 use Munus\Lazy;
@@ -118,5 +119,23 @@ final class OptionTest extends TestCase
         self::assertTrue(Set::empty()->equals(
             Option::none()->collect(Collectors::toSet())
         ));
+    }
+
+    public function testOptionEquals(): void
+    {
+        self::assertTrue(Option::none()->equals(Option::none()));
+        self::assertFalse(Option::none()->equals(Option::some('none')));
+        self::assertFalse(Option::none()->equals('none'));
+    }
+
+    public function testOptionToOption(): void
+    {
+        $option = Option::of(42);
+        self::assertSame($option, $option->toOption());
+    }
+
+    public function testOptionToStream(): void
+    {
+        self::assertTrue(Stream::of(42)->equals(Option::of(42)->toStream()));
     }
 }

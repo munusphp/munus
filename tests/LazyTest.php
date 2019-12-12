@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Munus\Tests;
 
 use Munus\Collection\Set;
+use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
+use Munus\Control\Option;
 use Munus\Lazy;
 use PHPUnit\Framework\TestCase;
 
@@ -45,6 +47,21 @@ final class LazyTest extends TestCase
     {
         self::assertTrue(Set::of(42)->equals(
             Lazy::ofValue(42)->collect(Collectors::toSet())
+        ));
+    }
+
+    public function testToOption(): void
+    {
+        $lazy = Lazy::of(function () {return 4; });
+        self::assertTrue(Option::of(4)->equals($lazy->toOption()));
+    }
+
+    public function testToStream(): void
+    {
+        $lazy = Lazy::of(function () {return 'munus'; });
+
+        self::assertTrue(Stream::of('munus')->equals(
+            $lazy->toStream()
         ));
     }
 }

@@ -112,7 +112,12 @@ abstract class Stream extends Traversable
     public static function cons($head, callable $supplier): self
     {
         return new Cons($head, function () use ($supplier) {
-            return self::cons($supplier(), $supplier);
+            $next = $supplier();
+            if ($next instanceof EmptyStream) {
+                return $next;
+            }
+
+            return self::cons($next, $supplier);
         });
     }
 
