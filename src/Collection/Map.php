@@ -61,7 +61,7 @@ final class Map extends Traversable
     public function get(): Option
     {
         if (func_get_args() === []) {
-            throw new \InvalidArgumentException('get on Map requires $key argument');
+            return $this->isEmpty() ? Option::none() : Option::of($this->head()[1]);
         }
         $key = func_get_arg(0);
 

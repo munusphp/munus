@@ -137,6 +137,10 @@ final class StreamTest extends TestCase
         mt_srand(43);
         self::assertTrue(Stream::of(5, 9, 9, 6)->equals(Stream::cons(5, function () {return mt_rand(1, 10); })->take(4)));
         self::assertTrue(Stream::of('M', 'u')->equals(Stream::cons('M', function () {return 'u'; })->take(2)));
+        $counter = 1;
+        self::assertTrue(Stream::of(1, 2, 3)->equals(Stream::cons(1, function () use (&$counter) {
+            return ++$counter >= 4 ? Stream::empty() : $counter;
+        })));
     }
 
     public function testStreamTake(): void
@@ -146,5 +150,17 @@ final class StreamTest extends TestCase
         self::assertTrue(Stream::empty()->equals(Stream::empty()->take(3)));
         self::assertTrue(Stream::of(1, 2, 3)->equals(Stream::of(1, 2, 3, 4)->take(3)));
         self::assertTrue(Stream::range(1, 3)->equals(Stream::range(1, 10)->take(3)));
+    }
+
+    public function testStreamToOption(): void
+    {
+        self::assertTrue(Option::of(1)->equals(Stream::of(1, 2, 3)->toOption()));
+        self::assertTrue(Option::none()->equals(Stream::empty()->toOption()));
+    }
+
+    public function testStreamToStream(): void
+    {
+        // is there logical use case for this?
+        self::assertTrue(Stream::of(1, 2, 3)->equals(Stream::of(1, 2, 3)->toStream()));
     }
 }

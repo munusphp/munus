@@ -7,7 +7,7 @@ namespace Munus;
 use Munus\Collection\Iterator;
 use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collector;
-use Munus\Collection\Traversable;
+use Munus\Control\Option;
 use Munus\Control\TryTo;
 use Munus\Value\Comparator;
 
@@ -160,6 +160,18 @@ abstract class Value
     }
 
     /**
+     * @return Option<T>
+     */
+    public function toOption(): Option
+    {
+        if ($this instanceof Option) {
+            return $this;
+        }
+
+        return $this->isEmpty() ? Option::none() : Option::some($this->get());
+    }
+
+    /**
      * @return Stream<T>
      */
     public function toStream(): Stream
@@ -172,8 +184,10 @@ abstract class Value
             return Stream::of($this->get());
         }
 
-        if ($this instanceof Traversable) {
-            return Stream::ofAll($this->iterator()->toArray());
-        }
+        $iterator = $this->iterator();
+
+        return Stream::cons($iterator->next(), function () use ($iterator) {
+            return $iterator->hasNext() ? $iterator->next() : Stream::empty();
+        });
     }
 }

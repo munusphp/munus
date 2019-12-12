@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Munus\Tests\Control;
 
 use Munus\Collection\Map;
+use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
 use Munus\Control\Either;
 use Munus\Control\Either\Left;
 use Munus\Control\Either\Right;
+use Munus\Control\Option;
 use Munus\Tests\Stub\Expect;
 use Munus\Tests\Stub\Failure;
 use Munus\Tests\Stub\Result;
@@ -79,6 +81,19 @@ final class EitherTest extends TestCase
         ));
         self::assertTrue(Map::empty()->equals(
             Either::left('b')->collect(Collectors::toMap(function () {return 'a'; }))
+        ));
+    }
+
+    public function testToOption(): void
+    {
+        self::assertTrue(Option::of('right')->equals(Either::right('right')->toOption()));
+        self::assertTrue(Option::none()->equals(Either::left('left')->toOption()));
+    }
+
+    public function testToStream(): void
+    {
+        self::assertTrue(Stream::of('right')->equals(
+            Either::right('right')->toStream()
         ));
     }
 }

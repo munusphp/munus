@@ -6,7 +6,9 @@ namespace Munus\Tests\Collection;
 
 use Munus\Collection\GenericList;
 use Munus\Collection\Set;
+use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
+use Munus\Control\Option;
 use PHPUnit\Framework\TestCase;
 
 final class SetTest extends TestCase
@@ -127,5 +129,19 @@ final class SetTest extends TestCase
             Set::of('a', 'b', 'c')->collect(Collectors::toList())
         ));
         self::assertTrue(GenericList::empty()->equals(Set::empty()->collect(Collectors::toList())));
+    }
+
+    public function testSetToOption(): void
+    {
+        self::assertTrue(Option::of('php')->equals(Set::of('php', 'is', 'awesome')->toOption()));
+        self::assertTrue(Option::none()->equals(Set::empty()->toOption()));
+    }
+
+    public function testSetToStream(): void
+    {
+        self::assertTrue(Stream::of('php', 'is', 'awesome')->equals(
+            Set::of('php', 'is', 'awesome')->toStream()
+        ));
+        self::assertTrue(Stream::empty()->equals(Set::empty()->toStream()));
     }
 }
