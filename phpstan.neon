@@ -1,0 +1,17 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method Munus\\\\Collection\\\\Map\\:\\:tail\\(\\) should return Munus\\\\Collection\\\\Traversable\\<V\\> but returns Munus\\\\Tuple\\.$#"
+			count: 1
+			path: src/Collection/Map.php
+
+		-
+			message: "#^Return type \\(Munus\\\\Collection\\\\Map\\<string, U\\>\\) of method Munus\\\\Collection\\\\Map\\:\\:map\\(\\) should be compatible with return type \\(Munus\\\\Collection\\\\Traversable\\<Munus\\\\Tuple\\>\\) of method Munus\\\\Collection\\\\Traversable\\<V\\>\\:\\:map\\(\\)$#"
+			count: 1
+			path: src/Collection/Map.php
+
+		-
+			message: "#^Return type \\(Munus\\\\Collection\\\\Map\\<string, V\\>\\) of method Munus\\\\Collection\\\\Map\\:\\:filter\\(\\) should be compatible with return type \\(Munus\\\\Collection\\\\Traversable\\<Munus\\\\Tuple\\>\\) of method Munus\\\\Collection\\\\Traversable\\<V\\>\\:\\:filter\\(\\)$#"
+			count: 1
+			path: src/Collection/Map.php
+

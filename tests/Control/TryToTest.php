@@ -103,7 +103,7 @@ final class TryToTest extends TestCase
     {
         $try = TryTo::run(function () {
             throw new \DomainException('use ddd');
-        })->andThen(function (int $first) use (&$control) {
+        })->andThen(function () {
             throw new \RuntimeException('this should not happen');
         });
 
@@ -114,7 +114,7 @@ final class TryToTest extends TestCase
     {
         $try = TryTo::run(function () {
             return 42;
-        })->andThen(function (int $first) use (&$control) {
+        })->andThen(function () {
             throw new \RuntimeException('and then fails');
         });
 
@@ -149,7 +149,7 @@ final class TryToTest extends TestCase
     {
         $try = TryTo::run(function () {
             return 'ACID supported';
-        })->andFinally(function () use (&$control) {
+        })->andFinally(function () {
             throw new \DomainException('ACID not supported');
         });
 

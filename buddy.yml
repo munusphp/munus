@@ -11,8 +11,7 @@
       docker_image_tag: "7.2-stretch"
       execute_commands:
         - "composer install"
-        - "composer check-cs"
-        - "vendor/bin/phpunit"
+        - "composer tests"
       setup_commands:
         - "apt-get update"
         - "curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer"

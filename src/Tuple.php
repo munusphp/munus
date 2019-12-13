@@ -7,7 +7,10 @@ namespace Munus;
 use Munus\Exception\UnsupportedOperationException;
 use Munus\Value\Comparator;
 
-final class Tuple implements \ArrayAccess
+/**
+ * @template T
+ */
+class Tuple implements \ArrayAccess
 {
     /**
      * @var \SplFixedArray
@@ -51,7 +54,7 @@ final class Tuple implements \ArrayAccess
     /**
      * @template U
      *
-     * @param callable:U $transformer
+     * @param callable():U $transformer
      *
      * @return U
      */

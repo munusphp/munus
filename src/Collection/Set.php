@@ -140,7 +140,7 @@ final class Set extends Traversable
     /**
      * @template U
      *
-     * @param callable<T>:U $mapper
+     * @param callable(T):U $mapper
      *
      * @return Set<U>
      */
@@ -156,7 +156,7 @@ final class Set extends Traversable
     }
 
     /**
-     * @param callable<T>:bool $predicate
+     * @param callable(T):bool $predicate
      *
      * @return Set<T>
      */

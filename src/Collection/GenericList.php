@@ -14,7 +14,7 @@ use Munus\Collection\GenericList\Nil;
 abstract class GenericList extends Traversable
 {
     /**
-     * @param array<T> $elements
+     * @param array<int,T> $elements
      *
      * @return GenericList<T>
      */
@@ -60,7 +60,7 @@ abstract class GenericList extends Traversable
     }
 
     /**
-     * @param callable<T>:bool $predicate
+     * @param callable(T):bool $predicate
      *
      * @return GenericList<T>
      */

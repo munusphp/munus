@@ -42,7 +42,7 @@ abstract class Value
     /**
      * Run consumer on each element.
      *
-     * @param callable<T> $consumer
+     * @param callable(T):void $consumer
      */
     public function forEach(callable $consumer): void
     {
@@ -55,7 +55,7 @@ abstract class Value
     /**
      * Checks, if the given predicate is true for all elements.
      *
-     * @param callable<T>:bool $predicate
+     * @param callable(T):bool $predicate
      */
     public function forAll(callable $predicate): bool
     {
@@ -85,7 +85,7 @@ abstract class Value
     }
 
     /**
-     * @param callable<T>:bool $predicate
+     * @param callable(T):bool $predicate
      */
     public function exists(callable $predicate): bool
     {
@@ -130,7 +130,7 @@ abstract class Value
     }
 
     /**
-     * @param callable:T $supplier
+     * @param callable():T $supplier
      *
      * @return T
      */

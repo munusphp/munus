@@ -10,6 +10,9 @@ use Munus\Collection\Set;
 use Munus\Collection\Stream\Collector\GenericCollector;
 use Munus\Tuple;
 
+/**
+ * @template T
+ */
 final class Collectors
 {
     /**
@@ -33,7 +36,7 @@ final class Collectors
     }
 
     /**
-     * @param callable<T>:string $keyProvider
+     * @param callable(T):string $keyProvider
      *
      * @return Collector<T,Map>
      */

@@ -24,8 +24,5 @@ jobs:
     - name: Install dependencies
       run: composer install
 
-    - name: Check code style
-      run: composer check-cs
-    
-    - name: Run PHPUnit
-      run: vendor/bin/phpunit
+    - name: Run test suite
+      run: composer tests

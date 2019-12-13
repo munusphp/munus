@@ -7,9 +7,9 @@ namespace Munus\Collection\Stream\Collector;
 use Munus\Collection\Stream\Collector;
 
 /**
- * @template T
  * @template R
- * @extends Collector<T,R>
+ * @template T
+ * @implements Collector<R,T>
  */
 final class GenericCollector implements Collector
 {
@@ -30,8 +30,8 @@ final class GenericCollector implements Collector
 
     /**
      * @param R               $supplier
-     * @param callable<R,T>:R $accumulator
-     * @param callable<R>:R   $finisher
+     * @param callable(R,T):R $accumulator
+     * @param callable(R):R   $finisher
      */
     public function __construct($supplier, callable $accumulator, callable $finisher)
     {
@@ -42,9 +42,9 @@ final class GenericCollector implements Collector
 
     /**
      * @param R               $supplier
-     * @param callable<R,T>:R $accumulator
+     * @param callable(R,T):R $accumulator
      *
-     * @return Collector<R,T>
+     * @return self<R,T>
      */
     public static function of($supplier, callable $accumulator): self
     {

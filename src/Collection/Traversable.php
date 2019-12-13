@@ -41,9 +41,9 @@ abstract class Traversable extends Value
     abstract public function map(callable $mapper);
 
     /**
-     * Returns a new traversable consisting of all elements which satisfy the given predicate.
+     * Returns a new Traversable consisting of all elements which satisfy the given predicate.
      *
-     * @param callable<T>:bool $predicate
+     * @param callable(T):bool $predicate
      *
      * @return Traversable<T>
      */
@@ -55,9 +55,9 @@ abstract class Traversable extends Value
     abstract public function take(int $n);
 
     /**
-     * Returns a new traversable consisting of all elements which do not satisfy the given predicate.
+     * Returns a new Traversable consisting of all elements which do not satisfy the given predicate.
      *
-     * @param callable<T>:bool $predicate
+     * @param callable(T):bool $predicate
      *
      * @return Traversable<T>
      */

@@ -11,13 +11,14 @@ use Munus\Tuple;
 use Munus\Value\Comparator;
 
 /**
- * @template T
- * @extends Traversable<T>
+ * @template K
+ * @template V
+ * @extends Traversable<V>
  */
 final class Map extends Traversable
 {
     /**
-     * @var array<string,T>
+     * @var array<string,V>
      */
     private $map = [];
 
@@ -33,9 +34,9 @@ final class Map extends Traversable
     /**
      * Creates Map from given array, all keys will be cast to string.
      *
-     * @param array<string,T> $array
+     * @param array<string,V> $array
      *
-     * @return Map<T>
+     * @return Map<string,V>
      */
     public static function fromArray(array $array): self
     {
@@ -56,7 +57,7 @@ final class Map extends Traversable
     }
 
     /**
-     * @return Option<T>
+     * @return Option<V>
      */
     public function get(): Option
     {
@@ -69,9 +70,9 @@ final class Map extends Traversable
     }
 
     /**
-     * @param T $value
+     * @param V $value
      *
-     * @return Map<T>
+     * @return Map<string,V>
      */
     public function put(string $key, $value): self
     {
@@ -98,9 +99,6 @@ final class Map extends Traversable
         return count($this->map);
     }
 
-    /**
-     * @return Tuple<string, T>
-     */
     public function head(): Tuple
     {
         if ($this->isEmpty()) {
@@ -112,9 +110,6 @@ final class Map extends Traversable
         return Tuple::of($key, $this->map[$key]);
     }
 
-    /**
-     * @return Tuple<string, T>
-     */
     public function tail()
     {
         if ($this->isEmpty()) {
@@ -129,9 +124,9 @@ final class Map extends Traversable
     /**
      * @template U
      *
-     * @param callable<Tuple<string, T>>: Tuple<string, U> $mapper
+     * @param callable(Tuple): Tuple $mapper
      *
-     * @return Map<U>
+     * @return Map<string,U>
      */
     public function map(callable $mapper)
     {
@@ -145,9 +140,9 @@ final class Map extends Traversable
     }
 
     /**
-     * @param callable<string>:string $keyMapper
+     * @param callable(string):string $keyMapper
      *
-     * @return Map<string,T>
+     * @return Map<string,V>
      */
     public function mapKeys(callable $keyMapper): self
     {
@@ -162,7 +157,7 @@ final class Map extends Traversable
     /**
      * @template U
      *
-     * @param callable<T>:U $valueMapper
+     * @param callable(T):U $valueMapper
      *
      * @return Map<string,U>
      */
@@ -177,9 +172,9 @@ final class Map extends Traversable
     }
 
     /**
-     * @param callable<Tuple<string,T>>:bool $predicate
+     * @param callable(Tuple):bool $predicate
      *
-     * @return Map<T>
+     * @return Map<string,V>
      */
     public function filter(callable $predicate)
     {
@@ -196,7 +191,7 @@ final class Map extends Traversable
     /**
      * Take n next entries of map.
      *
-     * @return Map<string,T>
+     * @return Map<string,V>
      */
     public function take(int $n)
     {
@@ -220,7 +215,7 @@ final class Map extends Traversable
     }
 
     /**
-     * @return T[]
+     * @return V[]
      */
     public function values(): array
     {
@@ -238,7 +233,7 @@ final class Map extends Traversable
     /**
      * Default contains() method will search for Tuple of key and value.
      *
-     * @param Tuple<string,T> $element
+     * @param Tuple $element
      */
     public function contains($element): bool
     {
@@ -253,7 +248,7 @@ final class Map extends Traversable
     }
 
     /**
-     * @param T $value
+     * @param V $value
      */
     public function containsValue($value): bool
     {
