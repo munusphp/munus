@@ -79,6 +79,26 @@ final class SetTest extends TestCase
         self::assertEquals(4, $new->length());
     }
 
+    public function testSetDiff(): void
+    {
+        $set = Set::of('alpha', 'beta', 'gamma');
+
+        self::assertTrue(Set::of('alpha')->equals($set->diff(Set::of('beta', 'gamma', 'delta'))));
+        self::assertTrue(Set::of('alpha', 'gamma')->equals($set->diff(Set::of('beta'))));
+        self::assertTrue(Set::of('alpha', 'beta', 'gamma')->equals($set->diff(Set::of('munus'))));
+        self::assertTrue($set->equals($set->diff(Set::empty())));
+    }
+
+    public function testSetIntersect(): void
+    {
+        $set = Set::of('alpha', 'beta', 'gamma');
+
+        self::assertTrue(Set::of('alpha')->equals($set->intersect(Set::of('alpha'))));
+        self::assertTrue(Set::of('alpha', 'gamma')->equals($set->intersect(Set::of('alpha', 'gamma'))));
+        self::assertTrue(Set::of('alpha', 'beta', 'gamma')->equals($set->intersect(Set::of('alpha', 'beta', 'gamma'))));
+        self::assertTrue(Set::empty()->equals($set->intersect(Set::of('munus'))));
+    }
+
     public function testSetCanHoldObjects(): void
     {
         $set = Set::ofAll([Set::of(1, 2, 3), Set::of(4, 5, 6)]);
