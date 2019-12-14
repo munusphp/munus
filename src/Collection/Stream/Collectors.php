@@ -93,7 +93,7 @@ final class Collectors
     /**
      * @template T
      *
-     * @return Collector<T,float>
+     * @return Collector<T,mixed>
      */
     public static function averaging(): Collector
     {

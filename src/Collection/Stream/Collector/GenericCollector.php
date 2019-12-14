@@ -7,9 +7,9 @@ namespace Munus\Collection\Stream\Collector;
 use Munus\Collection\Stream\Collector;
 
 /**
- * @template R
  * @template T
- * @implements Collector<R,T>
+ * @template R
+ * @implements Collector<T,R>
  */
 final class GenericCollector implements Collector
 {
@@ -44,7 +44,7 @@ final class GenericCollector implements Collector
      * @param R               $supplier
      * @param callable(R,T):R $accumulator
      *
-     * @return self<R,T>
+     * @return self<T,R>
      */
     public static function of($supplier, callable $accumulator): self
     {
