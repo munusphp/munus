@@ -39,12 +39,16 @@
         "phpstan": [
             "phpstan analyse src tests --level=4"
         ],
+        "psalm": [
+            "psalm --show-info=false"
+        ],
         "phpunit": [
             "phpunit"
         ],
         "tests": [
             "@check-cs",
             "@phpstan",
+            "@psalm",
             "phpunit"
         ]
     }

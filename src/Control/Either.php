@@ -57,7 +57,7 @@ abstract class Either extends Value
     /**
      * @template U
      *
-     * @param callable(T): U $mapper
+     * @param callable(R): U $mapper
      *
      * @return Either<L,U>
      */

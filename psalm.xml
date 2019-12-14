@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
 <psalm
-        totallyTyped="true"
-        resolveFromConfigFile="true"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns="https://getpsalm.org/schema/config"
-        xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    totallyTyped="false"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    errorBaseline="psalm.baseline.xml"
 >
     <projectFiles>
         <directory name="src"/>
@@ -15,114 +16,113 @@
     </projectFiles>
 
     <issueHandlers>
-        <LessSpecificReturnType errorLevel="error"/>
+        <LessSpecificReturnType errorLevel="info"/>
 
         <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
 
-        <DeprecatedMethod errorLevel="error"/>
-        <DeprecatedProperty errorLevel="error"/>
-        <DeprecatedClass errorLevel="error"/>
-        <DeprecatedConstant errorLevel="error"/>
-        <DeprecatedFunction errorLevel="error"/>
-        <DeprecatedInterface errorLevel="error"/>
-        <DeprecatedTrait errorLevel="error"/>
+        <DeprecatedMethod errorLevel="info"/>
+        <DeprecatedProperty errorLevel="info"/>
+        <DeprecatedClass errorLevel="info"/>
+        <DeprecatedConstant errorLevel="info"/>
+        <DeprecatedFunction errorLevel="info"/>
+        <DeprecatedInterface errorLevel="info"/>
+        <DeprecatedTrait errorLevel="info"/>
 
-        <InternalMethod errorLevel="error"/>
-        <InternalProperty errorLevel="error"/>
-        <InternalClass errorLevel="error"/>
+        <InternalMethod errorLevel="info"/>
+        <InternalProperty errorLevel="info"/>
+        <InternalClass errorLevel="info"/>
 
-        <MissingClosureReturnType errorLevel="error"/>
-        <MissingReturnType errorLevel="error"/>
-        <MissingPropertyType errorLevel="error"/>
-        <InvalidDocblock errorLevel="error"/>
-        <MisplacedRequiredParam errorLevel="error"/>
+        <MissingClosureReturnType errorLevel="info"/>
+        <MissingReturnType errorLevel="info"/>
+        <MissingPropertyType errorLevel="info"/>
+        <InvalidDocblock errorLevel="info"/>
+        <MisplacedRequiredParam errorLevel="info"/>
 
-        <PropertyNotSetInConstructor errorLevel="error"/>
-        <MissingConstructor errorLevel="error"/>
-        <MissingClosureParamType errorLevel="error"/>
-        <MissingParamType errorLevel="error"/>
+        <PropertyNotSetInConstructor errorLevel="info"/>
+        <MissingConstructor errorLevel="info"/>
+        <MissingClosureParamType errorLevel="info"/>
+        <MissingParamType errorLevel="info"/>
 
-        <RedundantCondition errorLevel="error"/>
+        <RedundantCondition errorLevel="info"/>
 
-        <DocblockTypeContradiction errorLevel="error"/>
-        <RedundantConditionGivenDocblockType errorLevel="error"/>
+        <DocblockTypeContradiction errorLevel="info"/>
+        <RedundantConditionGivenDocblockType errorLevel="info"/>
 
-        <UnresolvableInclude errorLevel="error"/>
+        <UnresolvableInclude errorLevel="info"/>
 
-        <RawObjectIteration errorLevel="error"/>
+        <RawObjectIteration errorLevel="info"/>
 
-        <InvalidStringClass errorLevel="error"/>
+        <InvalidStringClass errorLevel="info"/>
 
         <!-- level 4 issues - points to possible deficiencies in logic, higher false-positives -->
 
-        <MoreSpecificReturnType errorLevel="error"/>
-        <LessSpecificReturnStatement errorLevel="error"/>
-        <TypeCoercion errorLevel="error"/>
-        <MixedReturnTypeCoercion errorLevel="error"/>
+        <MoreSpecificReturnType errorLevel="info"/>
+        <LessSpecificReturnStatement errorLevel="info"/>
+        <TypeCoercion errorLevel="info"/>
 
-        <PossiblyFalseArgument errorLevel="error"/>
-        <PossiblyFalseIterator errorLevel="error"/>
-        <PossiblyFalseOperand errorLevel="error"/>
-        <PossiblyFalsePropertyAssignmentValue errorLevel="error"/>
-        <PossiblyFalseReference errorLevel="error"/>
-        <PossiblyInvalidArgument errorLevel="error"/>
-        <PossiblyInvalidArrayAccess errorLevel="error"/>
-        <PossiblyInvalidArrayAssignment errorLevel="error"/>
-        <PossiblyInvalidArrayOffset errorLevel="error"/>
-        <PossiblyInvalidCast errorLevel="error"/>
-        <PossiblyInvalidFunctionCall errorLevel="error"/>
-        <PossiblyInvalidIterator errorLevel="error"/>
-        <PossiblyInvalidMethodCall errorLevel="error"/>
-        <PossiblyInvalidOperand errorLevel="error"/>
-        <PossiblyInvalidPropertyAssignment errorLevel="error"/>
-        <PossiblyInvalidPropertyAssignmentValue errorLevel="error"/>
-        <PossiblyInvalidPropertyFetch errorLevel="error"/>
-        <PossiblyNullArgument errorLevel="error"/>
-        <PossiblyNullArrayAccess errorLevel="error"/>
-        <PossiblyNullArrayAssignment errorLevel="error"/>
-        <PossiblyNullArrayOffset errorLevel="error"/>
-        <PossiblyNullFunctionCall errorLevel="error"/>
-        <PossiblyNullIterator errorLevel="error"/>
-        <PossiblyNullOperand errorLevel="error"/>
-        <PossiblyNullPropertyAssignment errorLevel="error"/>
-        <PossiblyNullPropertyAssignmentValue errorLevel="error"/>
-        <PossiblyNullPropertyFetch errorLevel="error"/>
-        <PossiblyNullReference errorLevel="error"/>
-        <PossiblyUndefinedGlobalVariable errorLevel="error"/>
-        <PossiblyUndefinedVariable errorLevel="error"/>
-        <PossiblyUndefinedArrayOffset errorLevel="error"/>
-        <PossiblyUndefinedMethod errorLevel="error"/>
-        <PossibleRawObjectIteration errorLevel="error"/>
+        <PossiblyFalseArgument errorLevel="info"/>
+        <PossiblyFalseIterator errorLevel="info"/>
+        <PossiblyFalseOperand errorLevel="info"/>
+        <PossiblyFalsePropertyAssignmentValue errorLevel="info"/>
+        <PossiblyFalseReference errorLevel="info"/>
+        <PossiblyInvalidArgument errorLevel="info"/>
+        <PossiblyInvalidArrayAccess errorLevel="info"/>
+        <PossiblyInvalidArrayAssignment errorLevel="info"/>
+        <PossiblyInvalidArrayOffset errorLevel="info"/>
+        <PossiblyInvalidCast errorLevel="info"/>
+        <PossiblyInvalidFunctionCall errorLevel="info"/>
+        <PossiblyInvalidIterator errorLevel="info"/>
+        <PossiblyInvalidMethodCall errorLevel="info"/>
+        <PossiblyInvalidOperand errorLevel="info"/>
+        <PossiblyInvalidPropertyAssignment errorLevel="info"/>
+        <PossiblyInvalidPropertyAssignmentValue errorLevel="info"/>
+        <PossiblyInvalidPropertyFetch errorLevel="info"/>
+        <PossiblyNullArgument errorLevel="info"/>
+        <PossiblyNullArrayAccess errorLevel="info"/>
+        <PossiblyNullArrayAssignment errorLevel="info"/>
+        <PossiblyNullArrayOffset errorLevel="info"/>
+        <PossiblyNullFunctionCall errorLevel="info"/>
+        <PossiblyNullIterator errorLevel="info"/>
+        <PossiblyNullOperand errorLevel="info"/>
+        <PossiblyNullPropertyAssignment errorLevel="info"/>
+        <PossiblyNullPropertyAssignmentValue errorLevel="info"/>
+        <PossiblyNullPropertyFetch errorLevel="info"/>
+        <PossiblyNullReference errorLevel="info"/>
+        <PossiblyUndefinedGlobalVariable errorLevel="info"/>
+        <PossiblyUndefinedVariable errorLevel="info"/>
+        <PossiblyUndefinedArrayOffset errorLevel="info"/>
+        <PossiblyUndefinedMethod errorLevel="info"/>
+        <PossibleRawObjectIteration errorLevel="info"/>
 
-        <!-- level 5 issues - should be avoided at mosts costs... -->
+        <!-- level 5 issues - should be avoided at most costs... -->
 
-        <ForbiddenCode errorLevel="error"/>
-        <ImplicitToStringCast errorLevel="error"/>
-        <InvalidScalarArgument errorLevel="error"/>
-        <InvalidToString errorLevel="error"/>
-        <InvalidOperand errorLevel="error"/>
-        <NoInterfaceProperties errorLevel="error"/>
-        <TooManyArguments errorLevel="error"/>
-        <TypeDoesNotContainType errorLevel="error"/>
-        <TypeDoesNotContainNull errorLevel="error"/>
-        <MissingDocblockType errorLevel="error"/>
-        <ImplementedReturnTypeMismatch errorLevel="error"/>
-        <ImplementedParamTypeMismatch errorLevel="error"/>
+        <ForbiddenCode errorLevel="info"/>
+        <ImplicitToStringCast errorLevel="info"/>
+        <InvalidScalarArgument errorLevel="info"/>
+        <InvalidToString errorLevel="info"/>
+        <InvalidOperand errorLevel="info"/>
+        <NoInterfaceProperties errorLevel="info"/>
+        <TooManyArguments errorLevel="info"/>
+        <TypeDoesNotContainType errorLevel="info"/>
+        <TypeDoesNotContainNull errorLevel="info"/>
+        <MissingDocblockType errorLevel="info"/>
+        <ImplementedReturnTypeMismatch errorLevel="info"/>
+        <ImplementedParamTypeMismatch errorLevel="info"/>
 
         <!-- level 6 issues - really bad things -->
 
-        <InvalidNullableReturnType errorLevel="error"/>
-        <NullableReturnStatement errorLevel="error"/>
-        <InvalidFalsableReturnType errorLevel="error"/>
-        <FalsableReturnStatement errorLevel="error"/>
+        <InvalidNullableReturnType errorLevel="info"/>
+        <NullableReturnStatement errorLevel="info"/>
+        <InvalidFalsableReturnType errorLevel="info"/>
+        <FalsableReturnStatement errorLevel="info"/>
 
-        <MoreSpecificImplementedParamType errorLevel="error"/>
-        <LessSpecificImplementedReturnType errorLevel="error"/>
+        <MoreSpecificImplementedParamType errorLevel="info"/>
+        <LessSpecificImplementedReturnType errorLevel="info"/>
 
-        <InvalidReturnStatement errorLevel="error"/>
-        <InvalidReturnType errorLevel="error"/>
-        <UndefinedThisPropertyAssignment errorLevel="error"/>
-        <UndefinedInterfaceMethod errorLevel="error"/>
+        <InvalidReturnStatement errorLevel="info"/>
+        <InvalidReturnType errorLevel="info"/>
+        <UndefinedThisPropertyAssignment errorLevel="info"/>
+        <UndefinedInterfaceMethod errorLevel="info"/>
 
         <!-- level 7 issues - even worse -->
 
@@ -132,8 +132,8 @@
         <UndefinedPropertyFetch errorLevel="error"/>
 
         <InvalidReturnStatement errorLevel="error"/>
-        <InvalidReturnType errorLevel="error"/>
-        <InvalidArgument errorLevel="error"/>
+        <InvalidReturnType errorLevel="info"/>
+        <InvalidArgument errorLevel="info"/>
         <InvalidPropertyAssignmentValue errorLevel="error"/>
         <InvalidArrayOffset errorLevel="error"/>
         <InvalidArrayAssignment errorLevel="error"/>
