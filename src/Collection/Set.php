@@ -112,6 +112,20 @@ final class Set extends Traversable
         return self::fromPointer($elements);
     }
 
+    public function diff(Set $set): self
+    {
+        $diff = array_diff($this->elements, $set->elements);
+
+        return self::fromPointer($diff);
+    }
+
+    public function intersect(Set $set): self
+    {
+        $intersect = array_intersect($this->elements, $set->elements);
+
+        return self::fromPointer($intersect);
+    }
+
     public function isEmpty(): bool
     {
         return $this->elements === [];
