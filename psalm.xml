@@ -58,7 +58,7 @@
         <MoreSpecificReturnType errorLevel="error"/>
         <LessSpecificReturnStatement errorLevel="error"/>
         <TypeCoercion errorLevel="error"/>
-        <MixedReturnTypeCoercion errorLevel="error" />
+        <MixedReturnTypeCoercion errorLevel="error"/>
 
         <PossiblyFalseArgument errorLevel="error"/>
         <PossiblyFalseIterator errorLevel="error"/>
@@ -148,4 +148,7 @@
         <InaccessibleProperty errorLevel="error"/>
 
     </issueHandlers>
+    <plugins>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+    </plugins>
 </psalm>
