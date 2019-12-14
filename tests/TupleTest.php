@@ -33,7 +33,7 @@ final class TupleTest extends TestCase
         self::assertEquals('awesome', $tuple[2]);
 
         $this->expectException(\RuntimeException::class);
-        $tuple[3];
+        $not = $tuple[3];
     }
 
     public function testTupleToArray(): void

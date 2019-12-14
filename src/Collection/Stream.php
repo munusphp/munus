@@ -15,7 +15,7 @@ use Munus\Collection\Stream\EmptyStream;
 abstract class Stream extends Traversable
 {
     /**
-     * @param array<T> $elements
+     * @param array<int,T> $elements
      *
      * @return Cons<T>
      */
@@ -75,7 +75,7 @@ abstract class Stream extends Traversable
      * Create infinitely long Stream using a function to calculate the next value
      * based on the previous.
      *
-     * @param callable:T $supplier
+     * @param callable():T $supplier
      *
      * @return Cons<T>
      */
@@ -88,7 +88,7 @@ abstract class Stream extends Traversable
 
     /**
      * @param T             $seed
-     * @param callable<T>:T $iterator
+     * @param callable(T):T $iterator
      *
      * @return Cons<T>
      */
@@ -104,8 +104,8 @@ abstract class Stream extends Traversable
     /**
      * Constructs a Stream of a head element and a tail supplier.
      *
-     * @param T          $head
-     * @param callable:T $supplier
+     * @param T            $head
+     * @param callable():T $supplier
      *
      * @return Cons<T>
      */
@@ -122,7 +122,7 @@ abstract class Stream extends Traversable
     }
 
     /**
-     * @throws \RuntimeEception if is empty
+     * @throws \RuntimeException if is empty
      *
      * @return Stream<T>
      */
@@ -145,7 +145,7 @@ abstract class Stream extends Traversable
     }
 
     /**
-     * @param callable<T>:bool $predicate
+     * @param callable(T):bool $predicate
      *
      * @return Stream<T>
      */
@@ -186,6 +186,8 @@ abstract class Stream extends Traversable
     }
 
     /**
+     * @template R
+     *
      * @param Collector<T,R> $collector
      *
      * @return R

@@ -13,6 +13,8 @@ use Munus\Tuple;
 final class Collectors
 {
     /**
+     * @template T
+     *
      * @return Collector<T,GenericList>
      */
     public static function toList(): Collector
@@ -23,6 +25,8 @@ final class Collectors
     }
 
     /**
+     * @template T
+     *
      * @return Collector<T,Set>
      */
     public static function toSet(): Collector
@@ -33,7 +37,9 @@ final class Collectors
     }
 
     /**
-     * @param callable<T>:string $keyProvider
+     * @template T
+     *
+     * @param callable(T):string $keyProvider
      *
      * @return Collector<T,Map>
      */
@@ -44,6 +50,11 @@ final class Collectors
         });
     }
 
+    /**
+     * @template T
+     *
+     * @return Collector<T,int|float>
+     */
     public static function summing(): Collector
     {
         return GenericCollector::of(0, function ($sum, $value) {
@@ -55,6 +66,11 @@ final class Collectors
         });
     }
 
+    /**
+     * @template T
+     *
+     * @return Collector<T,string>
+     */
     public static function joining(string $glue = ''): Collector
     {
         return new GenericCollector('', function ($text, $value) use ($glue) {
@@ -64,11 +80,21 @@ final class Collectors
         });
     }
 
+    /**
+     * @template T
+     *
+     * @return Collector<T,int>
+     */
     public static function counting(): Collector
     {
         return GenericCollector::of(0, function (int $count) {return ++$count; });
     }
 
+    /**
+     * @template T
+     *
+     * @return Collector<T,float>
+     */
     public static function averaging(): Collector
     {
         return new GenericCollector(Tuple::of(0, 0), function (Tuple $acc, $value) {

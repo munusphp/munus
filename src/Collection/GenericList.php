@@ -14,7 +14,7 @@ use Munus\Collection\GenericList\Nil;
 abstract class GenericList extends Traversable
 {
     /**
-     * @param array<T> $elements
+     * @param array<int,T> $elements
      *
      * @return GenericList<T>
      */
@@ -60,7 +60,7 @@ abstract class GenericList extends Traversable
     }
 
     /**
-     * @param callable<T>:bool $predicate
+     * @param callable(T):bool $predicate
      *
      * @return GenericList<T>
      */
@@ -70,7 +70,7 @@ abstract class GenericList extends Traversable
             return $this;
         }
 
-        /** @var GenericList $filtered */
+        /** @var GenericList<T> $filtered */
         $filtered = $this->fold(self::empty(), function (GenericList $list, $value) use ($predicate) {
             return $predicate($value) === true ? $list->prepend($value) : $list;
         });
@@ -97,6 +97,7 @@ abstract class GenericList extends Traversable
         if ($n >= $this->length()) {
             return $this;
         }
+        /** @var GenericList<T> $result */
         $result = self::empty();
         $list = $this;
         for ($i = 0; $i < $n; $i++,$list = $list->tail()) {

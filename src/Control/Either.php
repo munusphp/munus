@@ -59,7 +59,7 @@ abstract class Either extends Value
      *
      * @param callable(T): U $mapper
      *
-     * @return Either<U>
+     * @return Either<L,U>
      */
     public function map(callable $mapper)
     {
