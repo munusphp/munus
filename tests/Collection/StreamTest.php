@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Munus\Tests\Collection;
 
 use Munus\Collection\Stream;
+use Munus\Collection\Stream\Collectors;
 use Munus\Control\Option;
 use Munus\Lazy;
 use PHPUnit\Framework\TestCase;
@@ -150,6 +151,22 @@ final class StreamTest extends TestCase
         self::assertTrue(Stream::empty()->equals(Stream::empty()->take(3)));
         self::assertTrue(Stream::of(1, 2, 3)->equals(Stream::of(1, 2, 3, 4)->take(3)));
         self::assertTrue(Stream::range(1, 3)->equals(Stream::range(1, 10)->take(3)));
+    }
+
+    public function testStreamPeek(): void
+    {
+        $values = [];
+        Stream::of(1, 2, 3)->peek(function ($value) use (&$values) {
+            $values[] = $value;
+        })->collect(Collectors::toList());
+
+        self::assertEquals([1, 2, 3], $values);
+    }
+
+    public function testEmptyStreamPeek(): void
+    {
+        $stream = Stream::empty();
+        self::assertSame($stream, $stream->peek(function () {throw new \RuntimeException('this will not happen'); }));
     }
 
     public function testStreamToOption(): void

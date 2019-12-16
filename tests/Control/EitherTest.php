@@ -74,6 +74,20 @@ final class EitherTest extends TestCase
         self::assertEquals('MUNUS', Either::right('munus')->map('strtoupper')->get());
     }
 
+    public function testLeftPeek(): void
+    {
+        $either = Either::left('error');
+        self::assertSame($either, $either->peek(function () {throw new \RuntimeException('this will not happen'); }));
+    }
+
+    public function testRightPeek(): void
+    {
+        $check = null;
+        $either = Either::right(42);
+        self::assertSame($either, $either->peek(function ($value) use (&$check) {$check = $value; }));
+        self::assertEquals(42, $check);
+    }
+
     public function testEitherCollect(): void
     {
         self::assertTrue(Map::fromArray(['a' => 'b'])->equals(

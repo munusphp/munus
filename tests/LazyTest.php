@@ -64,4 +64,14 @@ final class LazyTest extends TestCase
             $lazy->toStream()
         ));
     }
+
+    public function testLazyPeek(): void
+    {
+        $check = null;
+        $lazy = Lazy::of(function () {return 'munus'; });
+
+        self::assertSame($lazy, $lazy->peek(function ($value) use (&$check) {$check = $value; }));
+        self::assertEquals('munus', $check);
+        self::assertTrue($lazy->isEvaluated());
+    }
 }

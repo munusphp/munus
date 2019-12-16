@@ -48,6 +48,11 @@ final class Map extends Traversable
         return self::fromPointer($map);
     }
 
+    /**
+     * @param array<string,V> $map
+     *
+     * @return Map<string,V>
+     */
     private static function fromPointer(array &$map): self
     {
         $newMap = new self();

@@ -62,6 +62,11 @@ final class Set extends Traversable
         return count($this->elements);
     }
 
+    /**
+     * @param T $element
+     *
+     * @return Set<T>
+     */
     public function add($element): self
     {
         if ($this->contains($element)) {
@@ -74,6 +79,11 @@ final class Set extends Traversable
         return self::fromPointer($elements);
     }
 
+    /**
+     * @param T $element
+     *
+     * @return Set<T>
+     */
     public function remove($element): self
     {
         if (!$this->contains($element)) {

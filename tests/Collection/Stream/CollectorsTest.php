@@ -17,7 +17,6 @@ final class CollectorsTest extends TestCase
     {
         $list = Stream::from(1)->take(5)->collect(Collectors::toList());
 
-        self::assertInstanceOf(GenericList::class, $list);
         self::assertTrue(GenericList::of(1, 2, 3, 4, 5)->equals($list));
     }
 
@@ -25,7 +24,6 @@ final class CollectorsTest extends TestCase
     {
         $set = Stream::from(1)->take(5)->collect(Collectors::toSet());
 
-        self::assertInstanceOf(Set::class, $set);
         self::assertTrue(Set::of(1, 2, 3, 4, 5)->equals($set));
     }
 
@@ -33,7 +31,6 @@ final class CollectorsTest extends TestCase
     {
         $map = Stream::from(1)->take(3)->collect(Collectors::toMap(function ($value) {return (string) $value; }));
 
-        self::assertInstanceOf(Map::class, $map);
         self::assertTrue(Map::fromArray(['1' => 1, '2' => 2, '3' => 3])->equals($map));
     }
 

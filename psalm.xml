@@ -20,109 +20,109 @@
 
         <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
 
-        <DeprecatedMethod errorLevel="info"/>
-        <DeprecatedProperty errorLevel="info"/>
-        <DeprecatedClass errorLevel="info"/>
-        <DeprecatedConstant errorLevel="info"/>
-        <DeprecatedFunction errorLevel="info"/>
-        <DeprecatedInterface errorLevel="info"/>
-        <DeprecatedTrait errorLevel="info"/>
+        <DeprecatedMethod errorLevel="error"/>
+        <DeprecatedProperty errorLevel="error"/>
+        <DeprecatedClass errorLevel="error"/>
+        <DeprecatedConstant errorLevel="error"/>
+        <DeprecatedFunction errorLevel="error"/>
+        <DeprecatedInterface errorLevel="error"/>
+        <DeprecatedTrait errorLevel="error"/>
 
-        <InternalMethod errorLevel="info"/>
-        <InternalProperty errorLevel="info"/>
-        <InternalClass errorLevel="info"/>
+        <InternalMethod errorLevel="error"/>
+        <InternalProperty errorLevel="error"/>
+        <InternalClass errorLevel="error"/>
 
         <MissingClosureReturnType errorLevel="info"/>
         <MissingReturnType errorLevel="info"/>
         <MissingPropertyType errorLevel="info"/>
-        <InvalidDocblock errorLevel="info"/>
-        <MisplacedRequiredParam errorLevel="info"/>
+        <InvalidDocblock errorLevel="error"/>
+        <MisplacedRequiredParam errorLevel="error"/>
 
-        <PropertyNotSetInConstructor errorLevel="info"/>
-        <MissingConstructor errorLevel="info"/>
+        <PropertyNotSetInConstructor errorLevel="error"/>
+        <MissingConstructor errorLevel="error"/>
         <MissingClosureParamType errorLevel="info"/>
-        <MissingParamType errorLevel="info"/>
+        <MissingParamType errorLevel="error"/>
 
-        <RedundantCondition errorLevel="info"/>
+        <RedundantCondition errorLevel="error"/>
 
-        <DocblockTypeContradiction errorLevel="info"/>
-        <RedundantConditionGivenDocblockType errorLevel="info"/>
+        <DocblockTypeContradiction errorLevel="error"/>
+        <RedundantConditionGivenDocblockType errorLevel="error"/>
 
-        <UnresolvableInclude errorLevel="info"/>
+        <UnresolvableInclude errorLevel="error"/>
 
-        <RawObjectIteration errorLevel="info"/>
+        <RawObjectIteration errorLevel="error"/>
 
-        <InvalidStringClass errorLevel="info"/>
+        <InvalidStringClass errorLevel="error"/>
 
         <!-- level 4 issues - points to possible deficiencies in logic, higher false-positives -->
 
         <MoreSpecificReturnType errorLevel="info"/>
-        <LessSpecificReturnStatement errorLevel="info"/>
+        <LessSpecificReturnStatement errorLevel="error"/>
         <TypeCoercion errorLevel="info"/>
 
-        <PossiblyFalseArgument errorLevel="info"/>
-        <PossiblyFalseIterator errorLevel="info"/>
-        <PossiblyFalseOperand errorLevel="info"/>
-        <PossiblyFalsePropertyAssignmentValue errorLevel="info"/>
-        <PossiblyFalseReference errorLevel="info"/>
-        <PossiblyInvalidArgument errorLevel="info"/>
-        <PossiblyInvalidArrayAccess errorLevel="info"/>
-        <PossiblyInvalidArrayAssignment errorLevel="info"/>
-        <PossiblyInvalidArrayOffset errorLevel="info"/>
-        <PossiblyInvalidCast errorLevel="info"/>
-        <PossiblyInvalidFunctionCall errorLevel="info"/>
-        <PossiblyInvalidIterator errorLevel="info"/>
-        <PossiblyInvalidMethodCall errorLevel="info"/>
-        <PossiblyInvalidOperand errorLevel="info"/>
-        <PossiblyInvalidPropertyAssignment errorLevel="info"/>
-        <PossiblyInvalidPropertyAssignmentValue errorLevel="info"/>
-        <PossiblyInvalidPropertyFetch errorLevel="info"/>
-        <PossiblyNullArgument errorLevel="info"/>
-        <PossiblyNullArrayAccess errorLevel="info"/>
-        <PossiblyNullArrayAssignment errorLevel="info"/>
-        <PossiblyNullArrayOffset errorLevel="info"/>
-        <PossiblyNullFunctionCall errorLevel="info"/>
-        <PossiblyNullIterator errorLevel="info"/>
-        <PossiblyNullOperand errorLevel="info"/>
-        <PossiblyNullPropertyAssignment errorLevel="info"/>
-        <PossiblyNullPropertyAssignmentValue errorLevel="info"/>
-        <PossiblyNullPropertyFetch errorLevel="info"/>
-        <PossiblyNullReference errorLevel="info"/>
-        <PossiblyUndefinedGlobalVariable errorLevel="info"/>
-        <PossiblyUndefinedVariable errorLevel="info"/>
-        <PossiblyUndefinedArrayOffset errorLevel="info"/>
-        <PossiblyUndefinedMethod errorLevel="info"/>
-        <PossibleRawObjectIteration errorLevel="info"/>
+        <PossiblyFalseArgument errorLevel="error"/>
+        <PossiblyFalseIterator errorLevel="error"/>
+        <PossiblyFalseOperand errorLevel="error"/>
+        <PossiblyFalsePropertyAssignmentValue errorLevel="error"/>
+        <PossiblyFalseReference errorLevel="error"/>
+        <PossiblyInvalidArgument errorLevel="error"/>
+        <PossiblyInvalidArrayAccess errorLevel="error"/>
+        <PossiblyInvalidArrayAssignment errorLevel="error"/>
+        <PossiblyInvalidArrayOffset errorLevel="error"/>
+        <PossiblyInvalidCast errorLevel="error"/>
+        <PossiblyInvalidFunctionCall errorLevel="error"/>
+        <PossiblyInvalidIterator errorLevel="error"/>
+        <PossiblyInvalidMethodCall errorLevel="error"/>
+        <PossiblyInvalidOperand errorLevel="error"/>
+        <PossiblyInvalidPropertyAssignment errorLevel="error"/>
+        <PossiblyInvalidPropertyAssignmentValue errorLevel="error"/>
+        <PossiblyInvalidPropertyFetch errorLevel="error"/>
+        <PossiblyNullArgument errorLevel="error"/>
+        <PossiblyNullArrayAccess errorLevel="error"/>
+        <PossiblyNullArrayAssignment errorLevel="error"/>
+        <PossiblyNullArrayOffset errorLevel="error"/>
+        <PossiblyNullFunctionCall errorLevel="error"/>
+        <PossiblyNullIterator errorLevel="error"/>
+        <PossiblyNullOperand errorLevel="error"/>
+        <PossiblyNullPropertyAssignment errorLevel="error"/>
+        <PossiblyNullPropertyAssignmentValue errorLevel="error"/>
+        <PossiblyNullPropertyFetch errorLevel="error"/>
+        <PossiblyNullReference errorLevel="error"/>
+        <PossiblyUndefinedGlobalVariable errorLevel="error"/>
+        <PossiblyUndefinedVariable errorLevel="error"/>
+        <PossiblyUndefinedArrayOffset errorLevel="error"/>
+        <PossiblyUndefinedMethod errorLevel="error"/>
+        <PossibleRawObjectIteration errorLevel="error"/>
 
         <!-- level 5 issues - should be avoided at most costs... -->
 
-        <ForbiddenCode errorLevel="info"/>
-        <ImplicitToStringCast errorLevel="info"/>
+        <ForbiddenCode errorLevel="error"/>
+        <ImplicitToStringCast errorLevel="error"/>
         <InvalidScalarArgument errorLevel="info"/>
-        <InvalidToString errorLevel="info"/>
-        <InvalidOperand errorLevel="info"/>
-        <NoInterfaceProperties errorLevel="info"/>
-        <TooManyArguments errorLevel="info"/>
-        <TypeDoesNotContainType errorLevel="info"/>
-        <TypeDoesNotContainNull errorLevel="info"/>
-        <MissingDocblockType errorLevel="info"/>
+        <InvalidToString errorLevel="error"/>
+        <InvalidOperand errorLevel="error"/>
+        <NoInterfaceProperties errorLevel="error"/>
+        <TooManyArguments errorLevel="error"/>
+        <TypeDoesNotContainType errorLevel="error"/>
+        <TypeDoesNotContainNull errorLevel="error"/>
+        <MissingDocblockType errorLevel="error"/>
         <ImplementedReturnTypeMismatch errorLevel="info"/>
-        <ImplementedParamTypeMismatch errorLevel="info"/>
+        <ImplementedParamTypeMismatch errorLevel="error"/>
 
         <!-- level 6 issues - really bad things -->
 
-        <InvalidNullableReturnType errorLevel="info"/>
-        <NullableReturnStatement errorLevel="info"/>
-        <InvalidFalsableReturnType errorLevel="info"/>
-        <FalsableReturnStatement errorLevel="info"/>
+        <InvalidNullableReturnType errorLevel="error"/>
+        <NullableReturnStatement errorLevel="error"/>
+        <InvalidFalsableReturnType errorLevel="error"/>
+        <FalsableReturnStatement errorLevel="error"/>
 
         <MoreSpecificImplementedParamType errorLevel="info"/>
         <LessSpecificImplementedReturnType errorLevel="info"/>
 
-        <InvalidReturnStatement errorLevel="info"/>
-        <InvalidReturnType errorLevel="info"/>
-        <UndefinedThisPropertyAssignment errorLevel="info"/>
-        <UndefinedInterfaceMethod errorLevel="info"/>
+        <InvalidReturnStatement errorLevel="error"/>
+        <InvalidReturnType errorLevel="error"/>
+        <UndefinedThisPropertyAssignment errorLevel="error"/>
+        <UndefinedInterfaceMethod errorLevel="error"/>
 
         <!-- level 7 issues - even worse -->
 

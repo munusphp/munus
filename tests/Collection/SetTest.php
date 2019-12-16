@@ -99,6 +99,20 @@ final class SetTest extends TestCase
         self::assertTrue(Set::empty()->equals($set->intersect(Set::of('munus'))));
     }
 
+    public function testSetPeek(): void
+    {
+        $head = null;
+        $set = Set::of(42, 1, 3);
+        self::assertSame($set, $set->peek(function ($value) use (&$head) {$head = $value; }));
+        self::assertEquals(42, $head);
+    }
+
+    public function testEmptySetPeek(): void
+    {
+        $set = Set::empty();
+        self::assertSame($set, $set->peek(function () {throw new \RuntimeException('this will not happen'); }));
+    }
+
     public function testSetCanHoldObjects(): void
     {
         $set = Set::ofAll([Set::of(1, 2, 3), Set::of(4, 5, 6)]);

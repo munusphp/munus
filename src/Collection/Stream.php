@@ -7,6 +7,7 @@ namespace Munus\Collection;
 use Munus\Collection\Stream\Collector;
 use Munus\Collection\Stream\Cons;
 use Munus\Collection\Stream\EmptyStream;
+use Munus\Value;
 
 /**
  * @template T
@@ -17,7 +18,7 @@ abstract class Stream extends Traversable
     /**
      * @param array<int,T> $elements
      *
-     * @return Cons<T>
+     * @return Stream<T>
      */
     public static function of(...$elements): self
     {
@@ -48,7 +49,7 @@ abstract class Stream extends Traversable
     }
 
     /**
-     * @return Cons<int>
+     * @return Stream<int>
      */
     public static function range(int $start = 1, ?int $end = null): self
     {
@@ -127,6 +128,25 @@ abstract class Stream extends Traversable
      * @return Stream<T>
      */
     abstract public function tail();
+
+    /**
+     * @param callable(T):void $action
+     *
+     * @return Stream<T>
+     */
+    public function peek(callable $action): self
+    {
+        if ($this->isEmpty()) {
+            return $this;
+        }
+
+        $head = $this->head();
+        $action($head);
+
+        return new Cons($head, function () use ($action) {
+            return $this->tail()->peek($action);
+        });
+    }
 
     /**
      * @template U

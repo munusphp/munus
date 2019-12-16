@@ -121,6 +121,20 @@ final class OptionTest extends TestCase
         ));
     }
 
+    public function testSomePeek(): void
+    {
+        $check = null;
+        $option = Option::of(43);
+        self::assertSame($option, $option->peek(function ($value) use (&$check) {$check = $value; }));
+        self::assertEquals(43, $check);
+    }
+
+    public function testNonePeek(): void
+    {
+        $option = Option::none();
+        self::assertSame($option, $option->peek(function () {throw new \RuntimeException('this will not happen'); }));
+    }
+
     public function testOptionEquals(): void
     {
         self::assertTrue(Option::none()->equals(Option::none()));

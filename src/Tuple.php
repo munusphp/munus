@@ -22,6 +22,9 @@ class Tuple implements \ArrayAccess
         $this->data = \SplFixedArray::fromArray(array_values($data), false);
     }
 
+    /**
+     * @param mixed ...$values
+     */
     public static function of(...$values): self
     {
         if ($values === []) {
@@ -41,6 +44,9 @@ class Tuple implements \ArrayAccess
         return $this->data->toArray();
     }
 
+    /**
+     * @param mixed $value
+     */
     public function append($value): self
     {
         return new self(array_merge($this->data->toArray(), [$value]));

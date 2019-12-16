@@ -20,11 +20,21 @@ abstract class Either extends Value
     {
     }
 
+    /**
+     * @param L $left
+     *
+     * @return Either<L,R>
+     */
     final public static function left($left): self
     {
         return new Left($left);
     }
 
+    /**
+     * @param R $right
+     *
+     * @return Either<L,R>
+     */
     final public static function right($right): self
     {
         return new Right($right);
