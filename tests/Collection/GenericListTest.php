@@ -27,6 +27,20 @@ final class GenericListTest extends TestCase
         self::assertEquals(4, GenericList::ofAll([1, 2, 3])->prepend(0)->length());
     }
 
+    public function testListPeek(): void
+    {
+        $head = null;
+        $list = GenericList::of(42, 2, 3);
+        self::assertSame($list, $list->peek(function ($value) use (&$head) {$head = $value; }));
+        self::assertEquals($head, 42);
+    }
+
+    public function testEmptyListPeek(): void
+    {
+        $list = GenericList::empty();
+        self::assertSame($list, $list->peek(function () {throw new \RuntimeException('this will not happen'); }));
+    }
+
     public function testListMap(): void
     {
         self::assertTrue(

@@ -81,6 +81,19 @@ final class MapTest extends TestCase
         self::assertTrue(Map::fromArray(['some' => 'value'])->remove('some')->isEmpty());
     }
 
+    public function testEmptyMapPeek(): void
+    {
+        $map = Map::empty();
+        self::assertSame($map, $map->peek(function () {throw new \RuntimeException('this will not happen'); }));
+    }
+
+    public function testMapPeek(): void
+    {
+        $counter = 0;
+        Map::fromArray(['a' => 1])->peek(function (Option $head) use (&$counter) {$counter = $head->get(); });
+        self::assertEquals(1, $counter);
+    }
+
     public function testMapTake(): void
     {
         $map = Map::fromArray(['a' => 'apple', 'b' => 'banana', '42' => 'pear', 'd' => 'orange']);

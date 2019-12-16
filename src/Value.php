@@ -40,6 +40,22 @@ abstract class Value
     abstract public function iterator(): Iterator;
 
     /**
+     * Performs given action on first element.
+     *
+     * @param callable(T):void $action
+     *
+     * @return self<T>
+     */
+    public function peek(callable $action)
+    {
+        if (!$this->isEmpty()) {
+            $action($this->get());
+        }
+
+        return $this;
+    }
+
+    /**
      * Run consumer on each element.
      *
      * @param callable(T):void $consumer

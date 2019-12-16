@@ -9,6 +9,10 @@ use Munus\Value;
 
 final class Comparator
 {
+    /**
+     * @param mixed $a
+     * @param mixed $b
+     */
     public static function equals($a, $b): bool
     {
         if ($a instanceof Value) {

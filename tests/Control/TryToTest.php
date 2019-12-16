@@ -251,4 +251,18 @@ final class TryToTest extends TestCase
             TryTo::run(function () {throw new \LogicException(); })->toStream()
         ));
     }
+
+    public function testFailurePeek(): void
+    {
+        $try = TryTo::run(function () {throw new \LogicException(); });
+        self::assertSame($try, $try->peek(function () {throw new \RuntimeException('this will not happen'); }));
+    }
+
+    public function testSuccessPeek(): void
+    {
+        $check = null;
+        $try = TryTo::run(function () {return 'munus'; });
+        self::assertSame($try, $try->peek(function ($value) use (&$check) {$check = $value; }));
+        self::assertEquals('munus', $check);
+    }
 }
