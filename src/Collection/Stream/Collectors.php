@@ -59,7 +59,7 @@ final class Collectors
     {
         return GenericCollector::of(0, function ($sum, $value) {
             if (!is_numeric($value)) {
-                throw new \InvalidArgumentException(sprintf('Could not convert %s to number', (string) $value));
+                throw new \InvalidArgumentException(sprintf('Could not convert %s to number', $value));
             }
 
             return $sum + $value;
@@ -87,7 +87,7 @@ final class Collectors
      */
     public static function counting(): Collector
     {
-        return GenericCollector::of(0, function (int $count) {return ++$count; });
+        return GenericCollector::of(0, function (int $count, $value): int {return ++$count; });
     }
 
     /**

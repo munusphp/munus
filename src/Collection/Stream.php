@@ -7,7 +7,6 @@ namespace Munus\Collection;
 use Munus\Collection\Stream\Collector;
 use Munus\Collection\Stream\Cons;
 use Munus\Collection\Stream\EmptyStream;
-use Munus\Value;
 
 /**
  * @template T
@@ -16,9 +15,11 @@ use Munus\Value;
 abstract class Stream extends Traversable
 {
     /**
-     * @param array<int,T> $elements
+     * @template U
      *
-     * @return Stream<T>
+     * @param array<int,U> $elements
+     *
+     * @return Stream<U>
      */
     public static function of(...$elements): self
     {
@@ -26,9 +27,11 @@ abstract class Stream extends Traversable
     }
 
     /**
-     * @param T[] $elements
+     * @template U
      *
-     * @return Stream<T>
+     * @param U[] $elements
+     *
+     * @return Stream<U>
      */
     public static function ofAll(array $elements): self
     {
@@ -73,12 +76,13 @@ abstract class Stream extends Traversable
     }
 
     /**
-     * Create infinitely long Stream using a function to calculate the next value
-     * based on the previous.
+     * Create infinitely long Stream using a function.
      *
-     * @param callable():T $supplier
+     * @template U
      *
-     * @return Cons<T>
+     * @param callable():U $supplier
+     *
+     * @return Cons<U>
      */
     public static function continually(callable $supplier): self
     {
@@ -88,10 +92,15 @@ abstract class Stream extends Traversable
     }
 
     /**
-     * @param T             $seed
-     * @param callable(T):T $iterator
+     * Create infinitely long Stream using a function to calculate the next value
+     * based on the previous.
      *
-     * @return Cons<T>
+     * @template U
+     *
+     * @param U             $seed
+     * @param callable(U):U $iterator
+     *
+     * @return Cons<U>
      */
     public static function iterate($seed, callable $iterator): self
     {
@@ -105,10 +114,12 @@ abstract class Stream extends Traversable
     /**
      * Constructs a Stream of a head element and a tail supplier.
      *
-     * @param T            $head
-     * @param callable():T $supplier
+     * @template U
      *
-     * @return Cons<T>
+     * @param U            $head
+     * @param callable():U $supplier
+     *
+     * @return Cons<U>
      */
     public static function cons($head, callable $supplier): self
     {
@@ -185,6 +196,22 @@ abstract class Stream extends Traversable
         return $stream->isEmpty() ? self::empty() : new Cons($stream->head(), function () use ($finalStream, $predicate) {
             return $finalStream->tail()->filter($predicate);
         });
+    }
+
+    /**
+     * @param callable(T):bool $predicate
+     *
+     * @return Stream<T>
+     */
+    public function dropWhile(callable $predicate)
+    {
+        $stream = $this;
+        while (!$stream->isEmpty() && $predicate($stream->head()) === true) {
+            /** @var Stream<T> $stream */
+            $stream = $stream->tail();
+        }
+
+        return $stream;
     }
 
     /**

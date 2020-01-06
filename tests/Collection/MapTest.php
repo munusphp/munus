@@ -191,6 +191,37 @@ final class MapTest extends TestCase
         self::assertTrue(Set::ofAll(['a', 'b', 'c'])->equals(Map::fromArray(['a' => '1', 'b' => '2', 'c' => '3'])->keys()));
     }
 
+    public function testMapDropWhile(): void
+    {
+        $map = Map::fromArray(['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4]);
+        self::assertTrue(Map::fromArray(['c' => 3, 'd' => 4])->equals($map->dropWhile(function (Tuple $node): bool {
+            return $node[1] < 3;
+        })));
+        self::assertTrue(Map::fromArray(['d' => 4])->equals($map->dropWhile(function (Tuple $node): bool {
+            return $node[0] !== 'd';
+        })));
+        self::assertTrue(Map::fromArray(['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4])->equals($map->dropWhile(function (Tuple $node): bool {
+            return false;
+        })));
+        self::assertTrue(Map::empty()->equals($map->dropWhile(function (Tuple $node): bool {
+            return true;
+        })));
+    }
+
+    public function testMapDropUntil(): void
+    {
+        $map = Map::fromArray(['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4]);
+        self::assertTrue(Map::fromArray(['b' => 2, 'c' => 3, 'd' => 4])->equals($map->dropUntil(function (Tuple $node): bool {
+            return $node[1] === 2;
+        })));
+        self::assertTrue(Map::fromArray(['c' => 3, 'd' => 4])->equals($map->dropUntil(function (Tuple $node): bool {
+            return $node[0] === 'c';
+        })));
+        self::assertTrue(Map::empty()->equals($map->dropUntil(function (Tuple $node): bool {
+            return false;
+        })));
+    }
+
     public function testMapMerge(): void
     {
         $merged = Map::fromArray(['a' => 'b', 'c' => 'd']);

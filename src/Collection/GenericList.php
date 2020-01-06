@@ -9,14 +9,16 @@ use Munus\Collection\GenericList\Nil;
 
 /**
  * @template T
- * @template-extends Traversable<T>
+ * @extends Traversable<T>
  */
 abstract class GenericList extends Traversable
 {
     /**
-     * @param array<int,T> $elements
+     * @template U
      *
-     * @return GenericList<T>
+     * @param array<int,U> $elements
+     *
+     * @return GenericList<U>
      */
     public static function of(...$elements): self
     {
@@ -29,9 +31,11 @@ abstract class GenericList extends Traversable
     }
 
     /**
-     * @param array<T> $elements
+     * @template U
      *
-     * @return GenericList<T>
+     * @param array<U> $elements
+     *
+     * @return GenericList<U>
      */
     public static function ofAll(array $elements): self
     {
@@ -41,6 +45,18 @@ abstract class GenericList extends Traversable
         }
 
         return $list->reverse();
+    }
+
+    /**
+     * @return GenericList<int>
+     */
+    public static function range(int $start, int $end): self
+    {
+        if ($start === $end) {
+            return self::of($start);
+        }
+
+        return self::ofAll(range($start, $end));
     }
 
     /**
@@ -87,6 +103,22 @@ abstract class GenericList extends Traversable
     }
 
     /**
+     * @param callable(T):bool $predicate
+     *
+     * @return GenericList<T>
+     */
+    public function dropWhile(callable $predicate)
+    {
+        $list = $this;
+        while (!$list->isEmpty() && $predicate($list->head())) {
+            /** @var GenericList<T> $list */
+            $list = $list->tail();
+        }
+
+        return $list;
+    }
+
+    /**
      * @return GenericList<T>
      */
     public function take(int $n)
@@ -112,7 +144,7 @@ abstract class GenericList extends Traversable
      *
      * @return GenericList<T>
      */
-    public function prepend($element)
+    public function prepend($element): self
     {
         return new Cons($element, $this);
     }
@@ -122,7 +154,7 @@ abstract class GenericList extends Traversable
      *
      * @return GenericList<T>
      */
-    public function append($element)
+    public function append($element): self
     {
         $list = Nil::instance();
         $list = $list->prepend($element);
@@ -138,7 +170,7 @@ abstract class GenericList extends Traversable
     /**
      * @return GenericList<T>
      */
-    public function reverse()
+    public function reverse(): self
     {
         $list = Nil::instance();
         $iterator = $this->iterator();

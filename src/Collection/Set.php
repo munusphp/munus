@@ -42,7 +42,11 @@ final class Set extends Traversable
     }
 
     /**
-     * @param T[] ...$elements
+     * @template U
+     *
+     * @param U[] ...$elements
+     *
+     * @return Set<U>
      */
     public static function of(...$elements): self
     {
@@ -50,7 +54,11 @@ final class Set extends Traversable
     }
 
     /**
-     * @param T[] $elements
+     * @template U
+     *
+     * @param U[] $elements
+     *
+     * @return Set<U>
      */
     public static function ofAll(array $elements): self
     {
@@ -100,6 +108,11 @@ final class Set extends Traversable
         return self::fromPointer($elements);
     }
 
+    /**
+     * @param Set<T> $set
+     *
+     * @return Set<T>
+     */
     public function union(Set $set): self
     {
         if ($set->isEmpty()) {
@@ -122,6 +135,11 @@ final class Set extends Traversable
         return self::fromPointer($elements);
     }
 
+    /**
+     * @param Set<T> $set
+     *
+     * @return Set<T>
+     */
     public function diff(Set $set): self
     {
         $diff = array_diff($this->elements, $set->elements);
@@ -189,6 +207,21 @@ final class Set extends Traversable
         $filtered = array_filter($this->elements, $predicate);
 
         return self::fromPointer($filtered);
+    }
+
+    /**
+     * @param callable(T):bool $predicate
+     *
+     * @return Set<T>
+     */
+    public function dropWhile(callable $predicate)
+    {
+        $elements = $this->elements;
+        while ($elements !== [] && $predicate(current($elements)) === true) {
+            unset($elements[key($elements)]);
+        }
+
+        return self::fromPointer($elements);
     }
 
     /**

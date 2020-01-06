@@ -10,11 +10,17 @@ use Munus\Value;
 use Munus\Value\Comparator;
 
 /**
+ * An abstraction for inherently recursive, multi-valued data structures. The order of elements is determined by
+ * Iterator, which may vary each time it is called.
+ *
  * @template T
  * @template-extends Value<T>
  */
 abstract class Traversable extends Value
 {
+    /**
+     * Computes the number of elements of this traversable.
+     */
     abstract public function length(): int;
 
     /**
@@ -53,6 +59,29 @@ abstract class Traversable extends Value
      * @return Traversable<T>
      */
     abstract public function take(int $n);
+
+    /**
+     * Drops elements while the predicate holds for the current element.
+     *
+     * @param callable(T):bool $predicate
+     *
+     * @return Traversable<T>
+     */
+    abstract public function dropWhile(callable $predicate);
+
+    /**
+     * Drops elements until the predicate holds for the current element.
+     *
+     * @param callable(T):bool $predicate
+     *
+     * @return Traversable<T>
+     */
+    public function dropUntil(callable $predicate)
+    {
+        return $this->dropWhile(function ($value) use ($predicate) {
+            return !$predicate($value);
+        });
+    }
 
     /**
      * Returns a new Traversable consisting of all elements which do not satisfy the given predicate.
@@ -213,6 +242,8 @@ abstract class Traversable extends Value
     }
 
     /**
+     * Counts the elements which satisfy the given predicate.
+     *
      * @param callable(T): bool $predicate
      */
     public function count(callable $predicate): int
