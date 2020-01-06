@@ -41,10 +41,13 @@ final class GenericCollector implements Collector
     }
 
     /**
-     * @param R               $supplier
-     * @param callable(R,T):R $accumulator
+     * @template U
+     * @template W
      *
-     * @return self<T,R>
+     * @param W               $supplier
+     * @param callable(W,U):W $accumulator
+     *
+     * @return self<U,W>
      */
     public static function of($supplier, callable $accumulator): self
     {

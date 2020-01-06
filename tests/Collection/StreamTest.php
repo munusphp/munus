@@ -25,10 +25,10 @@ final class StreamTest extends TestCase
 
     public function testStreamFind(): void
     {
-        self::assertEquals(Option::of('munus'), Stream::ofAll(['lambda', 'munus', 'function'])->find(function ($name) {
+        self::assertEquals(Option::of('munus'), Stream::ofAll(['lambda', 'munus', 'function'])->find(function (string $name) {
             return $name === 'munus';
         }));
-        self::assertEquals(Option::of(null), Stream::ofAll(['lambda', 'missing', 'function'])->find(function ($name) {
+        self::assertEquals(Option::of(null), Stream::ofAll(['lambda', 'missing', 'function'])->find(function (string $name) {
             return $name === 'munus';
         }));
     }
@@ -141,6 +141,31 @@ final class StreamTest extends TestCase
         $counter = 1;
         self::assertTrue(Stream::of(1, 2, 3)->equals(Stream::cons(1, function () use (&$counter) {
             return ++$counter >= 4 ? Stream::empty() : $counter;
+        })));
+    }
+
+    public function testStreamDropWhile(): void
+    {
+        $stream = Stream::range(1, 10);
+        self::assertTrue(Stream::range(5, 10)->equals($stream->dropWhile(function (int $value): bool {
+            return $value < 5;
+        })));
+        self::assertTrue(Stream::range(1, 10)->equals($stream->dropWhile(function (int $value): bool {
+            return false;
+        })));
+        self::assertTrue(Stream::empty()->equals($stream->dropWhile(function (int $value): bool {
+            return true;
+        })));
+    }
+
+    public function testStreamDropUntil(): void
+    {
+        $stream = Stream::range(1, 10);
+        self::assertTrue(Stream::range(5, 10)->equals($stream->dropUntil(function (int $value): bool {
+            return $value === 5;
+        })));
+        self::assertTrue(Stream::empty()->equals($stream->dropUntil(function (int $value): bool {
+            return false;
         })));
     }
 

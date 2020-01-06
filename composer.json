@@ -29,6 +29,7 @@
             "Munus\\Tests\\": "tests/"
         }
     },
+
     "scripts": {
         "check-cs": [
             "php-cs-fixer fix --dry-run --diff"

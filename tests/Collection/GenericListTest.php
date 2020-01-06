@@ -13,6 +13,13 @@ use PHPUnit\Framework\TestCase;
 
 final class GenericListTest extends TestCase
 {
+    public function testListRange(): void
+    {
+        self::assertTrue(GenericList::of(1, 2, 3)->equals(GenericList::range(1, 3)));
+        self::assertTrue(GenericList::of(-3, -2, -1)->equals(GenericList::range(-3, -1)));
+        self::assertEquals(10, GenericList::range(1, 10)->length());
+    }
+
     public function testListReverse(): void
     {
         self::assertTrue(
@@ -90,6 +97,31 @@ final class GenericListTest extends TestCase
         self::assertTrue(
             GenericList::of('a', 'b', 'c')->equals(GenericList::of('a', 'b')->append('c'))
         );
+    }
+
+    public function testListDropWhile(): void
+    {
+        $list = GenericList::range(1, 10);
+        self::assertTrue(GenericList::range(5, 10)->equals($list->dropWhile(function (int $value): bool {
+            return $value < 5;
+        })));
+        self::assertTrue(GenericList::range(1, 10)->equals($list->dropWhile(function (int $value): bool {
+            return false;
+        })));
+        self::assertTrue(GenericList::empty()->equals($list->dropWhile(function (int $value): bool {
+            return true;
+        })));
+    }
+
+    public function testListDropUntil(): void
+    {
+        $list = GenericList::range(1, 10);
+        self::assertTrue(GenericList::range(5, 10)->equals($list->dropUntil(function (int $value): bool {
+            return $value === 5;
+        })));
+        self::assertTrue(GenericList::empty()->equals($list->dropUntil(function (int $value): bool {
+            return false;
+        })));
     }
 
     public function testListTake(): void

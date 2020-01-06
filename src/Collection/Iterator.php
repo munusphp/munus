@@ -39,9 +39,11 @@ class Iterator implements \Iterator
     }
 
     /**
-     * @param T ...$elements
+     * @template U
      *
-     * @return self<T>
+     * @param U ...$elements
+     *
+     * @return self<U>
      */
     public static function of(...$elements): self
     {

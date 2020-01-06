@@ -119,7 +119,6 @@
         <MoreSpecificImplementedParamType errorLevel="info"/>
         <LessSpecificImplementedReturnType errorLevel="info"/>
 
-        <InvalidReturnStatement errorLevel="error"/>
         <InvalidReturnType errorLevel="error"/>
         <UndefinedThisPropertyAssignment errorLevel="error"/>
         <UndefinedInterfaceMethod errorLevel="error"/>
@@ -131,7 +130,7 @@
         <UndefinedThisPropertyFetch errorLevel="error"/>
         <UndefinedPropertyFetch errorLevel="error"/>
 
-        <InvalidReturnStatement errorLevel="error"/>
+        <InvalidReturnStatement errorLevel="info"/>
         <InvalidReturnType errorLevel="info"/>
         <InvalidArgument errorLevel="info"/>
         <InvalidPropertyAssignmentValue errorLevel="error"/>

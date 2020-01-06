@@ -12,20 +12,36 @@ use Munus\Control\TryTo;
 use Munus\Value\Comparator;
 
 /**
+ * Value is the basic and most important type of this library. What you need to know about Value:
+ *  - it is immutable by default
+ *  - it is generic wrapper
+ *  - it can be empty
+ *  - it can be safely compared with other value.
+ *
  * @template T
  */
 abstract class Value
 {
+    /**
+     * Checks, if the underlying value is absent.
+     */
     abstract public function isEmpty(): bool;
 
+    /**
+     * States whether this is a single-valued type.
+     */
     abstract public function isSingleValued(): bool;
 
     /**
+     * Returns the underlying value or throw exception if there is no value (e.x. None).
+     *
      * @return T
      */
     abstract public function get();
 
     /**
+     * Maps the underlying value to a different type.
+     *
      * @template U
      *
      * @param callable(T): U $mapper
@@ -86,6 +102,8 @@ abstract class Value
     }
 
     /**
+     * Check, if the given element is contained.
+     *
      * @param T $element
      */
     public function contains($element): bool
@@ -116,6 +134,8 @@ abstract class Value
     }
 
     /**
+     * Returns the underlying value if present, otherwise return $other.
+     *
      * @param T $other
      *
      * @return T
@@ -126,6 +146,8 @@ abstract class Value
     }
 
     /**
+     * Returns the underlying value if present, otherwise returns null.
+     *
      * @return T|null
      */
     public function getOrNull()
@@ -134,6 +156,8 @@ abstract class Value
     }
 
     /**
+     * Returns the underlying value if present, otherwise throws $throwable.
+     *
      * @return T
      */
     public function getOrElseThrow(\Throwable $throwable)
@@ -146,6 +170,8 @@ abstract class Value
     }
 
     /**
+     * Returns the underlying value if present, otherwise returns the result of $supplier.
+     *
      * @param callable():T $supplier
      *
      * @return T
@@ -156,6 +182,8 @@ abstract class Value
     }
 
     /**
+     * Similar to "==" operator, but also checks congruence of structures and equality of contained values.
+     *
      * @param T $object
      */
     public function equals($object): bool
@@ -164,6 +192,8 @@ abstract class Value
     }
 
     /**
+     * Collects the underlying value(s) (if present) using the provided collector.
+     *
      * @template R
      *
      * @param Collector<T,R> $collector

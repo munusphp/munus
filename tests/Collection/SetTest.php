@@ -157,6 +157,31 @@ final class SetTest extends TestCase
         })->take(3)));
     }
 
+    public function testSetDropWhile(): void
+    {
+        $set = Set::of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        self::assertTrue(Set::of(5, 6, 7, 8, 9, 10)->equals($set->dropWhile(function (int $value): bool {
+            return $value < 5;
+        })));
+        self::assertTrue(Set::of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)->equals($set->dropWhile(function (int $value): bool {
+            return false;
+        })));
+        self::assertTrue(Set::empty()->equals($set->dropWhile(function (int $value): bool {
+            return true;
+        })));
+    }
+
+    public function testSetDropUntil(): void
+    {
+        $set = Set::of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        self::assertTrue(Set::of(5, 6, 7, 8, 9, 10)->equals($set->dropUntil(function (int $value): bool {
+            return $value === 5;
+        })));
+        self::assertTrue(Set::empty()->equals($set->dropUntil(function (int $value): bool {
+            return false;
+        })));
+    }
+
     public function testSetCollect(): void
     {
         self::assertTrue(GenericList::of('a', 'b', 'c')->equals(

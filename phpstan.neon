@@ -15,3 +15,7 @@ parameters:
 			count: 1
 			path: src/Collection/Map.php
 
+		-
+			message: "#^Return type \\(Munus\\\\Collection\\\\Map\\<string, V\\>\\) of method Munus\\\\Collection\\\\Map\\:\\:dropWhile\\(\\) should be compatible with return type \\(Munus\\\\Collection\\\\Traversable\\<Munus\\\\Tuple\\>\\) of method Munus\\\\Collection\\\\Traversable\\<V\\>\\:\\:dropWhile\\(\\)$#"
+			count: 1
+			path: src/Collection/Map.php

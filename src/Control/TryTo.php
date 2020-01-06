@@ -16,9 +16,13 @@ use Munus\Value;
 abstract class TryTo extends Value
 {
     /**
-     * @return TryTo<T>
+     * @template U
+     *
+     * @param callable():U $supplier
+     *
+     * @return TryTo<U>
      */
-    public static function run(callable $supplier)
+    public static function run(callable $supplier): self
     {
         try {
             return new Success($supplier());

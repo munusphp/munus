@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.7.2@d9cae720c1af31db9ba27c2bc1fcf9b0dd092fb0">
-  <file src="src/Control/Either.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$this</code>
-    </InvalidReturnStatement>
+<files psalm-version="3.8.1@8e54e3aa060fc490d86d0e2abbf62750516d40fd">
+  <file src="src/Collection/Map.php">
+    <InvalidPropertyAssignmentValue occurrences="1">
+      <code>$map</code>
+    </InvalidPropertyAssignmentValue>
   </file>
-  <file src="src/Control/TryTo.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$this</code>
-    </InvalidReturnStatement>
+  <file src="tests/Collection/StreamTest.php">
+    <DocblockTypeContradiction occurrences="1">
+      <code>$name === 'munus'</code>
+    </DocblockTypeContradiction>
   </file>
 </files>

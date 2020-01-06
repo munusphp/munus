@@ -11,14 +11,16 @@ use Munus\Value;
 
 /**
  * @template T
- * @template-extends Value<T>
+ * @extends Value<T>
  */
 abstract class Option extends Value
 {
     /**
-     * @param ?T $value
+     * @template U
      *
-     * @return Option<T>
+     * @param ?U $value
+     *
+     * @return Option<U>
      */
     public static function of($value): self
     {
@@ -26,24 +28,33 @@ abstract class Option extends Value
     }
 
     /**
-     * @param T $value
+     * @template U
      *
-     * @return Option<T>
+     * @param U $value
+     *
+     * @return Option<U>
      */
     public static function some($value): self
     {
         return new Some($value);
     }
 
+    /**
+     * @template U
+     *
+     * @return Option<U>
+     */
     public static function none(): self
     {
         return new None();
     }
 
     /**
-     * @param T $value
+     * @template U
      *
-     * @return Option<T>
+     * @param U $value
+     *
+     * @return Option<U>
      */
     public static function when(bool $condition, $value): self
     {

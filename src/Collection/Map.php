@@ -11,6 +11,8 @@ use Munus\Tuple;
 use Munus\Value\Comparator;
 
 /**
+ * Immutable Map.
+ *
  * @template K
  * @template V
  * @extends Traversable<V>
@@ -34,9 +36,11 @@ final class Map extends Traversable
     /**
      * Creates Map from given array, all keys will be cast to string.
      *
-     * @param array<string,V> $array
+     * @template U
      *
-     * @return Map<string,V>
+     * @param array<string,U> $array
+     *
+     * @return Map<string,U>
      */
     public static function fromArray(array $array): self
     {
@@ -49,9 +53,11 @@ final class Map extends Traversable
     }
 
     /**
-     * @param array<string,V> $map
+     * @template U
      *
-     * @return Map<string,V>
+     * @param array<string,U> $map
+     *
+     * @return Map<string,U>
      */
     private static function fromPointer(array &$map): self
     {
@@ -188,6 +194,21 @@ final class Map extends Traversable
             if ($predicate(Tuple::of($key, $value)) === true) {
                 $map[$key] = $value;
             }
+        }
+
+        return self::fromPointer($map);
+    }
+
+    /**
+     * @param callable(Tuple):bool $predicate
+     *
+     * @return Map<string,V>
+     */
+    public function dropWhile(callable $predicate)
+    {
+        $map = $this->map;
+        while ($map !== [] && $predicate(Tuple::of(key($map), current($map))) === true) {
+            unset($map[key($map)]);
         }
 
         return self::fromPointer($map);
