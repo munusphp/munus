@@ -6,7 +6,7 @@ parameters:
 			path: src/Collection/Map.php
 
 		-
-			message: "#^Return type \\(Munus\\\\Collection\\\\Map\\<string, U\\>\\) of method Munus\\\\Collection\\\\Map\\:\\:map\\(\\) should be compatible with return type \\(Munus\\\\Collection\\\\Traversable\\<Munus\\\\Tuple\\>\\) of method Munus\\\\Collection\\\\Traversable\\<V\\>\\:\\:map\\(\\)$#"
+			message: "#^Return type \\(Munus\\\\Collection\\\\Map\\<string, U\\>\\) of method Munus\\\\Collection\\\\Map\\:\\:map\\(\\) should be compatible with return type \\(Munus\\\\Collection\\\\Traversable\\<Munus\\\\Tuple\\<U\\>\\>\\) of method Munus\\\\Collection\\\\Traversable\\<V\\>\\:\\:map\\(\\)$#"
 			count: 1
 			path: src/Collection/Map.php
 

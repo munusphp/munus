@@ -33,11 +33,11 @@ abstract class Either extends Value
     }
 
     /**
-     * @template L1
+     * @template R1
      *
-     * @param R $right
+     * @param R1 $right
      *
-     * @return Either<L1,R>
+     * @return Either<L,R1>
      */
     final public static function right($right): self
     {

@@ -16,11 +16,6 @@ final class Nil extends GenericList
     {
     }
 
-    /**
-     * @template U
-     *
-     * @return self<U>
-     */
     public static function instance(): self
     {
         return new self();
