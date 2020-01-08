@@ -135,7 +135,7 @@ final class Map extends Traversable
     /**
      * @template U
      *
-     * @param callable(Tuple): Tuple $mapper
+     * @param callable(Tuple<V>): Tuple<U> $mapper
      *
      * @return Map<string,U>
      */
