@@ -184,7 +184,7 @@ abstract class Value
     /**
      * Similar to "==" operator, but also checks congruence of structures and equality of contained values.
      *
-     * @param T $object
+     * @param mixed $object
      */
     public function equals($object): bool
     {
