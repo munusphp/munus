@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Munus;
 
 use Munus\Collection\Iterator;
-use Munus\Functiοn\Supplier;
 
 /**
  * @template T
  * @extends Value<T>
- * @implements Supplier<T>
  */
-final class Lazy extends Value implements Supplier
+final class Lazy extends Value
 {
     /**
      * @var T

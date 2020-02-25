@@ -7,7 +7,6 @@ namespace Munus\Collection\Iterator;
 use Munus\Collection\Iterator;
 use Munus\Collection\Stream;
 use Munus\Collection\Stream\Cons;
-use Munus\Functiοn\Supplier;
 use Munus\Lazy;
 
 /**
@@ -17,7 +16,7 @@ use Munus\Lazy;
 final class StreamIterator extends Iterator
 {
     /**
-     * @var Supplier<Stream<T>>
+     * @var Lazy<Stream<T>>
      */
     private $current;
 
