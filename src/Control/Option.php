@@ -60,6 +60,11 @@ abstract class Option extends Value
         return $condition === true ? self::some($value) : self::none();
     }
 
+    public function isPresent(): bool
+    {
+        return !$this->isEmpty();
+    }
+
     /**
      * @template U
      *
