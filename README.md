@@ -1,7 +1,7 @@
 # Munus
 
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.2-8892BF.svg)](https://php.net/)
-[![buddy pipeline](https://app.buddy.works/akondas/munus/pipelines/pipeline/220416/badge.svg?token=f043fc3d0fb3414a7b5c2cff118b2a43cc1e39f64b155c73661e03bb4b0d6fb9 "buddy pipeline")](https://app.buddy.works/akondas/munus/pipelines/pipeline/220416)
+[![buddy pipeline](https://app.buddy.works/akondas/munus/pipelines/pipeline/220416/badge.svg?token=bfd952ec0cee0cb4db84dbd50ded487354ee6c9f37a7034f7c46425fed70dea7 "buddy pipeline")](https://app.buddy.works/akondas/munus/pipelines/pipeline/220416)
 [![github action](https://github.com/munusphp/munus/workflows/build/badge.svg)](https://github.com/munusphp/munus/actions?query=workflow%3Abuild)
 [![Latest Stable Version](https://poser.pugx.org/munusphp/munus/v/stable?format=flat)](https://packagist.org/packages/munusphp/munus)
 [![Maintainability](https://api.codeclimate.com/v1/badges/4b9585a0fb57553737d5/maintainability)](https://codeclimate.com/github/munusphp/munus/maintainability)
@@ -51,8 +51,8 @@ The goal is to help achieve:
  - TryTo
  - Either
  - Option
- - Lazy 
- 
+ - Lazy
+
 **Collections:**
  - Set
  - Stream (implemented as lazy linked list)
