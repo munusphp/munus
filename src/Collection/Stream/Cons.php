@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Munus\Collection\Stream;
 
 use Munus\Collection\Iterator;
+use Munus\Collection\Iterator\CompositeIterator;
 use Munus\Collection\Iterator\StreamIterator;
 use Munus\Collection\Stream;
+use Munus\Collection\Traversable;
 use Munus\Lazy;
 
 /**
@@ -66,5 +68,21 @@ final class Cons extends Stream
     public function iterator(): Iterator
     {
         return new StreamIterator($this);
+    }
+
+    public function append($element)
+    {
+        return new Cons($this->head, function () use ($element) {
+            return $this->tail()->append($element);
+        });
+    }
+
+    public function appendAll(Traversable $elements)
+    {
+        if ($elements->isEmpty()) {
+            return $this;
+        }
+
+        return Stream::ofAll(CompositeIterator::of($this->iterator(), $elements->iterator()));
     }
 }

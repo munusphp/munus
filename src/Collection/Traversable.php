@@ -16,7 +16,7 @@ use Munus\Value\Comparator;
  * @template T
  * @template-extends Value<T>
  */
-abstract class Traversable extends Value
+abstract class Traversable extends Value implements \IteratorAggregate
 {
     /**
      * Computes the number of elements of this traversable.
@@ -251,5 +251,13 @@ abstract class Traversable extends Value
         return $this->fold(0, function ($count, $value) use ($predicate) {
             return $predicate($value) === true ? ++$count : $count;
         });
+    }
+
+    /**
+     * @return Iterator<T>
+     */
+    public function getIterator()
+    {
+        return $this->iterator();
     }
 }

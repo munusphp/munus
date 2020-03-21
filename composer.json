@@ -44,7 +44,7 @@
             "psalm --show-info=false"
         ],
         "phpunit": [
-            "phpunit"
+            "phpunit --color=always"
         ],
         "tests": [
             "@check-cs",

@@ -48,4 +48,13 @@ final class SingletonIterator extends Iterator
 
         return $this->element;
     }
+
+    public function current()
+    {
+        if ($this->hasNext === true) {
+            return $this->element;
+        }
+
+        throw new NoSuchElementException();
+    }
 }

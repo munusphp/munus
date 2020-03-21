@@ -59,6 +59,19 @@ class Iterator implements \Iterator
         return EmptyIterator::instance();
     }
 
+    public static function fromIterable(iterable $elements): self
+    {
+        if ($elements instanceof self) {
+            return $elements;
+        }
+
+        if ($elements instanceof Traversable) {
+            return $elements->getIterator();
+        }
+
+        return new ArrayIterator($elements);
+    }
+
     public function hasNext(): bool
     {
         return !$this->current->isEmpty();

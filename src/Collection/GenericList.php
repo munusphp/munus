@@ -9,9 +9,9 @@ use Munus\Collection\GenericList\Nil;
 
 /**
  * @template T
- * @extends Traversable<T>
+ * @extends Sequence<T>
  */
-abstract class GenericList extends Traversable
+abstract class GenericList extends Sequence
 {
     /**
      * @template U
@@ -37,7 +37,7 @@ abstract class GenericList extends Traversable
      *
      * @return GenericList<U>
      */
-    public static function ofAll(array $elements): self
+    public static function ofAll(iterable $elements): self
     {
         $list = Nil::instance();
         foreach ($elements as $element) {
@@ -179,5 +179,23 @@ abstract class GenericList extends Traversable
         }
 
         return $list;
+    }
+
+    public function appendAll(Traversable $elements)
+    {
+        if ($elements->isEmpty()) {
+            return $this;
+        }
+
+        return self::ofAll($elements)->prependAll($this);
+    }
+
+    public function prependAll(Traversable $elements)
+    {
+        if ($this->isEmpty()) {
+            return self::ofAll($elements);
+        }
+
+        return self::ofAll($elements)->reverse()->fold($this, function (self $list, $element) {return $list->prepend($element); });
     }
 }
