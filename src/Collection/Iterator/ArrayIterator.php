@@ -9,6 +9,7 @@ use Munus\Exception\NoSuchElementException;
 
 /**
  * @template T
+ * @template-extends Iterator<T>
  */
 final class ArrayIterator extends Iterator
 {
@@ -40,6 +41,15 @@ final class ArrayIterator extends Iterator
     {
         if (isset($this->elements[$this->index])) {
             return $this->elements[$this->index++];
+        }
+
+        throw new NoSuchElementException();
+    }
+
+    public function current()
+    {
+        if (isset($this->elements[$this->index])) {
+            return $this->elements[$this->index];
         }
 
         throw new NoSuchElementException();

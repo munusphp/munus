@@ -6,6 +6,8 @@ namespace Munus\Collection\Stream;
 
 use Munus\Collection\Iterator;
 use Munus\Collection\Stream;
+use Munus\Collection\T;
+use Munus\Collection\Traversable;
 
 /**
  * Empty is better but it is reserved keyword.
@@ -47,5 +49,19 @@ final class EmptyStream extends Stream
     public function iterator(): Iterator
     {
         return Iterator::empty();
+    }
+
+    public function append($element)
+    {
+        return Stream::of($element);
+    }
+
+    public function appendAll(Traversable $elements)
+    {
+        if ($elements->isEmpty()) {
+            return $this;
+        }
+
+        return Stream::ofAll($elements->iterator());
     }
 }

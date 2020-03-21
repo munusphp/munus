@@ -10,9 +10,9 @@ use Munus\Collection\Stream\EmptyStream;
 
 /**
  * @template T
- * @extends Traversable<T>
+ * @extends Sequence<T>
  */
-abstract class Stream extends Traversable
+abstract class Stream extends Sequence
 {
     /**
      * @template U
@@ -33,15 +33,14 @@ abstract class Stream extends Traversable
      *
      * @return Stream<U>
      */
-    public static function ofAll(array $elements): self
+    public static function ofAll(iterable $elements): self
     {
-        if (current($elements) === false) {
+        $elements = Iterator::fromIterable($elements);
+        if (!$elements->hasNext()) {
             return self::empty();
         }
 
-        return new Cons(current($elements), function () use ($elements) {
-            next($elements);
-
+        return new Cons($elements->next(), function () use ($elements) {
             return self::ofAll($elements);
         });
     }
@@ -247,5 +246,24 @@ abstract class Stream extends Traversable
         }
 
         return $collector->finish();
+    }
+
+    /**
+     * @param T $element
+     *
+     * @return Stream<T>
+     */
+    public function prepend($element)
+    {
+        return new Cons($element, function () {return $this; });
+    }
+
+    public function prependAll(Traversable $elements)
+    {
+        if ($elements->isEmpty()) {
+            return $this;
+        }
+
+        return self::ofAll($elements)->appendAll($this);
     }
 }

@@ -167,4 +167,25 @@ final class GenericListTest extends TestCase
         );
         self::assertTrue(Stream::empty()->equals(GenericList::empty()));
     }
+
+    public function testListPrependAll(): void
+    {
+        self::assertTrue(GenericList::of(1, 2, 3)->equals(GenericList::empty()->prependAll(GenericList::of(1, 2, 3))));
+        self::assertTrue(GenericList::of(1, 2, 3, 4)->equals(GenericList::of(3, 4)->prependAll(GenericList::of(1, 2))));
+        self::assertTrue(GenericList::of('a', 'b', 'c', 'd', 'e')->equals(GenericList::of('e')->prependAll(GenericList::of('a', 'b', 'c', 'd'))));
+    }
+
+    public function testListAppendAllOnEmpty(): void
+    {
+        self::assertTrue(GenericList::of(1, 2, 3)->equals(GenericList::empty()->appendAll(GenericList::of(1, 2, 3))));
+
+        $empty = GenericList::empty();
+        self::assertSame($empty, $empty->appendAll(GenericList::empty()));
+    }
+
+    public function testListAppendAll(): void
+    {
+        self::assertTrue(GenericList::of(1, 2, 3, 4)->equals(GenericList::of(1, 2)->appendAll(GenericList::of(3, 4))));
+        self::assertTrue(GenericList::of('a', 'b', 'c', 'd', 'e')->equals(GenericList::of('a')->appendAll(GenericList::of('b', 'c', 'd', 'e'))));
+    }
 }

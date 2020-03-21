@@ -17,6 +17,7 @@ final class StreamTest extends TestCase
         $iterator = Stream::ofAll([1, 2, 3])->iterator();
 
         self::assertTrue($iterator->hasNext());
+        self::assertEquals(1, $iterator->current());
         self::assertEquals(1, $iterator->next());
         self::assertEquals(2, $iterator->next());
         self::assertEquals(3, $iterator->next());
@@ -204,5 +205,38 @@ final class StreamTest extends TestCase
     {
         // is there logical use case for this?
         self::assertTrue(Stream::of(1, 2, 3)->equals(Stream::of(1, 2, 3)->toStream()));
+    }
+
+    public function testStreamPrepend(): void
+    {
+        self::assertTrue(Stream::of(1, 2, 3)->equals(Stream::of(2, 3)->prepend(1)));
+        self::assertTrue(Stream::of(1)->equals(Stream::empty()->prepend(1)));
+    }
+
+    public function testStreamAppend(): void
+    {
+        self::assertTrue(Stream::of(1, 2, 3)->equals(Stream::of(1, 2)->append(3)));
+        self::assertTrue(Stream::of(1)->equals(Stream::empty()->append(1)));
+    }
+
+    public function testStreamAppendAllOnEmpty(): void
+    {
+        self::assertTrue(Stream::of(1, 2, 3)->equals(Stream::empty()->appendAll(Stream::of(1, 2, 3))));
+
+        $empty = Stream::empty();
+        self::assertSame($empty, $empty->appendAll(Stream::empty()));
+    }
+
+    public function testStreamAppendAll(): void
+    {
+        self::assertTrue(Stream::of(1, 2, 3, 4)->equals(Stream::of(1, 2)->appendAll(Stream::of(3, 4))));
+        self::assertTrue(Stream::of('a', 'b', 'c', 'd', 'e')->equals(Stream::of('a')->appendAll(Stream::of('b', 'c', 'd', 'e'))));
+    }
+
+    public function testStreamPrependAll(): void
+    {
+        self::assertTrue(Stream::of(1, 2, 3)->equals(Stream::empty()->prependAll(Stream::of(1, 2, 3))));
+        self::assertTrue(Stream::of(1, 2, 3, 4)->equals(Stream::of(3, 4)->prependAll(Stream::of(1, 2))));
+        self::assertTrue(Stream::of('a', 'b', 'c', 'd', 'e')->equals(Stream::of('e')->prependAll(Stream::of('a', 'b', 'c', 'd'))));
     }
 }

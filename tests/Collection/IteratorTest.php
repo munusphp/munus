@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Munus\Tests\Collection;
 
 use Munus\Collection\Iterator;
+use Munus\Collection\Iterator\CompositeIterator;
 use Munus\Collection\Map;
 use Munus\Exception\NoSuchElementException;
 use Munus\Tuple;
-use PHPStan\Testing\TestCase;
+use PHPUnit\Framework\TestCase;
 
 final class IteratorTest extends TestCase
 {
@@ -58,5 +59,18 @@ final class IteratorTest extends TestCase
 
         $this->expectException(NoSuchElementException::class);
         $iterator->next();
+    }
+
+    public function testCompositeIterator(): void
+    {
+        $iterator = new CompositeIterator([$first = Iterator::of(1), Iterator::of(2, 3), Iterator::empty(), Iterator::of(4)]);
+
+        self::assertTrue($iterator->hasNext());
+        self::assertSame(1, $iterator->current());
+        self::assertEquals(1, $iterator->next());
+        self::assertEquals(2, $iterator->next());
+        self::assertEquals(3, $iterator->next());
+        self::assertEquals(4, $iterator->next());
+        self::assertFalse($iterator->hasNext());
     }
 }

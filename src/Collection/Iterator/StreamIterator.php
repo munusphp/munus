@@ -28,6 +28,14 @@ final class StreamIterator extends Iterator
         $this->current = Lazy::ofValue($current);
     }
 
+    /**
+     * @return T
+     */
+    public function current()
+    {
+        return $this->current->get()->head();
+    }
+
     public function hasNext(): bool
     {
         return !$this->current->get()->isEmpty();
