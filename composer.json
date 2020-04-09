@@ -46,11 +46,17 @@
         "phpunit": [
             "phpunit --color=always"
         ],
+        "phpunit-coverage": [
+            "phpunit --coverage-clover 'clover.xml'"
+        ],
+        "coverage-html": [
+            "phpunit --coverage-html coverage"
+        ],
         "tests": [
             "@check-cs",
             "@phpstan",
             "@psalm",
-            "phpunit"
+            "@phpunit-coverage"
         ]
     }
 }

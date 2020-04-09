@@ -133,6 +133,16 @@ final class GenericListTest extends TestCase
         self::assertTrue(GenericList::of(1, 2, 3)->equals(GenericList::of(1, 2, 3, 4)->take(3)));
     }
 
+    public function testListDrop(): void
+    {
+        $list = GenericList::of(1, 2, 3);
+        self::assertSame($list, $list->drop(0));
+        self::assertSame($list, $list->drop(-1));
+        self::assertTrue(GenericList::empty()->equals(GenericList::empty()->drop(0)));
+        self::assertTrue(GenericList::of(4)->equals(GenericList::of(1, 2, 3, 4)->drop(3)));
+        self::assertTrue(GenericList::of(2, 3, 4)->equals(GenericList::of(1, 2, 3, 4)->drop(1)));
+    }
+
     public function testListFilter(): void
     {
         self::assertTrue(GenericList::of(3, 6, 9)->equals(GenericList::ofAll(range(1, 30))->filter(function (int $n): bool {

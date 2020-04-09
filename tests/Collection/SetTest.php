@@ -143,6 +143,16 @@ final class SetTest extends TestCase
         self::assertEquals(Set::of(1, 2, 3), Set::of(1, 2, 3, 4)->take(3));
     }
 
+    public function testSetDrop(): void
+    {
+        $set = Set::of(1, 2, 3);
+        self::assertSame($set, $set->drop(0));
+        self::assertSame($set, $set->drop(-1));
+        self::assertEquals(Set::empty(), $set->drop(3));
+        self::assertEquals(Set::of(3), $set->drop(2));
+        self::assertEquals(Set::of(2, 3), $set->drop(1));
+    }
+
     public function testSetFilter(): void
     {
         self::assertTrue(Set::of(3, 6, 9)->equals(Set::ofAll(range(1, 30))->filter(function (int $n): bool {

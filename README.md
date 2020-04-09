@@ -5,6 +5,7 @@
 [![github action](https://github.com/munusphp/munus/workflows/build/badge.svg)](https://github.com/munusphp/munus/actions?query=workflow%3Abuild)
 [![Latest Stable Version](https://poser.pugx.org/munusphp/munus/v/stable?format=flat)](https://packagist.org/packages/munusphp/munus)
 [![Maintainability](https://api.codeclimate.com/v1/badges/4b9585a0fb57553737d5/maintainability)](https://codeclimate.com/github/munusphp/munus/maintainability)
+[![codecov](https://codecov.io/gh/munusphp/munus/branch/master/graph/badge.svg)](https://codecov.io/gh/munusphp/munus)
 [![Total Downloads](https://poser.pugx.org/munusphp/munus/downloads?format=flat)](https://packagist.org/packages/munusphp/munus)
 ![GitHub](https://img.shields.io/github/license/munusphp/munus)
 

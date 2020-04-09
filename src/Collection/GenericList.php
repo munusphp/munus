@@ -140,6 +140,28 @@ abstract class GenericList extends Sequence
     }
 
     /**
+     * @return GenericList<T>
+     */
+    public function drop(int $n)
+    {
+        if ($n <= 0) {
+            return $this;
+        }
+
+        if ($n >= $this->length()) {
+            return self::empty();
+        }
+
+        $list = $this;
+        for ($i = 0; $i < $n && !$list->isEmpty(); ++$i) {
+            /** @var GenericList<T> $list */
+            $list = $list->tail();
+        }
+
+        return $list;
+    }
+
+    /**
      * @param T $element
      *
      * @return GenericList<T>

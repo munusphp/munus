@@ -179,6 +179,14 @@ final class StreamTest extends TestCase
         self::assertTrue(Stream::range(1, 3)->equals(Stream::range(1, 10)->take(3)));
     }
 
+    public function testStreamDrop(): void
+    {
+        self::assertTrue(Stream::empty()->equals(Stream::of(1, 2, 3)->drop(3)));
+        self::assertTrue(Stream::of(1, 2, 3)->equals(Stream::of(1, 2, 3)->drop(0)));
+        self::assertTrue(Stream::of(2, 3, 4)->equals(Stream::of(1, 2, 3, 4)->drop(1)));
+        self::assertTrue(Stream::range(4, 10)->equals(Stream::range(1, 10)->drop(3)));
+    }
+
     public function testStreamPeek(): void
     {
         $values = [];

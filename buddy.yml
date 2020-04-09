@@ -12,11 +12,13 @@
       execute_commands:
         - "composer install"
         - "composer tests"
+        - "bash <(curl -s https://codecov.io/bash)"
       setup_commands:
         - "apt-get update"
         - "curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer"
-        - "apt-get install -y zip unzip zlib1g-dev"
+        - "apt-get install -y git zip unzip zlib1g-dev"
         - "docker-php-ext-install zip"
+        - "pecl install pcov && docker-php-ext-enable pcov"
       mount_filesystem_path: "/buddy/munus"
       shell: "BASH"
       trigger_condition: "ALWAYS"

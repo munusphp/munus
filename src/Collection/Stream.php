@@ -232,6 +232,20 @@ abstract class Stream extends Sequence
     }
 
     /**
+     * @return Stream<T>
+     */
+    public function drop(int $n)
+    {
+        $stream = $this;
+        while ($n-- > 0 && !$stream->isEmpty()) {
+            /** @var Stream<T> $stream */
+            $stream = $stream->tail();
+        }
+
+        return $stream;
+    }
+
+    /**
      * @template R
      *
      * @param Collector<T,R> $collector

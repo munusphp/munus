@@ -240,4 +240,22 @@ final class Set extends Traversable
 
         return self::fromPointer($sliced);
     }
+
+    /**
+     * @return Set<T>
+     */
+    public function drop(int $n)
+    {
+        if ($n <= 0) {
+            return $this;
+        }
+
+        if ($n >= $this->length()) {
+            return self::empty();
+        }
+
+        $sliced = array_slice($this->elements, $n);
+
+        return self::fromPointer($sliced);
+    }
 }

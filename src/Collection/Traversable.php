@@ -61,6 +61,11 @@ abstract class Traversable extends Value implements \IteratorAggregate
     abstract public function take(int $n);
 
     /**
+     * @return Traversable<T>
+     */
+    abstract public function drop(int $n);
+
+    /**
      * Drops elements while the predicate holds for the current element.
      *
      * @param callable(T):bool $predicate
