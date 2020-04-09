@@ -230,6 +230,26 @@ final class Map extends Traversable
         return self::fromPointer($map);
     }
 
+    /**
+     * Drop n next entries of map.
+     *
+     * @return Map<string,V>
+     */
+    public function drop(int $n)
+    {
+        if ($n <= 0) {
+            return $this;
+        }
+
+        if ($n >= $this->length()) {
+            return self::empty();
+        }
+
+        $map = array_slice($this->map, $n, null, true);
+
+        return self::fromPointer($map);
+    }
+
     public function isEmpty(): bool
     {
         return $this->length() === 0;

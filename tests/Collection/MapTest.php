@@ -105,6 +105,17 @@ final class MapTest extends TestCase
         self::assertNotSame($map, $map->take(3));
     }
 
+    public function testMapDrop(): void
+    {
+        $map = Map::fromArray(['a' => 'apple', 'b' => 'banana', '42' => 'pear', 'd' => 'orange']);
+
+        self::assertTrue(Map::fromArray(['42' => 'pear', 'd' => 'orange'])->equals($map->drop(2)));
+        self::assertTrue(Map::fromArray(['d' => 'orange'])->equals($map->drop(3)));
+        self::assertTrue($map->equals($map->drop(0)));
+        self::assertSame($map, $map->drop(-1));
+        self::assertTrue(Map::empty()->equals($map->drop(4)));
+    }
+
     public function testMapFilter(): void
     {
         $map = Map::fromArray(['a' => 'apple', 'b' => 'banana', '42' => 'pear', 'd' => 'orange']);
