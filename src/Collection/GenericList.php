@@ -33,7 +33,7 @@ abstract class GenericList extends Sequence
     /**
      * @template U
      *
-     * @param array<U> $elements
+     * @param iterable<U> $elements
      *
      * @return GenericList<U>
      */
