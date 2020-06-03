@@ -3,3 +3,4 @@
 .phpunit.result.cache
 clover.xml
 /coverage
+.idea
