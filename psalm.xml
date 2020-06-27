@@ -16,7 +16,7 @@
     </projectFiles>
 
     <issueHandlers>
-        <LessSpecificReturnType errorLevel="info"/>
+        <LessSpecificReturnType errorLevel="error"/>
 
         <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
 
@@ -56,7 +56,7 @@
 
         <!-- level 4 issues - points to possible deficiencies in logic, higher false-positives -->
 
-        <MoreSpecificReturnType errorLevel="info"/>
+        <MoreSpecificReturnType errorLevel="error"/>
         <LessSpecificReturnStatement errorLevel="error"/>
         <TypeCoercion errorLevel="info"/>
 
