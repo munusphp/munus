@@ -44,7 +44,7 @@ final class Set extends Traversable
     /**
      * @template U
      *
-     * @param U[] ...$elements
+     * @param U ...$elements
      *
      * @return Set<U>
      */

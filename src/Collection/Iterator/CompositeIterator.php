@@ -35,7 +35,7 @@ final class CompositeIterator extends Iterator
     /**
      * @template U
      *
-     * @param array<int, Iterator<U>> $iterators
+     * @param Iterator<U> ...$iterators
      *
      * @return Iterator<U>
      */

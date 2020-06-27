@@ -17,7 +17,7 @@ abstract class Stream extends Sequence
     /**
      * @template U
      *
-     * @param array<int,U> $elements
+     * @param U ...$elements
      *
      * @return Stream<U>
      */
@@ -29,7 +29,7 @@ abstract class Stream extends Sequence
     /**
      * @template U
      *
-     * @param U[] $elements
+     * @param iterable<U> $elements
      *
      * @return Stream<U>
      */
