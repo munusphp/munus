@@ -16,7 +16,7 @@ abstract class GenericList extends Sequence
     /**
      * @template U
      *
-     * @param array<int,U> $elements
+     * @param U ...$elements
      *
      * @return GenericList<U>
      */
