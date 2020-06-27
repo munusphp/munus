@@ -138,8 +138,8 @@ final class MapTest extends TestCase
         self::assertTrue(Map::fromArray(['A' => 'B', 'C' => 'D'])->equals(
             $map->map(function ($entry) {return $entry->map('strtoupper'); })
         ));
-        self::assertTrue(Map::fromArray(['b' => 'c', 'd' => 'e'])->equals(
-            $map->map(function ($entry) {return $entry->map(function ($v) {return ++$v; }); })
+        self::assertTrue(Map::fromArray(['aa' => 'bb', 'cc' => 'dd'])->equals(
+            $map->map(function ($entry) {return $entry->map(function (string $v): string {return $v.$v; }); })
         ));
 
         self::assertNotSame($map, $map->map(function ($entry) {return $entry; }));

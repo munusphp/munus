@@ -40,7 +40,7 @@
 
         <PropertyNotSetInConstructor errorLevel="error"/>
         <MissingConstructor errorLevel="error"/>
-        <MissingClosureParamType errorLevel="info"/>
+        <MissingClosureParamType errorLevel="error"/>
         <MissingParamType errorLevel="error"/>
 
         <RedundantCondition errorLevel="error"/>

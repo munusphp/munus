@@ -19,7 +19,7 @@ final class Collectors
      */
     public static function toList(): Collector
     {
-        return GenericCollector::of(GenericList::empty(), function (GenericList $list, $value) {
+        return GenericCollector::of(GenericList::empty(), /** @param T $value */function (GenericList $list, $value): GenericList {
             return $list->append($value);
         });
     }
@@ -31,7 +31,7 @@ final class Collectors
      */
     public static function toSet(): Collector
     {
-        return GenericCollector::of(Set::empty(), function (Set $set, $value) {
+        return GenericCollector::of(Set::empty(), /** @param T $value */function (Set $set, $value): Set {
             return $set->add($value);
         });
     }
@@ -45,7 +45,7 @@ final class Collectors
      */
     public static function toMap(callable $keyProvider): Collector
     {
-        return GenericCollector::of(Map::empty(), function (Map $map, $value) use ($keyProvider) {
+        return GenericCollector::of(Map::empty(), /** @param T $value */function (Map $map, $value) use ($keyProvider): Map {
             return $map->put($keyProvider($value), $value);
         });
     }
@@ -57,13 +57,21 @@ final class Collectors
      */
     public static function summing(): Collector
     {
-        return GenericCollector::of(0, function ($sum, $value) {
-            if (!is_numeric($value)) {
-                throw new \InvalidArgumentException(sprintf('Could not convert %s to number', $value));
-            }
+        return GenericCollector::of(0,
+            /**
+             * @param int|float $sum
+             * @param T         $value
+             *
+             * @return int|float
+             */
+            function ($sum, $value) {
+                if (!is_numeric($value)) {
+                    throw new \InvalidArgumentException(sprintf('Could not convert %s to number', $value));
+                }
 
-            return $sum + $value;
-        });
+                return $sum + $value;
+            }
+        );
     }
 
     /**
@@ -73,9 +81,9 @@ final class Collectors
      */
     public static function joining(string $glue = ''): Collector
     {
-        return new GenericCollector('', function ($text, $value) use ($glue) {
+        return new GenericCollector('', /** @param T $value */function (string $text, $value) use ($glue): string {
             return $text.$glue.(string) $value;
-        }, function ($text) use ($glue) {
+        }, function (string $text) use ($glue): string {
             return ltrim($text, $glue);
         });
     }
@@ -87,7 +95,7 @@ final class Collectors
      */
     public static function counting(): Collector
     {
-        return GenericCollector::of(0, function (int $count, $value): int {return ++$count; });
+        return GenericCollector::of(0, /** @param T $value */function (int $count, $value): int {return ++$count; });
     }
 
     /**
@@ -97,7 +105,7 @@ final class Collectors
      */
     public static function averaging(): Collector
     {
-        return new GenericCollector(Tuple::of(0, 0), function (Tuple $acc, $value) {
+        return new GenericCollector(Tuple::of(0, 0), /** @param T $value */function (Tuple $acc, $value): Tuple {
             if (!is_numeric($value)) {
                 throw new \InvalidArgumentException(sprintf('Could not convert %s to number', (string) $value));
             }

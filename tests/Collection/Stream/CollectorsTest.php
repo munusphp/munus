@@ -29,7 +29,7 @@ final class CollectorsTest extends TestCase
 
     public function testToMapCollector(): void
     {
-        $map = Stream::from(1)->take(3)->collect(Collectors::toMap(function ($value) {return (string) $value; }));
+        $map = Stream::from(1)->take(3)->collect(Collectors::toMap(function (int $value): string {return (string) $value; }));
 
         self::assertTrue(Map::fromArray(['1' => 1, '2' => 2, '3' => 3])->equals($map));
     }

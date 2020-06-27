@@ -83,7 +83,7 @@ abstract class Traversable extends Value implements \IteratorAggregate
      */
     public function dropUntil(callable $predicate)
     {
-        return $this->dropWhile(function ($value) use ($predicate) {
+        return $this->dropWhile(/** @param T $value */function ($value) use ($predicate): bool {
             return !$predicate($value);
         });
     }
@@ -97,7 +97,7 @@ abstract class Traversable extends Value implements \IteratorAggregate
      */
     public function filterNot(callable $predicate)
     {
-        return $this->filter(function ($value) use ($predicate) {
+        return $this->filter(/** @param T $value */function ($value) use ($predicate): bool {
             return !$predicate($value);
         });
     }
@@ -186,13 +186,19 @@ abstract class Traversable extends Value implements \IteratorAggregate
      */
     public function sum()
     {
-        return $this->fold(0, function ($sum, $x) {
-            if (!is_numeric($x)) {
-                throw new UnsupportedOperationException('not numeric value');
-            }
+        return $this->fold(0,
+            /**
+             * @param int|float $sum
+             * @param T         $x
+             */
+            function ($sum, $x) {
+                if (!is_numeric($x)) {
+                    throw new UnsupportedOperationException('not numeric value');
+                }
 
-            return $sum + ($x * 1);
-        });
+                return $sum + ($x * 1);
+            }
+        );
     }
 
     /**
@@ -200,13 +206,19 @@ abstract class Traversable extends Value implements \IteratorAggregate
      */
     public function product()
     {
-        return $this->fold(1, function ($product, $x) {
-            if (!is_numeric($x)) {
-                throw new UnsupportedOperationException('not numeric value');
-            }
+        return $this->fold(1,
+            /**
+             * @param int|float $product
+             * @param T         $x
+             */
+            function ($product, $x) {
+                if (!is_numeric($x)) {
+                    throw new UnsupportedOperationException('not numeric value');
+                }
 
-            return $product * ($x * 1);
-        });
+                return $product * ($x * 1);
+            }
+        );
     }
 
     public function average(): float
@@ -227,9 +239,15 @@ abstract class Traversable extends Value implements \IteratorAggregate
             return Option::none();
         }
 
-        return Option::of($this->fold($this->head(), function ($min, $x) {
-            return $min <= $x ? $min : $x;
-        }));
+        return Option::of($this->fold($this->head(),
+            /**
+             * @param T $min
+             * @param T $x
+             */
+            function ($min, $x) {
+                return $min <= $x ? $min : $x;
+            }
+        ));
     }
 
     /**
@@ -241,9 +259,15 @@ abstract class Traversable extends Value implements \IteratorAggregate
             return Option::none();
         }
 
-        return Option::of($this->fold($this->head(), function ($max, $x) {
-            return $max >= $x ? $max : $x;
-        }));
+        return Option::of($this->fold($this->head(),
+            /**
+             * @param T $max
+             * @param T $x
+             */
+            function ($max, $x) {
+                return $max >= $x ? $max : $x;
+            }
+        ));
     }
 
     /**
@@ -253,7 +277,7 @@ abstract class Traversable extends Value implements \IteratorAggregate
      */
     public function count(callable $predicate): int
     {
-        return $this->fold(0, function ($count, $value) use ($predicate) {
+        return $this->fold(0, /** @param T $value */ function (int $count, $value) use ($predicate): int {
             return $predicate($value) === true ? ++$count : $count;
         });
     }
