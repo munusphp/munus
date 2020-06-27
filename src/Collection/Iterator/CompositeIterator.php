@@ -59,6 +59,9 @@ final class CompositeIterator extends Iterator
         return $this->hasNext();
     }
 
+    /**
+     * @return T
+     */
     public function next()
     {
         if (!$this->hasNext()) {

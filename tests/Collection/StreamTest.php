@@ -140,7 +140,7 @@ final class StreamTest extends TestCase
         self::assertTrue(Stream::of(5, 9, 9, 6)->equals(Stream::cons(5, function () {return mt_rand(1, 10); })->take(4)));
         self::assertTrue(Stream::of('M', 'u')->equals(Stream::cons('M', function () {return 'u'; })->take(2)));
         $counter = 1;
-        self::assertTrue(Stream::of(1, 2, 3)->equals(Stream::cons(1, function () use (&$counter) {
+        self::assertTrue(Stream::of(1, 2, 3)->equals(Stream::cons(1, /** @return int|Stream */function () use (&$counter) {
             return ++$counter >= 4 ? Stream::empty() : $counter;
         })));
     }

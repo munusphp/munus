@@ -21,6 +21,9 @@ final class MapIterator extends Iterator
         reset($this->map);
     }
 
+    /**
+     * @return int|string|null
+     */
     public function key()
     {
         return key($this->map);
@@ -36,6 +39,9 @@ final class MapIterator extends Iterator
         reset($this->map);
     }
 
+    /**
+     * @return Tuple
+     */
     public function next()
     {
         if (!$this->valid()) {

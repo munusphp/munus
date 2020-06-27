@@ -128,6 +128,11 @@ class Iterator implements \Iterator
         $this->current = $this->traversable;
     }
 
+    /**
+     * @param callable(T,T):T $operation
+     *
+     * @return T
+     */
     public function reduce(callable $operation)
     {
         if (!$this->hasNext()) {

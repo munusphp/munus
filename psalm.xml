@@ -16,7 +16,7 @@
     </projectFiles>
 
     <issueHandlers>
-        <LessSpecificReturnType errorLevel="info"/>
+        <LessSpecificReturnType errorLevel="error"/>
 
         <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
 
@@ -32,15 +32,15 @@
         <InternalProperty errorLevel="error"/>
         <InternalClass errorLevel="error"/>
 
-        <MissingClosureReturnType errorLevel="info"/>
-        <MissingReturnType errorLevel="info"/>
-        <MissingPropertyType errorLevel="info"/>
+        <MissingClosureReturnType errorLevel="error"/>
+        <MissingReturnType errorLevel="error"/>
+        <MissingPropertyType errorLevel="error"/>
         <InvalidDocblock errorLevel="error"/>
         <MisplacedRequiredParam errorLevel="error"/>
 
         <PropertyNotSetInConstructor errorLevel="error"/>
         <MissingConstructor errorLevel="error"/>
-        <MissingClosureParamType errorLevel="info"/>
+        <MissingClosureParamType errorLevel="error"/>
         <MissingParamType errorLevel="error"/>
 
         <RedundantCondition errorLevel="error"/>
@@ -56,7 +56,7 @@
 
         <!-- level 4 issues - points to possible deficiencies in logic, higher false-positives -->
 
-        <MoreSpecificReturnType errorLevel="info"/>
+        <MoreSpecificReturnType errorLevel="error"/>
         <LessSpecificReturnStatement errorLevel="error"/>
         <TypeCoercion errorLevel="info"/>
 

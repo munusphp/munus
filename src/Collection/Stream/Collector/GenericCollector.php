@@ -51,7 +51,14 @@ final class GenericCollector implements Collector
      */
     public static function of($supplier, callable $accumulator): self
     {
-        return new self($supplier, $accumulator, function ($supplier) {return $supplier; });
+        return new self($supplier, $accumulator,
+            /**
+             * @param W $supplier
+             *
+             * @return W
+             */
+            function ($supplier) {return $supplier; }
+        );
     }
 
     /**
