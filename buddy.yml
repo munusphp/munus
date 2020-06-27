@@ -8,7 +8,7 @@
       type: "BUILD"
       working_directory: "/buddy/munus"
       docker_image_name: "library/php"
-      docker_image_tag: "7.2-stretch"
+      docker_image_tag: "7.4"
       execute_commands:
         - "composer install"
         - "composer tests"
