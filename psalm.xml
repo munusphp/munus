@@ -32,9 +32,9 @@
         <InternalProperty errorLevel="error"/>
         <InternalClass errorLevel="error"/>
 
-        <MissingClosureReturnType errorLevel="info"/>
-        <MissingReturnType errorLevel="info"/>
-        <MissingPropertyType errorLevel="info"/>
+        <MissingClosureReturnType errorLevel="error"/>
+        <MissingReturnType errorLevel="error"/>
+        <MissingPropertyType errorLevel="error"/>
         <InvalidDocblock errorLevel="error"/>
         <MisplacedRequiredParam errorLevel="error"/>
 

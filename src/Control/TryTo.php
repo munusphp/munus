@@ -61,6 +61,13 @@ abstract class TryTo extends Value
         return $this->isSuccess() ? Iterator::of($this->get()) : Iterator::empty();
     }
 
+    /**
+     * @template U
+     *
+     * @param callable(\Throwable):U $recovery
+     *
+     * @return TryTo<U>
+     */
     public function recover(string $throwable, callable $recovery): self
     {
         if ($this->isFailure()) {

@@ -101,7 +101,7 @@ final class Collectors
     /**
      * @template T
      *
-     * @return Collector<T,mixed>
+     * @return Collector<T,int|float>
      */
     public static function averaging(): Collector
     {
@@ -111,7 +111,7 @@ final class Collectors
             }
 
             return Tuple::of($acc[0] + $value, $acc[1] + 1);
-        }, function (Tuple $acc) {
+        }, /** @return int|float */function (Tuple $acc) {
             if ($acc[1] === 0) {
                 return 0;
             }

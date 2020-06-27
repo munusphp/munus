@@ -163,6 +163,11 @@ abstract class Traversable extends Value implements \IteratorAggregate
         return $iterator1->hasNext() === $iterator2->hasNext();
     }
 
+    /**
+     * @param callable(T,T):T $operation
+     *
+     * @return T
+     */
     public function reduce(callable $operation)
     {
         return $this->iterator()->reduce($operation);
@@ -190,6 +195,8 @@ abstract class Traversable extends Value implements \IteratorAggregate
             /**
              * @param int|float $sum
              * @param T         $x
+             *
+             * @return int|float
              */
             function ($sum, $x) {
                 if (!is_numeric($x)) {
@@ -210,6 +217,8 @@ abstract class Traversable extends Value implements \IteratorAggregate
             /**
              * @param int|float $product
              * @param T         $x
+             *
+             * @return int|float
              */
             function ($product, $x) {
                 if (!is_numeric($x)) {

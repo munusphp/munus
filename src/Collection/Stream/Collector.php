@@ -15,7 +15,7 @@ interface Collector
      */
     public function accumulate($value): void;
 
-    /***
+    /**
      * @return R
      */
     public function finish();

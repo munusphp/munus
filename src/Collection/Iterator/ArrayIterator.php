@@ -37,6 +37,9 @@ final class ArrayIterator extends Iterator
         return count($this->elements) > $this->index;
     }
 
+    /**
+     * @return T
+     */
     public function next()
     {
         if (isset($this->elements[$this->index])) {
