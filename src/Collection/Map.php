@@ -261,11 +261,11 @@ final class Map extends Traversable
     }
 
     /**
-     * @return V[]
+     * @return Stream<V>
      */
-    public function values(): array
+    public function values(): Stream
     {
-        return array_values($this->map);
+        return Stream::ofAll(array_values($this->map));
     }
 
     /**
