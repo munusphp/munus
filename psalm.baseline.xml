@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.8.1@8e54e3aa060fc490d86d0e2abbf62750516d40fd">
+<files psalm-version="3.18.2@19aa905f7c3c7350569999a93c40ae91ae4e1626">
   <file src="src/Collection/Map.php">
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>$map</code>
-    </InvalidPropertyAssignmentValue>
+    <PossiblyNullArrayOffset occurrences="2">
+      <code>$this-&gt;map</code>
+      <code>$this-&gt;map</code>
+    </PossiblyNullArrayOffset>
   </file>
   <file src="tests/Collection/StreamTest.php">
     <DocblockTypeContradiction occurrences="1">

@@ -8,16 +8,12 @@ parameters:
 			path: src/Collection/Map.php
 
 		-
-			message: "#^Return type \\(Munus\\\\Collection\\\\Map\\<string, U\\>\\) of method Munus\\\\Collection\\\\Map\\:\\:map\\(\\) should be compatible with return type \\(Munus\\\\Collection\\\\Traversable\\<Munus\\\\Tuple\\<U\\>\\>\\) of method Munus\\\\Collection\\\\Traversable\\<V\\>\\:\\:map\\(\\)$#"
-			count: 1
-			path: src/Collection/Map.php
+		    message: "#Method Munus\\\\Collection\\\\Stream\\\\Collectors::averaging\\(\\) should return Munus\\\\Collection\\\\Stream\\\\Collector\\<T, float\\|int\\> but returns Munus\\\\Collection\\\\Stream\\\\Collector\\\\GenericCollector\\<mixed, float\\|int\\|Munus\\\\Tuple\\>.#"
+		    count: 1
+		    path: src/Collection/Stream/Collectors.php
 
 		-
-			message: "#^Return type \\(Munus\\\\Collection\\\\Map\\<string, V\\>\\) of method Munus\\\\Collection\\\\Map\\:\\:filter\\(\\) should be compatible with return type \\(Munus\\\\Collection\\\\Traversable\\<Munus\\\\Tuple\\>\\) of method Munus\\\\Collection\\\\Traversable\\<V\\>\\:\\:filter\\(\\)$#"
-			count: 1
-			path: src/Collection/Map.php
+		    message: "#Method Munus\\\\Value::toStream\\(\\) should return Munus\\\\Collection\\\\Stream\\<T\\> but returns Munus\\\\Collection\\\\Stream\\\\Cons\\<Munus\\\\Collection\\\\Stream\\|T\\>.#"
+		    count: 1
+		    path: src/Value.php
 
-		-
-			message: "#^Return type \\(Munus\\\\Collection\\\\Map\\<string, V\\>\\) of method Munus\\\\Collection\\\\Map\\:\\:dropWhile\\(\\) should be compatible with return type \\(Munus\\\\Collection\\\\Traversable\\<Munus\\\\Tuple\\>\\) of method Munus\\\\Collection\\\\Traversable\\<V\\>\\:\\:dropWhile\\(\\)$#"
-			count: 1
-			path: src/Collection/Map.php

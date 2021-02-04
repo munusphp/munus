@@ -168,7 +168,13 @@ final class Set extends Traversable
     {
         reset($this->elements);
 
-        return current($this->elements);
+        $element = current($this->elements);
+
+        if ($element === false) {
+            throw new \RuntimeException('Set is empty');
+        }
+
+        return $element;
     }
 
     public function tail()
