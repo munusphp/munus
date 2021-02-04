@@ -4,3 +4,4 @@
 clover.xml
 /coverage
 .idea
+composer.lock

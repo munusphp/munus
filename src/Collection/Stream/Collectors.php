@@ -19,7 +19,7 @@ final class Collectors
      */
     public static function toList(): Collector
     {
-        return GenericCollector::of(GenericList::empty(), /** @param T $value */function (GenericList $list, $value): GenericList {
+        return GenericCollector::of(GenericList::empty(), /** @param T $value */ function (GenericList $list, $value): GenericList {
             return $list->append($value);
         });
     }
@@ -31,7 +31,7 @@ final class Collectors
      */
     public static function toSet(): Collector
     {
-        return GenericCollector::of(Set::empty(), /** @param T $value */function (Set $set, $value): Set {
+        return GenericCollector::of(Set::empty(), /** @param T $value */ function (Set $set, $value): Set {
             return $set->add($value);
         });
     }
@@ -45,7 +45,7 @@ final class Collectors
      */
     public static function toMap(callable $keyProvider): Collector
     {
-        return GenericCollector::of(Map::empty(), /** @param T $value */function (Map $map, $value) use ($keyProvider): Map {
+        return GenericCollector::of(Map::empty(), /** @param T $value */ function (Map $map, $value) use ($keyProvider): Map {
             return $map->put($keyProvider($value), $value);
         });
     }
@@ -81,7 +81,7 @@ final class Collectors
      */
     public static function joining(string $glue = ''): Collector
     {
-        return new GenericCollector('', /** @param T $value */function (string $text, $value) use ($glue): string {
+        return new GenericCollector('', /** @param T $value */ function (string $text, $value) use ($glue): string {
             return $text.$glue.(string) $value;
         }, function (string $text) use ($glue): string {
             return ltrim($text, $glue);
@@ -95,7 +95,7 @@ final class Collectors
      */
     public static function counting(): Collector
     {
-        return GenericCollector::of(0, /** @param T $value */function (int $count, $value): int {return ++$count; });
+        return GenericCollector::of(0, /** @param T $value */ function (int $count, $value): int {return ++$count; });
     }
 
     /**
@@ -105,13 +105,13 @@ final class Collectors
      */
     public static function averaging(): Collector
     {
-        return new GenericCollector(Tuple::of(0, 0), /** @param T $value */function (Tuple $acc, $value): Tuple {
+        return new GenericCollector(Tuple::of(0, 0), /** @param T $value */ function (Tuple $acc, $value): Tuple {
             if (!is_numeric($value)) {
                 throw new \InvalidArgumentException(sprintf('Could not convert %s to number', (string) $value));
             }
 
             return Tuple::of($acc[0] + $value, $acc[1] + 1);
-        }, /** @return int|float */function (Tuple $acc) {
+        }, /** @return int|float */ function (Tuple $acc) {
             if ($acc[1] === 0) {
                 return 0;
             }

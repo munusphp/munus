@@ -83,7 +83,7 @@ abstract class Traversable extends Value implements \IteratorAggregate
      */
     public function dropUntil(callable $predicate)
     {
-        return $this->dropWhile(/** @param T $value */function ($value) use ($predicate): bool {
+        return $this->dropWhile(/** @param T $value */ function ($value) use ($predicate): bool {
             return !$predicate($value);
         });
     }
@@ -97,7 +97,7 @@ abstract class Traversable extends Value implements \IteratorAggregate
      */
     public function filterNot(callable $predicate)
     {
-        return $this->filter(/** @param T $value */function ($value) use ($predicate): bool {
+        return $this->filter(/** @param T $value */ function ($value) use ($predicate): bool {
             return !$predicate($value);
         });
     }
