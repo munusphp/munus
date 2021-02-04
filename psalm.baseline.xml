@@ -1,12 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.18.2@19aa905f7c3c7350569999a93c40ae91ae4e1626">
+<files psalm-version="4.4.1@9fd7a7d885b3a216cff8dec9d8c21a132f275224">
+  <file src="src/Collection/GenericList.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$this-&gt;tail()-&gt;map($mapper)</code>
+    </ArgumentTypeCoercion>
+  </file>
   <file src="src/Collection/Map.php">
     <PossiblyNullArrayOffset occurrences="2">
       <code>$this-&gt;map</code>
       <code>$this-&gt;map</code>
     </PossiblyNullArrayOffset>
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(string) $key</code>
+    </RedundantCastGivenDocblockType>
+  </file>
+  <file src="src/Collection/Stream/Cons.php">
+    <ArgumentTypeCoercion occurrences="1"/>
+  </file>
+  <file src="src/Tuple.php">
+    <TooManyArguments occurrences="1">
+      <code>call_user_func($transformer, ...$this-&gt;data-&gt;toArray())</code>
+    </TooManyArguments>
+  </file>
+  <file src="tests/Collection/GenericListTest.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>function (string $a, string $b): string {return $a.$b; }</code>
+    </ArgumentTypeCoercion>
+  </file>
+  <file src="tests/Collection/MapTest.php">
+    <InvalidMethodCall occurrences="2">
+      <code>equals</code>
+      <code>equals</code>
+    </InvalidMethodCall>
+  </file>
+  <file src="tests/Collection/SetTest.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>function (int $a, int $b): int {return $a + $b; }</code>
+    </ArgumentTypeCoercion>
   </file>
   <file src="tests/Collection/StreamTest.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>function (int $a, int $b): int {return $a + $b; }</code>
+    </ArgumentTypeCoercion>
     <DocblockTypeContradiction occurrences="1">
       <code>$name === 'munus'</code>
     </DocblockTypeContradiction>
