@@ -37,8 +37,5 @@ jobs:
     - name: Install dependencies
       run: composer install
 
-    - name: Check php version
-      run: php -v
-
     - name: Run test suite
       run: composer tests
