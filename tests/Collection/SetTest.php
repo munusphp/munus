@@ -107,6 +107,15 @@ final class SetTest extends TestCase
         self::assertEquals(42, $head);
     }
 
+    public function testEmptySetDoesntHaveHead(): void
+    {
+        $set = Set::empty();
+
+        $this->expectException(\RuntimeException::class);
+
+        $set->head();
+    }
+
     public function testEmptySetPeek(): void
     {
         $set = Set::empty();

@@ -41,7 +41,7 @@ final class Cons extends Stream
 
     public function length(): int
     {
-        return $this->fold(0, /** @param T $ignored */function (int $n, $ignored): int {return $n + 1; });
+        return $this->fold(0, /** @param T $ignored */ function (int $n, $ignored): int {return $n + 1; });
     }
 
     /**
