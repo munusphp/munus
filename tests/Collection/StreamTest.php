@@ -247,4 +247,9 @@ final class StreamTest extends TestCase
         self::assertTrue(Stream::of(1, 2, 3, 4)->equals(Stream::of(3, 4)->prependAll(Stream::of(1, 2))));
         self::assertTrue(Stream::of('a', 'b', 'c', 'd', 'e')->equals(Stream::of('e')->prependAll(Stream::of('a', 'b', 'c', 'd'))));
     }
+
+    public function testStreamToArray(): void
+    {
+        self::assertEquals([1, 2, 3, 4, 5], Stream::range(1, 5)->toArray());
+    }
 }

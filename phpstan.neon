@@ -13,6 +13,11 @@ parameters:
 		    path: src/Collection/Stream/Collectors.php
 
 		-
+		    message: "#Template type T of method#"
+		    count: 6
+		    path: src/Collection/Stream/Collectors.php
+
+		-
 		    message: "#Method Munus\\\\Value::toStream\\(\\) should return Munus\\\\Collection\\\\Stream\\<T\\> but returns Munus\\\\Collection\\\\Stream\\\\Cons\\<Munus\\\\Collection\\\\Stream\\|T\\>.#"
 		    count: 1
 		    path: src/Value.php

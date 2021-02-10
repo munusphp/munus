@@ -153,6 +153,12 @@ final class OptionTest extends TestCase
         self::assertTrue(Stream::of(42)->equals(Option::of(42)->toStream()));
     }
 
+    public function testOptionToArray(): void
+    {
+        self::assertEquals(['a'], Option::some('a')->toArray());
+        self::assertEquals([], Option::none()->toArray());
+    }
+
     public function testOptionIsPresent(): void
     {
         self::assertTrue(Option::of(43)->isPresent());

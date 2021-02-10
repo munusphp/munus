@@ -252,6 +252,12 @@ final class TryToTest extends TestCase
         ));
     }
 
+    public function testToArray(): void
+    {
+        self::assertEquals(['munus'], TryTo::run(function () {return 'munus'; })->toArray());
+        self::assertEquals([], TryTo::run(function () {throw new \LogicException(); })->toArray());
+    }
+
     public function testFailurePeek(): void
     {
         $try = TryTo::run(function () {throw new \LogicException(); });

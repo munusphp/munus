@@ -272,4 +272,9 @@ final class MapTest extends TestCase
         ));
         self::assertTrue(Stream::empty()->equals(Map::empty()->toStream()));
     }
+
+    public function testMapToArray(): void
+    {
+        self::assertEquals(['a' => 'b', 'c' => 'd'], Map::fromArray(['a' => 'b', 'c' => 'd'])->toArray());
+    }
 }
