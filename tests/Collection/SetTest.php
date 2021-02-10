@@ -222,4 +222,9 @@ final class SetTest extends TestCase
         ));
         self::assertTrue(Stream::empty()->equals(Set::empty()->toStream()));
     }
+
+    public function testToArray(): void
+    {
+        self::assertEquals(['php', 'is', 'awesome'], Set::of('php', 'is', 'awesome')->toArray());
+    }
 }

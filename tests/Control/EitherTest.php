@@ -109,5 +109,14 @@ final class EitherTest extends TestCase
         self::assertTrue(Stream::of('right')->equals(
             Either::right('right')->toStream()
         ));
+        self::assertTrue(Stream::empty()->equals(
+            Either::left('right')->toStream()
+        ));
+    }
+
+    public function testToArray(): void
+    {
+        self::assertEquals(['a'], Either::right('a')->toArray());
+        self::assertEquals([], Either::left('a')->toArray());
     }
 }

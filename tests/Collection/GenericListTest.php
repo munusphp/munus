@@ -178,6 +178,11 @@ final class GenericListTest extends TestCase
         self::assertTrue(Stream::empty()->equals(GenericList::empty()));
     }
 
+    public function testToArray(): void
+    {
+        self::assertEquals([1, 2, 3], GenericList::of(1, 2, 3)->toArray());
+    }
+
     public function testListPrependAll(): void
     {
         self::assertTrue(GenericList::of(1, 2, 3)->equals(GenericList::empty()->prependAll(GenericList::of(1, 2, 3))));

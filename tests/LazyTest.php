@@ -65,6 +65,13 @@ final class LazyTest extends TestCase
         ));
     }
 
+    public function testToArray(): void
+    {
+        $lazy = Lazy::of(function () {return 'munus'; });
+
+        self::assertEquals(['munus'], $lazy->toArray());
+    }
+
     public function testLazyPeek(): void
     {
         $check = null;

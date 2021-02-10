@@ -236,4 +236,20 @@ abstract class Value
             return $iterator->hasNext() ? $iterator->next() : Stream::empty();
         });
     }
+
+    /**
+     * @return array<T>
+     */
+    public function toArray(): array
+    {
+        if ($this->isEmpty()) {
+            return [];
+        }
+
+        if ($this->isSingleValued()) {
+            return [$this->get()];
+        }
+
+        return $this->iterator()->toArray();
+    }
 }
