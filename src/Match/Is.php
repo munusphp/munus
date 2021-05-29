@@ -110,6 +110,7 @@ class Is
     {
         $callable = /** @param T $value */ function ($value) use ($predicates): bool {
             $predicatesList = GenericList::ofAll($predicates);
+
             return $predicatesList->count(function (Is $predicate) use ($value): bool {
                 return $predicate->equals($value);
             }) === $predicatesList->length();
