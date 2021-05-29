@@ -142,4 +142,24 @@ class MatchTest extends TestCase
 
         self::assertEquals('other', $result);
     }
+
+    public function testMatchNull(): void
+    {
+        $result = GenericMatch::value(null)->of(
+            GenericCase::ofStatic(Is::null(), 'match'),
+            DefaultCase::ofStatic('other')
+        );
+
+        self::assertEquals('match', $result);
+    }
+
+    public function testMatchNotNull(): void
+    {
+        $result = GenericMatch::value(1)->of(
+            GenericCase::ofStatic(Is::notNull(), 'match'),
+            DefaultCase::ofStatic('other')
+        );
+
+        self::assertEquals('match', $result);
+    }
 }
