@@ -9,7 +9,7 @@ use Munus\Match\Predicate;
 /**
  * @template T
  */
-class IsInstance implements Predicate
+class IsInstanceOf implements Predicate
 {
     /**
      * @var string

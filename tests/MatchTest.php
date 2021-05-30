@@ -5,19 +5,28 @@ declare(strict_types=1);
 namespace Munus\Tests;
 
 use Munus\Exception\MatchNotFoundException;
-use Munus\GenericMatch;
-use Munus\Match\DefaultCase;
-use Munus\Match\GenericCase;
-use Munus\Match\Is;
+use function Munus\Match\caseCall;
+use function Munus\Match\caseOf;
+use function Munus\Match\defaultCall;
+use function Munus\Match\defaultOf;
+use function Munus\Match\matchValue;
+use function Munus\Match\Predicates\isAllOf;
+use function Munus\Match\Predicates\isAnyOf;
+use function Munus\Match\Predicates\isIn;
+use function Munus\Match\Predicates\isInstanceOf;
+use function Munus\Match\Predicates\isNoneOf;
+use function Munus\Match\Predicates\isNotNull;
+use function Munus\Match\Predicates\isNull;
+use function Munus\Match\Predicates\isValue;
 use PHPUnit\Framework\TestCase;
 
 class MatchTest extends TestCase
 {
     public function testMatch(): void
     {
-        $result = GenericMatch::value('value')->of(
-            GenericCase::call('value', function (string $value) { return 'matched '.$value; }),
-            DefaultCase::call(function (string $value) { return 'default '.$value; })
+        $result = matchValue('value')->of(
+            caseCall('value', function (string $value) { return 'matched '.$value; }),
+            defaultCall(function (string $value) { return 'default '.$value; })
         );
 
         self::assertEquals('matched value', $result);
@@ -25,9 +34,9 @@ class MatchTest extends TestCase
 
     public function testDefaultMatch(): void
     {
-        $result = GenericMatch::value('value')->of(
-            GenericCase::call('none', function (string $value) { return 'matched '.$value; }),
-            DefaultCase::call(function (string $value) { return 'default '.$value; })
+        $result = matchValue('value')->of(
+            caseCall('none', function (string $value) { return 'matched '.$value; }),
+            defaultCall(function (string $value) { return 'default '.$value; })
         );
 
         self::assertEquals('default value', $result);
@@ -35,9 +44,9 @@ class MatchTest extends TestCase
 
     public function testMatchStaticValue(): void
     {
-        $result = GenericMatch::value('value')->of(
-            GenericCase::of('value', 'match'),
-            DefaultCase::of('default')
+        $result = matchValue('value')->of(
+            caseOf('value', 'match'),
+            defaultOf('default')
         );
 
         self::assertEquals('match', $result);
@@ -45,9 +54,9 @@ class MatchTest extends TestCase
 
     public function testDefaultMatchStaticValue(): void
     {
-        $result = GenericMatch::value('value')->of(
-            GenericCase::of('none', 'match'),
-            DefaultCase::of('default')
+        $result = matchValue('value')->of(
+            caseOf('none', 'match'),
+            defaultOf('default')
         );
 
         self::assertEquals('default', $result);
@@ -57,16 +66,16 @@ class MatchTest extends TestCase
     {
         self::expectException(MatchNotFoundException::class);
 
-        GenericMatch::value('value')->of(
-            GenericCase::of('none', 'other')
+        matchValue('value')->of(
+            caseOf('none', 'other')
         );
     }
 
     public function testValueMatch(): void
     {
-        $result = GenericMatch::value('value')->of(
-            GenericCase::of(Is::value('value'), 'match'),
-            DefaultCase::of('other')
+        $result = matchValue('value')->of(
+            caseOf(isValue('value'), 'match'),
+            defaultOf('default')
         );
 
         self::assertEquals('match', $result);
@@ -74,9 +83,9 @@ class MatchTest extends TestCase
 
     public function testInValuesMatch(): void
     {
-        $result = GenericMatch::value('value')->of(
-            GenericCase::of(Is::in(['value', 'another']), 'match'),
-            DefaultCase::of('other')
+        $result = matchValue('value')->of(
+            caseOf(isIn(['value', 'another']), 'match'),
+            defaultOf('default')
         );
 
         self::assertEquals('match', $result);
@@ -84,9 +93,9 @@ class MatchTest extends TestCase
 
     public function testInstanceMatch(): void
     {
-        $result = GenericMatch::value(new \DateTime())->of(
-            GenericCase::of(Is::instance(\DateTime::class), 'match'),
-            DefaultCase::of('other')
+        $result = matchValue(new \DateTime())->of(
+            caseOf(isInstanceOf(\DateTime::class), 'match'),
+            defaultOf('default')
         );
 
         self::assertEquals('match', $result);
@@ -94,33 +103,33 @@ class MatchTest extends TestCase
 
     public function testMatchAllOf(): void
     {
-        $result = GenericMatch::value(2)->of(
-            GenericCase::of(Is::allOf(Is::in([1, 2]), Is::in([2, 3])), 'match'),
-            DefaultCase::of('other')
+        $result = matchValue(2)->of(
+            caseOf(isAllOf(isIn([1, 2]), isIn([2, 3])), 'match'),
+            defaultOf('default')
         );
 
         self::assertEquals('match', $result);
 
-        $result = GenericMatch::value(1)->of(
-            GenericCase::of(Is::allOf(Is::in([1, 2]), Is::in([2, 3])), 'match'),
-            DefaultCase::of('other')
+        $result = matchValue(1)->of(
+            caseOf(isAllOf(isIn([1, 2]), isIn([2, 3])), 'match'),
+            defaultOf('default')
         );
 
-        self::assertEquals('other', $result);
+        self::assertEquals('default', $result);
     }
 
     public function testMatchNoneOf(): void
     {
-        $result = GenericMatch::value(2)->of(
-            GenericCase::of(Is::noneOf(Is::in([1, 2]), Is::in([2, 3])), 'match'),
-            DefaultCase::of('other')
+        $result = matchValue(2)->of(
+            caseOf(isNoneOf(isIn([1, 2]), isIn([2, 3])), 'match'),
+            defaultOf('default')
         );
 
-        self::assertEquals('other', $result);
+        self::assertEquals('default', $result);
 
-        $result = GenericMatch::value(1)->of(
-            GenericCase::of(Is::noneOf(Is::in([4, 2]), Is::in([2, 3])), 'match'),
-            DefaultCase::of('other')
+        $result = matchValue(1)->of(
+            caseOf(isNoneOf(isIn([4, 2]), isIn([2, 3])), 'match'),
+            defaultOf('default')
         );
 
         self::assertEquals('match', $result);
@@ -128,26 +137,26 @@ class MatchTest extends TestCase
 
     public function testMatchAnyOf(): void
     {
-        $result = GenericMatch::value(2)->of(
-            GenericCase::of(Is::anyOf(Is::in([1, 2]), Is::in([4, 3])), 'match'),
-            DefaultCase::of('other')
+        $result = matchValue(2)->of(
+            caseOf(isAnyOf(isIn([1, 2]), isIn([4, 3])), 'match'),
+            defaultOf('default')
         );
 
         self::assertEquals('match', $result);
 
-        $result = GenericMatch::value(1)->of(
-            GenericCase::of(Is::anyOf(Is::in([4, 2]), Is::in([2, 3])), 'match'),
-            DefaultCase::of('other')
+        $result = matchValue(1)->of(
+            caseOf(isAnyOf(isIn([4, 2]), isIn([2, 3])), 'match'),
+            defaultOf('default')
         );
 
-        self::assertEquals('other', $result);
+        self::assertEquals('default', $result);
     }
 
     public function testMatchNull(): void
     {
-        $result = GenericMatch::value(null)->of(
-            GenericCase::of(Is::null(), 'match'),
-            DefaultCase::of('other')
+        $result = matchValue(null)->of(
+            caseOf(isNull(), 'match'),
+            defaultOf('default')
         );
 
         self::assertEquals('match', $result);
@@ -155,9 +164,9 @@ class MatchTest extends TestCase
 
     public function testMatchNotNull(): void
     {
-        $result = GenericMatch::value(1)->of(
-            GenericCase::of(Is::notNull(), 'match'),
-            DefaultCase::of('other')
+        $result = matchValue(1)->of(
+            caseOf(isNotNull(), 'match'),
+            defaultOf('default')
         );
 
         self::assertEquals('match', $result);
