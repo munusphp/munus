@@ -12,7 +12,7 @@ use Munus\Match\Predicate;
 class IsIn implements Predicate
 {
     /**
-     * @var iterable
+     * @var iterable<T>
      */
     private $values;
 
