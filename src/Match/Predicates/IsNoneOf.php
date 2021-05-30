@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace Munus\Match\Predicates;
 
 use Munus\Collection\GenericList;
-use Munus\Match\Is;
+use Munus\Match\Predicate;
 
 /**
  * @template T
  */
-class IsNoneOf extends Is
+class IsNoneOf implements Predicate
 {
     /**
-     * @var GenericList<Is>
+     * @var GenericList<Predicate>
      */
     private $predicates;
 
-    public function __construct(Is ...$predicates)
+    public function __construct(Predicate ...$predicates)
     {
         $this->predicates = GenericList::ofAll($predicates);
     }
@@ -28,7 +28,7 @@ class IsNoneOf extends Is
     public function meet($value): bool
     {
         return $this->predicates
-            ->filter(function (Is $predicate) use ($value): bool {
+            ->filter(function (Predicate $predicate) use ($value): bool {
                 return $predicate->meet($value);
             })->isEmpty();
     }

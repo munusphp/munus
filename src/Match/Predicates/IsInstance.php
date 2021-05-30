@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Munus\Match\Predicates;
 
-use Munus\Match\Is;
+use Munus\Match\Predicate;
 
 /**
  * @template T
  */
-class IsInstance extends Is
+class IsInstance implements Predicate
 {
     /**
      * @var string

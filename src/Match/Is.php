@@ -13,81 +13,93 @@ use Munus\Match\Predicates\IsNotNull;
 use Munus\Match\Predicates\IsNull;
 use Munus\Match\Predicates\IsValue;
 
-/**
- * @template T
- */
-abstract class Is
+final class Is
 {
+    private function __construct()
+    {
+    }
+
     /**
-     * @psalm-template U
+     * @psalm-template T
      *
-     * @param U $value
+     * @param T $value
      *
-     * @return Is<U>
+     * @return Predicate<T>
      */
-    public static function value($value): Is
+    public static function value($value): Predicate
     {
         return new IsValue($value);
     }
 
     /**
-     * @return Is<T>
+     * @psalm-template T
+     *
+     * @param iterable<T> $values
+     *
+     * @return Predicate<T>
      */
-    public static function in(iterable $values): Is
+    public static function in(iterable $values): Predicate
     {
         return new IsIn($values);
     }
 
     /**
-     * @return Is<T>
+     * @return Predicate<object>
      */
-    public static function instance(string $className): Is
+    public static function instance(string $className): Predicate
     {
         return new IsInstance($className);
     }
 
     /**
-     * @return Is<T>
+     * @return Predicate<mixed>
      */
-    public static function null(): Is
+    public static function null(): Predicate
     {
         return new IsNull();
     }
 
     /**
-     * @return Is<T>
+     * @return Predicate<mixed>
      */
-    public static function notNull(): Is
+    public static function notNull(): Predicate
     {
         return new IsNotNull();
     }
 
     /**
-     * @return Is<T>
+     * @psalm-template T
+     *
+     * @param Predicate<T> ...$predicates
+     *
+     * @return Predicate<T>
      */
-    public static function anyOf(Is ...$predicates): Is
+    public static function anyOf(Predicate ...$predicates): Predicate
     {
         return new IsAnyOf(...$predicates);
     }
 
     /**
-     * @return Is<T>
+     * @psalm-template T
+     *
+     * @param Predicate<T> ...$predicates
+     *
+     * @return Predicate<T>
      */
-    public static function noneOf(Is ...$predicates): Is
+    public static function noneOf(Predicate ...$predicates): Predicate
     {
         return new IsNoneOf(...$predicates);
     }
 
     /**
-     * @return Is<T>
+     * @psalm-template T
+     *
+     * @param Predicate<T> ...$predicates
+     *
+     * @return Predicate<T>
      */
-    public static function allOf(Is ...$predicates): Is
+    public static function allOf(Predicate ...$predicates): Predicate
     {
         return new IsAllOf(...$predicates);
     }
-
-    /**
-     * @param T $value
-     */
-    abstract public function meet($value): bool;
 }

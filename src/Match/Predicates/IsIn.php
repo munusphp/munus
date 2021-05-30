@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Munus\Match\Predicates;
 
-use Munus\Match\Is;
+use Munus\Match\Predicate;
 
 /**
  * @template T
  */
-class IsIn extends Is
+class IsIn implements Predicate
 {
     /**
      * @var iterable

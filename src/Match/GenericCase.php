@@ -13,15 +13,15 @@ use Munus\Match\GenericCase\GenericCaseStatic;
 abstract class GenericCase implements MatchCase
 {
     /**
-     * @var T|Is<T>
+     * @var T|Predicate<T>
      */
     protected $value;
 
     /**
      * @psalm-template U
      *
-     * @param T|Is<T>       $value
-     * @param callable(T):U $callable
+     * @param T|Predicate<T> $value
+     * @param callable(T):U  $callable
      */
     public static function of($value, callable $callable): GenericCase
     {
@@ -31,8 +31,8 @@ abstract class GenericCase implements MatchCase
     /**
      * @psalm-template U
      *
-     * @param T|Is<T> $value
-     * @param U       $other
+     * @param T|Predicate<T> $value
+     * @param U              $other
      */
     public static function ofStatic($value, $other): GenericCase
     {
@@ -44,6 +44,6 @@ abstract class GenericCase implements MatchCase
      */
     public function match($value): bool
     {
-        return $this->value instanceof Is ? $this->value->meet($value) : $this->value === $value;
+        return $this->value instanceof Predicate ? $this->value->meet($value) : $this->value === $value;
     }
 }
