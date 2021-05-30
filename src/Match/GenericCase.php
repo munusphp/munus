@@ -44,6 +44,6 @@ abstract class GenericCase implements MatchCase
      */
     public function match($value): bool
     {
-        return $this->value instanceof Is ? $this->value->equals($value) : $this->value === $value;
+        return $this->value instanceof Is ? $this->value->meet($value) : $this->value === $value;
     }
 }

@@ -25,12 +25,10 @@ class IsAllOf extends Is
     /**
      * @param T $value
      */
-    public function equals($value): bool
+    public function meet($value): bool
     {
-        $predicatesList = GenericList::ofAll($this->predicates);
-
         return $this->predicates->count(function (Is $predicate) use ($value): bool {
-            return $predicate->equals($value);
+            return $predicate->meet($value);
         }) === $this->predicates->length();
     }
 }

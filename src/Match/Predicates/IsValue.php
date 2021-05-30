@@ -27,7 +27,7 @@ class IsValue extends Is
     /**
      * @param T $value
      */
-    public function equals($value): bool
+    public function meet($value): bool
     {
         return $this->value === $value;
     }

@@ -25,11 +25,11 @@ class IsNoneOf extends Is
     /**
      * @param T $value
      */
-    public function equals($value): bool
+    public function meet($value): bool
     {
         return $this->predicates
             ->filter(function (Is $predicate) use ($value): bool {
-                return $predicate->equals($value);
+                return $predicate->meet($value);
             })->isEmpty();
     }
 }

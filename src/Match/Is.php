@@ -89,5 +89,5 @@ abstract class Is
     /**
      * @param T $value
      */
-    abstract public function equals($value): bool;
+    abstract public function meet($value): bool;
 }

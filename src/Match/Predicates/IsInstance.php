@@ -24,7 +24,7 @@ class IsInstance extends Is
     /**
      * @param T $value
      */
-    public function equals($value): bool
+    public function meet($value): bool
     {
         return $value instanceof $this->className;
     }

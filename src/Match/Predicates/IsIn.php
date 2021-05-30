@@ -24,7 +24,7 @@ class IsIn extends Is
     /**
      * @param T $value
      */
-    public function equals($value): bool
+    public function meet($value): bool
     {
         return in_array($value, (array) $this->values, true);
     }

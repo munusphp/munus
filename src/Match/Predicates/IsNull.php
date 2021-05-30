@@ -14,7 +14,7 @@ class IsNull extends Is
     /**
      * @param T $value
      */
-    public function equals($value): bool
+    public function meet($value): bool
     {
         return is_null($value);
     }
