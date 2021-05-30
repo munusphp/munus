@@ -17,7 +17,7 @@ abstract class DefaultCase implements MatchCase
      *
      * @param callable(T):U $callable
      */
-    public static function of(callable $callable): DefaultCase
+    public static function call(callable $callable): DefaultCase
     {
         return new DefaultCaseCallable($callable);
     }
@@ -29,7 +29,7 @@ abstract class DefaultCase implements MatchCase
      *
      * @return DefaultCase<U>
      */
-    public static function ofStatic($other): DefaultCase
+    public static function of($other): DefaultCase
     {
         return new DefaultCaseStatic($other);
     }

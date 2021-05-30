@@ -23,7 +23,7 @@ abstract class GenericCase implements MatchCase
      * @param T|Predicate<T> $value
      * @param callable(T):U  $callable
      */
-    public static function of($value, callable $callable): GenericCase
+    public static function call($value, callable $callable): GenericCase
     {
         return new GenericCaseCallable($value, $callable);
     }
@@ -34,7 +34,7 @@ abstract class GenericCase implements MatchCase
      * @param T|Predicate<T> $value
      * @param U              $other
      */
-    public static function ofStatic($value, $other): GenericCase
+    public static function of($value, $other): GenericCase
     {
         return new GenericCaseStatic($value, $other);
     }
