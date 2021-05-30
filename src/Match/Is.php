@@ -4,40 +4,30 @@ declare(strict_types=1);
 
 namespace Munus\Match;
 
-use Munus\Collection\GenericList;
+use Munus\Match\Predicates\IsAllOf;
+use Munus\Match\Predicates\IsAnyOf;
+use Munus\Match\Predicates\IsIn;
+use Munus\Match\Predicates\IsInstance;
+use Munus\Match\Predicates\IsNoneOf;
+use Munus\Match\Predicates\IsNotNull;
+use Munus\Match\Predicates\IsNull;
+use Munus\Match\Predicates\IsValue;
 
 /**
  * @template T
  */
-class Is
+abstract class Is
 {
-    /**
-     * @var callable(T):bool
-     */
-    private $callable;
-
-    /**
-     * @param callable(T):bool $callable
-     */
-    public function __construct(callable $callable)
-    {
-        $this->callable = $callable;
-    }
-
     /**
      * @psalm-template U
      *
-     * @param U $matchValue
+     * @param U $value
      *
      * @return Is<U>
      */
-    public static function value($matchValue): Is
+    public static function value($value): Is
     {
-        $callable = /** @param T $value */ function ($value) use ($matchValue): bool {
-            return $value === $matchValue;
-        };
-
-        return new Is($callable);
+        return new IsValue($value);
     }
 
     /**
@@ -45,11 +35,7 @@ class Is
      */
     public static function in(iterable $values): Is
     {
-        $callable = /** @param T $value */ function ($value) use ($values): bool {
-            return in_array($value, (array) $values, true);
-        };
-
-        return new Is($callable);
+        return new IsIn($values);
     }
 
     /**
@@ -57,73 +43,51 @@ class Is
      */
     public static function instance(string $className): Is
     {
-        $callable = /** @param T $value */ function ($value) use ($className): bool {
-            return $value instanceof $className;
-        };
-
-        return new Is($callable);
+        return new IsInstance($className);
     }
 
+    /**
+     * @return Is<T>
+     */
     public static function null(): Is
     {
-        $callable = /** @param T $value */ function ($value): bool {
-            return is_null($value);
-        };
-
-        return new Is($callable);
+        return new IsNull();
     }
 
+    /**
+     * @return Is<T>
+     */
     public static function notNull(): Is
     {
-        $callable = /** @param T $value */ function ($value): bool {
-            return !is_null($value);
-        };
-
-        return new Is($callable);
+        return new IsNotNull();
     }
 
+    /**
+     * @return Is<T>
+     */
     public static function anyOf(Is ...$predicates): Is
     {
-        $callable = /** @param T $value */ function ($value) use ($predicates): bool {
-            return !GenericList::ofAll($predicates)
-                ->filter(function (Is $predicate) use ($value): bool {
-                    return $predicate->equals($value);
-                })->isEmpty();
-        };
-
-        return new Is($callable);
+        return new IsAnyOf(...$predicates);
     }
 
+    /**
+     * @return Is<T>
+     */
     public static function noneOf(Is ...$predicates): Is
     {
-        $callable = /** @param T $value */ function ($value) use ($predicates): bool {
-            return GenericList::ofAll($predicates)
-                ->filter(function (Is $predicate) use ($value): bool {
-                    return $predicate->equals($value);
-                })->isEmpty();
-        };
-
-        return new Is($callable);
+        return new IsNoneOf(...$predicates);
     }
 
+    /**
+     * @return Is<T>
+     */
     public static function allOf(Is ...$predicates): Is
     {
-        $callable = /** @param T $value */ function ($value) use ($predicates): bool {
-            $predicatesList = GenericList::ofAll($predicates);
-
-            return $predicatesList->count(function (Is $predicate) use ($value): bool {
-                return $predicate->equals($value);
-            }) === $predicatesList->length();
-        };
-
-        return new Is($callable);
+        return new IsAllOf(...$predicates);
     }
 
     /**
      * @param T $value
      */
-    public function equals($value): bool
-    {
-        return ($this->callable)($value);
-    }
+    abstract public function equals($value): bool;
 }
