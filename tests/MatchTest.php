@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Munus\Tests;
 
 use Munus\Exception\MatchNotFoundException;
+use Munus\Exception\MultipleDefaultCasesException;
 use function Munus\Match\caseCall;
 use function Munus\Match\caseOf;
 use function Munus\Match\defaultCall;
@@ -170,5 +171,15 @@ class MatchTest extends TestCase
         );
 
         self::assertEquals('match', $result);
+    }
+
+    public function testMultipleDefaultCases(): void
+    {
+        self::expectException(MultipleDefaultCasesException::class);
+
+        matchValue(1)->of(
+            defaultCall(function () {}),
+            defaultOf('default')
+        );
     }
 }
