@@ -5,7 +5,9 @@ $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__.'/tests')
 ;
 
-return PhpCsFixer\Config::create()
+$config = new PhpCsFixer\Config();
+
+return $config
     ->setRiskyAllowed(true)
     ->setRules([
         '@PHP71Migration' => true,
@@ -19,18 +21,22 @@ return PhpCsFixer\Config::create()
         'no_unused_imports' => true,
         'declare_strict_types' => true,
         'ordered_imports' => [
-            'importsOrder' => null,
-            'sortAlgorithm' => 'alpha',
+            'imports_order' => null,
+            'sort_algorithm' => 'alpha',
         ],
         'phpdoc_order' => true,
         'phpdoc_align' => true,
         'phpdoc_no_access' => true,
         'phpdoc_separation' => true,
-        'pre_increment' => true,
         'single_quote' => true,
         'trim_array_spaces' => true,
         'single_blank_line_before_namespace' => true,
-        'yoda_style' => null,
+        'yoda_style' => [
+            'equal' => null,
+            'identical' => null,
+            'less_and_greater' => null,
+            'always_move_variable' => false,
+        ],
         // risky -->
         'strict_param' => true,
     ])

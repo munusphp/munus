@@ -35,13 +35,13 @@ final class CompositeIterator extends Iterator
     /**
      * @template U
      *
-     * @param Iterator<U> ...$iterators
+     * @param Iterator<U> ...$elements
      *
      * @return Iterator<U>
      */
-    public static function of(...$iterators): Iterator
+    public static function of(...$elements): Iterator
     {
-        return new self($iterators);
+        return new self($elements);
     }
 
     public function hasNext(): bool
