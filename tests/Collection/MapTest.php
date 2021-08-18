@@ -194,7 +194,8 @@ final class MapTest extends TestCase
 
     public function testMapValues(): void
     {
-        self::assertEquals(['b', 'd'], Map::fromArray(['a' => 'b', 'c' => 'd'])->values());
+        self::assertTrue(Stream::of('b', 'd')->equals(Map::fromArray(['a' => 'b', 'c' => 'd'])->values()));
+        self::assertTrue(Stream::empty()->equals(Map::fromArray([])->values()));
     }
 
     public function testMapKeys(): void
