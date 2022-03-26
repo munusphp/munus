@@ -77,6 +77,20 @@ abstract class Option extends Value
         return $this->isEmpty() ? self::none() : self::some($mapper($this->get()));
     }
 
+    /**
+     * Maps the value to a new Option if this is a Some, otherwise returns None.
+     *
+     * @template U
+     *
+     * @param callable(T):Option<U> $mapper
+     *
+     * @return Option<U>
+     */
+    public function flatMap(callable $mapper)
+    {
+        return $this->isEmpty() ? self::none() : $mapper($this->get());
+    }
+
     public function isSingleValued(): bool
     {
         return true;

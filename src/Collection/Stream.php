@@ -115,7 +115,7 @@ abstract class Stream extends Sequence
      *
      * @template U
      *
-     * @param U            $head
+     * @param U $head
      * @param callable():U $supplier
      *
      * @return Cons<U>
