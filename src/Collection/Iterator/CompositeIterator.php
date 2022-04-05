@@ -62,6 +62,7 @@ final class CompositeIterator extends Iterator
     /**
      * @return T
      */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         if (!$this->hasNext()) {
@@ -71,13 +72,13 @@ final class CompositeIterator extends Iterator
         return $this->current->next();
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->iterators->rewind();
         $this->current = $this->iterators->current();
     }
 
-    public function current()
+    public function current(): mixed
     {
         return $this->current->current();
     }

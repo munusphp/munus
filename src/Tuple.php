@@ -74,22 +74,22 @@ class Tuple implements \ArrayAccess
         return self::of(...array_map($mapper, $this->data->toArray()));
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->data[$offset]);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->data[$offset];
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         throw new UnsupportedOperationException('cannot change Tuple value with ArrayAccess');
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         throw new UnsupportedOperationException('cannot unset Tuple value');
     }

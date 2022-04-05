@@ -69,7 +69,7 @@ class Iterator implements \Iterator
             return $elements->getIterator();
         }
 
-        return new ArrayIterator($elements);
+        return new ArrayIterator((array) $elements);
     }
 
     public function hasNext(): bool
@@ -80,6 +80,7 @@ class Iterator implements \Iterator
     /**
      * @return T
      */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         $result = $this->current->head();
@@ -105,25 +106,22 @@ class Iterator implements \Iterator
     /**
      * @return T
      */
-    public function current()
+    public function current(): mixed
     {
         return $this->current->head();
     }
 
-    /**
-     * @return int
-     */
-    public function key()
+    public function key(): int|string|null
     {
         return $this->index;
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return $this->hasNext();
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->current = $this->traversable;
     }
