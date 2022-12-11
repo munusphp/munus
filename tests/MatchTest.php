@@ -6,6 +6,7 @@ namespace Munus\Tests;
 
 use Munus\Exception\MatchNotFoundException;
 use Munus\Exception\MultipleDefaultCasesException;
+
 use function Munus\Match\caseCall;
 use function Munus\Match\caseOf;
 use function Munus\Match\defaultCall;
@@ -19,6 +20,7 @@ use function Munus\Match\Predicates\isNoneOf;
 use function Munus\Match\Predicates\isNotNull;
 use function Munus\Match\Predicates\isNull;
 use function Munus\Match\Predicates\isValue;
+
 use PHPUnit\Framework\TestCase;
 
 class MatchTest extends TestCase

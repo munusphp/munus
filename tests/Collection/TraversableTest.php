@@ -36,7 +36,7 @@ final class TraversableTest extends TestCase
         self::assertSame(6.6, Set::of(1.1, 2.2, 3.3)->sum());
         self::assertSame(6.4, Set::of(1.1, 2, 3.3)->sum());
         self::assertSame(-6.6, Set::of(-1.1, -2.2, -3.3)->sum());
-        self::assertSame(-2.2, Set::of(-1.1, 2.2, -3.3)->sum());
+        self::assertEqualsWithDelta(-2.2, Set::of(-1.1, 2.2, -3.3)->sum(), 0.01);
         self::assertSame(6, Set::of(1, '2', 3)->sum());
         self::assertSame(6.3, Set::of(1, '2', '3.3')->sum());
         self::assertSame(0, GenericList::empty()->sum());
@@ -52,10 +52,10 @@ final class TraversableTest extends TestCase
     public function testTraversableProduct(): void
     {
         self::assertSame(6, Set::of(1, 2, 3)->product());
-        self::assertSame(7.986, Set::of(1.1, 2.2, 3.3)->product());
+        self::assertEqualsWithDelta(7.986, Set::of(1.1, 2.2, 3.3)->product(), 0.001);
         self::assertSame(7.26, Set::of(1.1, 2, 3.3)->product());
-        self::assertSame(-7.986, Set::of(-1.1, -2.2, -3.3)->product());
-        self::assertSame(7.986, Set::of(-1.1, 2.2, -3.3)->product());
+        self::assertEqualsWithDelta(-7.986, Set::of(-1.1, -2.2, -3.3)->product(), 0.001);
+        self::assertEqualsWithDelta(7.986, Set::of(-1.1, 2.2, -3.3)->product(), 0.001);
         self::assertSame(6, Set::of(1, '2', 3)->product());
         self::assertSame(6.6, Set::of(1, '2', '3.3')->product());
         self::assertSame(1, GenericList::empty()->product());
