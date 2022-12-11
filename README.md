@@ -15,7 +15,7 @@ At the moment, in the experimental phase.
 
 **[Documentation](https://munusphp.github.io/docs/start)**
 
-Due to the lack of generic types, Munus achieves genericity with the help of [Psalm](https://github.com/vimeo/psalm) `template` annotation.
+Due to the lack of generic types, Munus achieves genericity with the help of [PHPStan](https://phpstan.org/blog/generics-in-php-using-phpdocs) `template` annotation.
 
 Stream example: find the sum of the first ten squares of even numbers
 ```php
