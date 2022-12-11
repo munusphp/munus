@@ -59,7 +59,6 @@
         "tests": [
             "@check-cs",
             "@phpstan",
-            "@psalm",
             "@phpunit-coverage"
         ]
     }
