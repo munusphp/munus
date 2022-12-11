@@ -77,7 +77,10 @@ final class Map extends Traversable
         }
         $key = func_get_arg(0);
 
-        return isset($this->map[$key]) ? Option::some($this->map[$key]) : Option::none();
+        /** @var Option<V> $option */
+        $option = isset($this->map[$key]) ? Option::some($this->map[$key]) : Option::none();
+
+        return $option;
     }
 
     /**
