@@ -140,7 +140,7 @@ class Iterator implements \Iterator
         }
 
         $accumulator = $this->next();
-        while ($this->hasNext()) {
+        while ($this->hasNext()) { // @phpstan-ignore-line
             $accumulator = $operation($accumulator, $this->next());
         }
 

@@ -24,7 +24,10 @@ abstract class Option extends Value
      */
     public static function of($value): self
     {
-        return $value === null ? self::none() : self::some($value);
+        /** @var Option<U> $option */
+        $option = $value === null ? self::none() : self::some($value);
+
+        return $option;
     }
 
     /**

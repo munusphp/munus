@@ -73,4 +73,11 @@ final class IteratorTest extends TestCase
         self::assertEquals(4, $iterator->next());
         self::assertFalse($iterator->hasNext());
     }
+
+    public function testReduce(): void
+    {
+        $iterator = Iterator::of(1, 2, 3);
+
+        self::assertEquals(6, $iterator->reduce(fn (int $a, int $b) => $a + $b));
+    }
 }
