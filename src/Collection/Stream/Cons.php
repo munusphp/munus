@@ -30,7 +30,7 @@ final class Cons extends Stream
     private $tail;
 
     /**
-     * @param T                    $head
+     * @param T $head
      * @param callable():Stream<T> $tail
      */
     public function __construct($head, callable $tail)
