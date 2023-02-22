@@ -14,7 +14,6 @@ abstract class FragmentGenerator
     private const CLASS_VALUE_TEMPLATE = '$this->value%s';
     private const PARAMETER_NAMES_TEMPLATE = 'value%s';
     protected const EMPTY_COMMENT_LINE = '';
-    protected const TAB_SEPARATOR = '    ';
 
     abstract public function append(PhpNamespace $namespace, ClassType $class, int $tupleSize, int $maxTupleSize): void;
 

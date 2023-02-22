@@ -14,7 +14,7 @@ use Munus\Generators\Tuple\FragmentGenerator\ToArrayMethodGenerator;
 
 class TupleGeneratorConfiguration
 {
-    private const DEFAULT_SOURCE_PATH = __DIR__.'/../../src/';
+    public const DEFAULT_SOURCE_PATH = __DIR__.'/../../src/';
 
     public static function getTupleGenerator(
         ClassPersister $classPersister = null,

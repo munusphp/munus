@@ -54,6 +54,7 @@
             "phpunit --coverage-html coverage"
         ],
         "tests": [
+            "./bin/validate-tuples",
             "@check-cs",
             "@phpstan",
             "@phpunit-coverage"
