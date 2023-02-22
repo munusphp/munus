@@ -72,7 +72,7 @@ final class CompositeIterator extends Iterator
         return $this->current->next();
     }
 
-    public function rewind(): void
+    public function rewind()
     {
         $this->iterators->rewind();
         $this->current = $this->iterators->current();

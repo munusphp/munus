@@ -24,7 +24,7 @@ final class MapIterator extends Iterator
     /**
      * @return int|string|null
      */
-    public function key(): mixed
+    public function key()
     {
         return key($this->map);
     }
@@ -34,7 +34,7 @@ final class MapIterator extends Iterator
         return current($this->map);
     }
 
-    public function rewind(): void
+    public function rewind()
     {
         reset($this->map);
     }
@@ -53,7 +53,7 @@ final class MapIterator extends Iterator
         return $next;
     }
 
-    public function valid(): bool
+    public function valid()
     {
         return key($this->map) !== null;
     }

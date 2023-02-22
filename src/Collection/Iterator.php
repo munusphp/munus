@@ -113,17 +113,20 @@ class Iterator implements \Iterator
         return $this->current->head();
     }
 
-    public function key(): mixed
+    /**
+     * @return int
+     */
+    public function key()
     {
         return $this->index;
     }
 
-    public function valid(): bool
+    public function valid()
     {
         return $this->hasNext();
     }
 
-    public function rewind(): void
+    public function rewind()
     {
         $this->current = $this->traversable;
     }
