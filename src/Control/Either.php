@@ -12,6 +12,7 @@ use Munus\Value;
 /**
  * @template L
  * @template R
+ *
  * @template-extends Value<R>
  */
 abstract class Either extends Value

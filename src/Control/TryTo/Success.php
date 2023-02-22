@@ -8,6 +8,7 @@ use Munus\Control\TryTo;
 
 /**
  * @template T
+ *
  * @template-extends TryTo<T>
  */
 final class Success extends TryTo

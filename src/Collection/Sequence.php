@@ -8,6 +8,7 @@ namespace Munus\Collection;
  * Sequence - immutable sequential data structures.
  *
  * @template T
+ *
  * @template-extends Traversable<T>
  */
 abstract class Sequence extends Traversable

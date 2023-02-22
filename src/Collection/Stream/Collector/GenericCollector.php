@@ -9,6 +9,7 @@ use Munus\Collection\Stream\Collector;
 /**
  * @template T
  * @template R
+ *
  * @implements Collector<T,R>
  */
 final class GenericCollector implements Collector

@@ -8,6 +8,7 @@ use Munus\Collection\Iterator\ArrayIterator;
 
 /**
  * @template T
+ *
  * @extends Traversable<T>
  */
 final class Set extends Traversable

@@ -8,12 +8,14 @@ use Munus\Collection\Iterator;
 
 /**
  * @template T
+ *
  * @extends Value<T>
  */
 final class Lazy extends Value
 {
     /**
      * @var T
+     *
      * @psalm-suppress PropertyNotSetInConstructor
      */
     private $value;

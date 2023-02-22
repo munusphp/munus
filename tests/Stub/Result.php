@@ -12,6 +12,7 @@ final class Result
 {
     /**
      * @return Either<Failure,Success>
+     *
      * @psalm-suppress MixedReturnTypeCoercion
      */
     public static function generate(bool $success = true): Either

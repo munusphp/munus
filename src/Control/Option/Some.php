@@ -8,6 +8,7 @@ use Munus\Control\Option;
 
 /**
  * @template T
+ *
  * @template-extends Option<T>
  */
 final class Some extends Option

@@ -10,6 +10,7 @@ use Munus\Collection\Stream\EmptyStream;
 
 /**
  * @template T
+ *
  * @extends Sequence<T>
  */
 abstract class Stream extends Sequence

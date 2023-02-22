@@ -15,6 +15,7 @@ use Munus\Lazy;
  * Non-empty Stream, consisting of a head and tail.
  *
  * @template T
+ *
  * @extends Stream<T>
  */
 final class Cons extends Stream

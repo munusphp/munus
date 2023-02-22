@@ -1,6 +1,11 @@
 includes:
 	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
 parameters:
+	phpVersion: 80000
+	level: 4
+	paths:
+		- src
+		- tests
 	ignoreErrors:
 		-
 			message: "#^Method Munus\\\\Collection\\\\Map\\:\\:tail\\(\\) should return Munus\\\\Collection\\\\Traversable\\<V\\> but returns Munus\\\\Tuple\\.$#"
