@@ -1,8 +1,8 @@
 <?php
 
 /**
- * This class is generated using /bin/generate-tuples script.
- * Do not change it manually! Change and use above script.
+ * This class is generated using generate-tuples script.
+ * Do not change it manually! Modify generator and use above script.
  */
 
 declare(strict_types=1);

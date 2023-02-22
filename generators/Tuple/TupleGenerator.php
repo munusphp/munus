@@ -12,8 +12,8 @@ class TupleGenerator
 {
     public const DIRECTORY_NAME = 'Tuple';
     public const TUPLE_NAMESPACE = 'Munus\Tuple';
-    public const FILE_COMMENT_FIRST_LINE = 'This class is generated using /bin/generate-tuples script.';
-    public const FILE_COMMENT_SECOND_LINE = 'Do not change it manually! Change and use above script.';
+    public const FILE_COMMENT_FIRST_LINE = 'This class is generated using generate-tuples script.';
+    public const FILE_COMMENT_SECOND_LINE = 'Do not change it manually! Modify generator and use above script.';
 
     /**
      * @param FragmentGenerator[] $fragmentGenerators
