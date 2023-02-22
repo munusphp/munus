@@ -63,7 +63,6 @@ final class CompositeIterator extends Iterator
     /**
      * @return T
      */
-    #[\ReturnTypeWillChange]
     public function next()
     {
         if (!$this->hasNext()) {
@@ -79,7 +78,6 @@ final class CompositeIterator extends Iterator
         $this->current = $this->iterators->current();
     }
 
-    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->current->current();

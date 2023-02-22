@@ -41,7 +41,6 @@ final class ArrayIterator extends Iterator
     /**
      * @return T
      */
-    #[\ReturnTypeWillChange]
     public function next()
     {
         if (isset($this->elements[$this->index])) {
@@ -51,7 +50,6 @@ final class ArrayIterator extends Iterator
         throw new NoSuchElementException();
     }
 
-    #[\ReturnTypeWillChange]
     public function current()
     {
         if (isset($this->elements[$this->index])) {

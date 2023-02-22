@@ -83,7 +83,6 @@ class Iterator implements \Iterator
     /**
      * @return T
      */
-    #[\ReturnTypeWillChange]
     public function next()
     {
         $result = $this->current->head();
@@ -109,7 +108,6 @@ class Iterator implements \Iterator
     /**
      * @return T
      */
-    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->current->head();

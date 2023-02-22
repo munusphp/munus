@@ -29,7 +29,6 @@ final class MapIterator extends Iterator
         return key($this->map);
     }
 
-    #[\ReturnTypeWillChange]
     public function current()
     {
         return current($this->map);
@@ -43,7 +42,6 @@ final class MapIterator extends Iterator
     /**
      * @return Tuple
      */
-    #[\ReturnTypeWillChange]
     public function next()
     {
         if (!$this->valid()) {
