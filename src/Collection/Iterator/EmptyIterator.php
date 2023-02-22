@@ -23,10 +23,7 @@ final class EmptyIterator extends Iterator
         return false;
     }
 
-    /**
-     * @return void
-     */
-    public function next()
+    public function next(): void
     {
         throw new NoSuchElementException();
     }

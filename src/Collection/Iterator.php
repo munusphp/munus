@@ -83,6 +83,7 @@ class Iterator implements \Iterator
     /**
      * @return T
      */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         $result = $this->current->head();
@@ -108,25 +109,23 @@ class Iterator implements \Iterator
     /**
      * @return T
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->current->head();
     }
 
-    /**
-     * @return int
-     */
-    public function key()
+    public function key(): mixed
     {
         return $this->index;
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return $this->hasNext();
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->current = $this->traversable;
     }

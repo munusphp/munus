@@ -295,7 +295,7 @@ abstract class Traversable extends Value implements \IteratorAggregate
     /**
      * @return Iterator<T>
      */
-    public function getIterator()
+    public function getIterator(): Iterator
     {
         return $this->iterator();
     }

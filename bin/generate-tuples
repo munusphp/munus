@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+require __DIR__ . '/../vendor/autoload.php';
+
+use Munus\Generators\Tuple\TupleGeneratorConfiguration;
+use Munus\Tuple;
+
+$tupleGenerator = TupleGeneratorConfiguration::getTupleGenerator();
+$tupleGenerator->generateTuples(Tuple::TUPLE_MAX_SIZE);
+
+exit(0);

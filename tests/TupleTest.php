@@ -19,6 +19,13 @@ final class TupleTest extends TestCase
         self::assertEquals(5, Tuple::of('M', 'u', 'n', 'u', 's')->arity());
     }
 
+    public function testTupleSizeFail(): void
+    {
+        self::expectException(\InvalidArgumentException::class);
+        self::expectExceptionMessage('Invalid number of elements');
+        Tuple::of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+    }
+
     public function testTupleArrayAccess(): void
     {
         $tuple = Tuple::of('Munus', 'is', 'awesome');
@@ -47,13 +54,44 @@ final class TupleTest extends TestCase
         $tuple = Tuple::of(1, 2);
         $newTuple = $tuple->concat(Tuple::of(3, 4));
         self::assertNotSame($tuple, $newTuple);
+        self::assertInstanceOf(Tuple\Tuple2::class, $tuple);
+        self::assertInstanceOf(Tuple\Tuple4::class, $newTuple);
         self::assertEquals([1, 2, 3, 4], $newTuple->toArray());
+    }
+
+    public function testTupleConcatFail(): void
+    {
+        $tuple = Tuple::of(1, 2, 3, 4, 5, 6, 7, 8);
+        self::assertInstanceOf(Tuple\Tuple8::class, $tuple);
+        self::expectException(\InvalidArgumentException::class);
+        self::expectExceptionMessage('Invalid number of elements');
+        $tuple->concat(Tuple::of(1));
     }
 
     public function testTupleAppend(): void
     {
         self::assertEquals([1, 2, 3], Tuple::of(1, 2)->append(3)->toArray());
         self::assertEquals(str_split('Munus'), Tuple::of('M', 'u')->append('n')->append('u')->append('s')->toArray());
+    }
+
+    public function testTuplePrepend(): void
+    {
+        self::assertEquals([3, 1, 2], Tuple::of(1, 2)->prepend(3)->toArray());
+        self::assertEquals(str_split('Munus'), Tuple::of('u', 's')->prepend('n')->prepend('u')->prepend('M')->toArray());
+    }
+
+    public function testAppendToTuple8(): void
+    {
+        self::expectException(UnsupportedOperationException::class);
+
+        Tuple::of(1, 2, 3, 4, 5, 6, 7, 8)->append(9);
+    }
+
+    public function testPrependToTuple8(): void
+    {
+        self::expectException(UnsupportedOperationException::class);
+
+        Tuple::of(1, 2, 3, 4, 5, 6, 7, 8)->prepend(0);
     }
 
     public function testTupleApply(): void
@@ -68,16 +106,17 @@ final class TupleTest extends TestCase
         self::assertFalse(Tuple::of('a', 'b')->equals(Tuple::of('A', 'b')));
         self::assertTrue(Tuple::of('A', 1)->equals(Tuple::of('A', 1)));
         self::assertFalse(Tuple::of('A', 1)->equals(Tuple::of('A', '1')));
+        self::assertFalse(Tuple::of(1, 2)->equals(Tuple::of(1, 2, 3)));
 
         self::assertTrue(Tuple::of(Option::of('A'))->equals(Tuple::of(Option::of('A'))));
         self::assertFalse(Tuple::of(Option::of('A'))->equals(Tuple::of(Option::of('a'))));
         self::assertTrue(Tuple::of(GenericList::of(1, 2, 3))->equals(Tuple::of(Stream::of(1, 2, 3))));
     }
 
-    public function testTupleMinimumValues(): void
+    public function testTupleMaximumValues(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        Tuple::of();
+        Tuple::of('This', 'is', 'a', 'really', 'bad', 'idea', 'above', 'eight', 'values');
     }
 
     public function testTupleSetOffset(): void

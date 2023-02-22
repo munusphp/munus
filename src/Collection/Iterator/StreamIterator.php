@@ -32,6 +32,7 @@ final class StreamIterator extends Iterator
     /**
      * @return T
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->current->get()->head();
@@ -45,6 +46,7 @@ final class StreamIterator extends Iterator
     /**
      * @return T
      */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         if (!$this->hasNext()) {

@@ -6,6 +6,7 @@ parameters:
 	paths:
 		- src
 		- tests
+		- generators
 	ignoreErrors:
 		-
 			message: "#^Method Munus\\\\Collection\\\\Map\\:\\:tail\\(\\) should return Munus\\\\Collection\\\\Traversable\\<V\\> but returns Munus\\\\Tuple\\.$#"
@@ -16,6 +17,11 @@ parameters:
 		    message: "#Method Munus\\\\Collection\\\\Stream\\\\Collectors::averaging\\(\\) should return Munus\\\\Collection\\\\Stream\\\\Collector\\<T, float\\|int\\> but returns Munus\\\\Collection\\\\Stream\\\\Collector\\\\GenericCollector\\<mixed, float\\|int\\|Munus\\\\Tuple\\>.#"
 		    count: 1
 		    path: src/Collection/Stream/Collectors.php
+
+		-
+		    message: "#Unreachable statement - code above always terminates.#"
+		    count: 1
+		    path: src/Collection/Iterator.php
 
 		-
 		    message: "#Template type T of method#"

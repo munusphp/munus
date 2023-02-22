@@ -15,7 +15,8 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.27",
         "phpunit/phpunit": "^9.6.13",
-        "phpstan/phpstan": "^1.10.35"
+        "phpstan/phpstan": "^1.10.35",
+        "nette/php-generator": "^4.0"
     },
     "autoload": {
         "psr-4": {
@@ -28,7 +29,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Munus\\Tests\\": "tests/"
+            "Munus\\Tests\\": "tests/",
+            "Munus\\Generators\\": "generators/"
         }
     },
 
