@@ -20,11 +20,47 @@ abstract class Tuple implements \ArrayAccess
 {
     public const TUPLE_MAX_SIZE = 8;
 
+    /**
+     * @param mixed ...$values
+     */
+    public static function of(...$values)
+    {
+        return match (count($values)) {
+            0 => new Tuple0(),
+            1 => new Tuple1(...$values),
+            2 => new Tuple2(...$values),
+            3 => new Tuple3(...$values),
+            4 => new Tuple4(...$values),
+            5 => new Tuple5(...$values),
+            6 => new Tuple6(...$values),
+            7 => new Tuple7(...$values),
+            8 => new Tuple8(...$values),
+            default => throw new \InvalidArgumentException('Invalid number of elements'),
+        };
+    }
+
     abstract public function arity(): int;
 
     abstract public function toArray(): array;
 
     abstract public function concat($tuple);
+
+    /**
+     * @template U
+     *
+     * @param callable():U $transformer
+     *
+     * @return U
+     */
+    public function apply(callable $transformer)
+    {
+        return call_user_func($transformer, ...$this->toArray());
+    }
+
+    public function map(callable $mapper): self
+    {
+        return self::of(...array_map($mapper, $this->toArray()));
+    }
 
     public function offsetExists(mixed $offset): bool
     {
@@ -49,39 +85,6 @@ abstract class Tuple implements \ArrayAccess
     public function offsetUnset(mixed $offset): void
     {
         throw new UnsupportedOperationException('cannot unset Tuple value');
-    }
-
-    /**
-     * @template U
-     *
-     * @param callable():U $transformer
-     *
-     * @return U
-     */
-    public function apply(callable $transformer)
-    {
-        return call_user_func($transformer, ...$this->toArray());
-    }
-
-    public function map(callable $mapper): self
-    {
-        return self::of(...array_map($mapper, $this->toArray()));
-    }
-
-    public static function of(...$values)
-    {
-        return match (count($values)) {
-            0 => new Tuple0(),
-            1 => new Tuple1(...$values),
-            2 => new Tuple2(...$values),
-            3 => new Tuple3(...$values),
-            4 => new Tuple4(...$values),
-            5 => new Tuple5(...$values),
-            6 => new Tuple6(...$values),
-            7 => new Tuple7(...$values),
-            8 => new Tuple8(...$values),
-            default => throw new \InvalidArgumentException('Invalid number of elements'),
-        };
     }
 
     public function equals(Tuple $tuple): bool
