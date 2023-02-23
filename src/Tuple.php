@@ -43,7 +43,10 @@ abstract class Tuple implements \ArrayAccess
 
     abstract public function toArray(): array;
 
-    abstract public function concat($tuple);
+    public function concat(Tuple0|Tuple1|Tuple2|Tuple3|Tuple4|Tuple5|Tuple6|Tuple7|Tuple8 $tuple): Tuple0|Tuple1|Tuple2|Tuple3|Tuple4|Tuple5|Tuple6|Tuple7|Tuple8
+    {
+        return Tuple::of(...$this->toArray(), ...$tuple->toArray());
+    }
 
     /**
      * @template U

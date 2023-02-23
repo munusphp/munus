@@ -14,11 +14,6 @@ class ConcatMethodGenerator extends FragmentGenerator
     {
         $concatableSize = $maxTupleSize - $tupleSize;
 
-        $method = $class->addMethod('concat');
-        $method->addParameter('tuple');
-
-        $method->addBody('return Tuple::of(...$this->toArray(), ...$tuple->toArray());');
-
         foreach (range(0, $concatableSize) as $n) {
             $this->generateConcatTupleNMethod($n, $tupleSize, $class);
         }

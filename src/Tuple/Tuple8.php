@@ -77,11 +77,6 @@ class Tuple8 extends Tuple
         throw new UnsupportedOperationException('Can\'t append next value. This is biggest possible Tuple');
     }
 
-    public function concat($tuple)
-    {
-        return Tuple::of(...$this->toArray(), ...$tuple->toArray());
-    }
-
     /**
      * @param Tuple0 $tuple
      *

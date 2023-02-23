@@ -66,11 +66,6 @@ class Tuple2 extends Tuple
         return new Tuple3($this->value1, $this->value2, $value);
     }
 
-    public function concat($tuple)
-    {
-        return Tuple::of(...$this->toArray(), ...$tuple->toArray());
-    }
-
     /**
      * @param Tuple0 $tuple
      *
