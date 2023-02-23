@@ -20,8 +20,6 @@ use Munus\Tuple;
  */
 class Tuple5 extends Tuple
 {
-    private const SIZE = 5;
-
     /**
      * @param T1 $value1
      * @param T2 $value2
@@ -40,7 +38,7 @@ class Tuple5 extends Tuple
 
     public function arity(): int
     {
-        return self::SIZE;
+        return 5;
     }
 
     public function toArray(): array

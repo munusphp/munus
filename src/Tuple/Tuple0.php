@@ -13,15 +13,13 @@ use Munus\Tuple;
 
 class Tuple0 extends Tuple
 {
-    private const SIZE = 0;
-
     public function __construct()
     {
     }
 
     public function arity(): int
     {
-        return self::SIZE;
+        return 0;
     }
 
     public function toArray(): array
