@@ -30,6 +30,7 @@ return $config
         'phpdoc_separation' => true,
         'single_quote' => true,
         'trim_array_spaces' => true,
+        'blank_lines_before_namespace' => false,
         'single_blank_line_before_namespace' => true,
         'yoda_style' => [
             'equal' => null,
