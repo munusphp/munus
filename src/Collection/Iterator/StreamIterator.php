@@ -11,6 +11,7 @@ use Munus\Lazy;
 
 /**
  * @template T
+ *
  * @template-extends Iterator<T>
  */
 final class StreamIterator extends Iterator

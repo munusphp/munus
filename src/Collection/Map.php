@@ -15,6 +15,7 @@ use Munus\Value\Comparator;
  *
  * @template K
  * @template V
+ *
  * @extends Traversable<V>
  */
 final class Map extends Traversable

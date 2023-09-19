@@ -9,6 +9,7 @@ use Munus\Control\Either;
 /**
  * @template L
  * @template R
+ *
  * @template-extends Either<L,R>
  */
 final class Right extends Either

@@ -9,6 +9,7 @@ use Munus\Exception\NoSuchElementException;
 
 /**
  * @template T
+ *
  * @template-extends Iterator<T>
  */
 final class CompositeIterator extends Iterator

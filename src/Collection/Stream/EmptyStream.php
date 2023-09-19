@@ -6,13 +6,13 @@ namespace Munus\Collection\Stream;
 
 use Munus\Collection\Iterator;
 use Munus\Collection\Stream;
-use Munus\Collection\T;
 use Munus\Collection\Traversable;
 
 /**
  * Empty is better but it is reserved keyword.
  *
  * @template T
+ *
  * @extends Stream<T>
  */
 final class EmptyStream extends Stream

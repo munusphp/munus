@@ -11,6 +11,7 @@ use Munus\Value;
 
 /**
  * @template T
+ *
  * @template-extends Value<T>
  */
 abstract class TryTo extends Value

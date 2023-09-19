@@ -11,6 +11,7 @@ use Munus\Value;
 
 /**
  * @template T
+ *
  * @extends Value<T>
  */
 abstract class Option extends Value
@@ -44,6 +45,7 @@ abstract class Option extends Value
 
     /**
      * @phpstan-return Option<T>
+     *
      * @psalm-return Option<none>
      */
     public static function none(): self

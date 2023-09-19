@@ -8,6 +8,7 @@ use Munus\Collection\GenericList;
 
 /**
  * @template T
+ *
  * @extends GenericList<T>
  */
 final class Nil extends GenericList

@@ -9,6 +9,7 @@ use Munus\Collection\GenericList\Nil;
 
 /**
  * @template T
+ *
  * @extends Sequence<T>
  */
 abstract class GenericList extends Sequence

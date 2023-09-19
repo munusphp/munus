@@ -5,3 +5,4 @@ clover.xml
 /coverage
 .idea
 composer.lock
+/.phpunit.cache/

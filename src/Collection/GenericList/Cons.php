@@ -10,6 +10,7 @@ use Munus\Collection\GenericList;
  * * Non-empty GenericList, consisting of a head and tail.
  *
  * @template T
+ *
  * @extends GenericList<T>
  */
 final class Cons extends GenericList
