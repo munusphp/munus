@@ -72,6 +72,9 @@ class Iterator implements \Iterator
         return new ArrayIterator($elements);
     }
 
+    /**
+     * @phpstan-impure
+     */
     public function hasNext(): bool
     {
         return !$this->current->isEmpty();
@@ -140,7 +143,7 @@ class Iterator implements \Iterator
         }
 
         $accumulator = $this->next();
-        while ($this->hasNext()) { // @phpstan-ignore-line
+        while ($this->hasNext()) {
             $accumulator = $operation($accumulator, $this->next());
         }
 

@@ -18,11 +18,6 @@ parameters:
 		    path: src/Collection/Stream/Collectors.php
 
 		-
-		    message: "#Unreachable statement - code above always terminates.#"
-		    count: 1
-		    path: src/Collection/Iterator.php
-
-		-
 		    message: "#Template type T of method#"
 		    count: 6
 		    path: src/Collection/Stream/Collectors.php
