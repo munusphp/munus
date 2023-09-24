@@ -19,8 +19,9 @@ class Tuple1 extends Tuple
     /**
      * @param T1 $value1
      */
-    public function __construct(private $value1)
-    {
+    public function __construct(
+        private $value1,
+    ) {
     }
 
     public function arity(): int
