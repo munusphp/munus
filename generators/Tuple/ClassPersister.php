@@ -6,5 +6,5 @@ namespace Munus\Generators\Tuple;
 
 interface ClassPersister
 {
-    public function save(string $directory, string $className, string $content);
+    public function save(string $directory, string $className, string $content): void;
 }

@@ -10,7 +10,7 @@ class FilePutContentsClassPersister implements ClassPersister
     {
     }
 
-    public function save(string $directory, string $className, string $content)
+    public function save(string $directory, string $className, string $content): void
     {
         $filePath = $this->sourcePath.$directory.'/'.$className.'.php';
         file_put_contents($filePath, $content);

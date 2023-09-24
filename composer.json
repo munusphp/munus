@@ -57,7 +57,7 @@
             "./bin/generate-tuples"
         ],
         "tests": [
-            "./bin/validate-tuples",
+            "./bin/generate-tuples --validate",
             "@check-cs",
             "@phpstan",
             "@phpunit-coverage"

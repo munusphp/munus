@@ -6,9 +6,33 @@ declare(strict_types=1);
 require __DIR__.'/../vendor/autoload.php';
 
 use Munus\Generators\Tuple\TupleGeneratorConfiguration;
+use Munus\Generators\Tuple\ValidationClassPersister;
 use Munus\Tuple;
 
-$tupleGenerator = TupleGeneratorConfiguration::getTupleGenerator();
+const VALIDATE = 'validate';
+
+$options = getopt('', [VALIDATE]);
+$validateOnly = array_key_exists(VALIDATE, $options);
+
+if ($validateOnly) {
+    $validator = new ValidationClassPersister(TupleGeneratorConfiguration::DEFAULT_SOURCE_PATH);
+    $tupleGenerator = TupleGeneratorConfiguration::getTupleGenerator($validator);
+} else {
+    $tupleGenerator = TupleGeneratorConfiguration::getTupleGenerator();
+}
+
 $tupleGenerator->generateTuples(Tuple::TUPLE_MAX_SIZE);
+
+if ($validateOnly) {
+    if ($validator->foundDiff()) {
+        error_log('Error. Differences between exising and generated Tuples found.');
+        error_log('Please run generate-tuples script and try again.');
+        exit(1);
+    }
+
+    print_r('Success. No differences found.'.PHP_EOL);
+} else {
+    print_r('Tuples successfully generated.'.PHP_EOL);
+}
 
 exit(0);
