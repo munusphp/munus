@@ -53,6 +53,9 @@
         "coverage-html": [
             "phpunit --coverage-html coverage"
         ],
+        "generate-tuples": [
+            "./bin/generate-tuples"
+        ],
         "tests": [
             "./bin/validate-tuples",
             "@check-cs",
