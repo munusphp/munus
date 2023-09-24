@@ -15,4 +15,9 @@ class FilePutContentsClassPersister implements ClassPersister
         $filePath = $this->sourcePath.$directory.'/'.$className.'.php';
         file_put_contents($filePath, $content);
     }
+
+    public function moveClass(string $fromDir, string $toDir, string $className): void
+    {
+        copy(sprintf('%s/%s.php', $fromDir, $className), sprintf('%s/%s.php', $toDir, $className));
+    }
 }

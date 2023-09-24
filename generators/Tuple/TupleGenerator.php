@@ -10,10 +10,14 @@ use Nette\PhpGenerator\PsrPrinter;
 
 class TupleGenerator
 {
-    public const DIRECTORY_NAME = 'Tuple';
+    public const DIRECTORY_NAME = 'src/Tuple';
+    public const TEMP_DIRECTORY_NAME = '.tuple';
     public const TUPLE_NAMESPACE = 'Munus\Tuple';
     public const FILE_COMMENT_FIRST_LINE = 'This class is generated using generate-tuples script.';
     public const FILE_COMMENT_SECOND_LINE = 'Do not change it manually! Modify generator and use above script.';
+
+    /** @var string[] */
+    private array $preparedClasses = [];
 
     /**
      * @param FragmentGenerator[] $fragmentGenerators
@@ -25,7 +29,7 @@ class TupleGenerator
     ) {
     }
 
-    public function generateTuples(int $maxTupleSize = 8): void
+    public function prepareTuples(int $maxTupleSize = 8): void
     {
         $printer = new PsrPrinter();
 
@@ -35,10 +39,28 @@ class TupleGenerator
             $class = $file->getClasses()[$className];
 
             $this->classPersister->save(
-                self::DIRECTORY_NAME,
+                self::TEMP_DIRECTORY_NAME,
                 $class->getName(),
                 $printer->printFile($file),
             );
+
+            $this->preparedClasses[] = $class->getName();
+        }
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getPreparedTuplesNames(): array
+    {
+        return $this->preparedClasses;
+    }
+
+    public function commitPreparedTuples(): void
+    {
+        foreach ($this->preparedClasses as $preparedClass) {
+            $this->classPersister
+                ->moveClass(self::TEMP_DIRECTORY_NAME, self::DIRECTORY_NAME, $preparedClass);
         }
     }
 
