@@ -252,4 +252,9 @@ final class StreamTest extends TestCase
     {
         self::assertEquals([1, 2, 3, 4, 5], Stream::range(1, 5)->toArray());
     }
+
+    public function testStreamSorted(): void
+    {
+        self::assertTrue(Stream::of('a', 'b', 'c', 'd', 'e')->equals(Stream::of('e', 'd', 'c', 'b', 'a')->sorted()));
+    }
 }

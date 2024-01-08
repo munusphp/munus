@@ -59,6 +59,11 @@ abstract class Traversable extends Value implements \IteratorAggregate
     /**
      * @return Traversable<T>
      */
+    abstract public function sorted();
+
+    /**
+     * @return Traversable<T>
+     */
     abstract public function take(int $n);
 
     /**

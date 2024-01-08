@@ -203,4 +203,9 @@ final class GenericListTest extends TestCase
         self::assertTrue(GenericList::of(1, 2, 3, 4)->equals(GenericList::of(1, 2)->appendAll(GenericList::of(3, 4))));
         self::assertTrue(GenericList::of('a', 'b', 'c', 'd', 'e')->equals(GenericList::of('a')->appendAll(GenericList::of('b', 'c', 'd', 'e'))));
     }
+
+    public function testListSorted(): void
+    {
+        self::assertTrue(GenericList::of('a', 'b', 'c', 'd', 'e')->equals(GenericList::of('e', 'd', 'c', 'b', 'a')->sorted()));
+    }
 }

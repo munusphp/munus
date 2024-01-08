@@ -104,6 +104,14 @@ abstract class GenericList extends Sequence
     }
 
     /**
+     * @return GenericList<T>
+     */
+    public function sorted()
+    {
+        return self::ofAll($this->iterator()->sort());
+    }
+
+    /**
      * @param callable(T):bool $predicate
      *
      * @return GenericList<T>

@@ -199,6 +199,14 @@ abstract class Stream extends Sequence
     }
 
     /**
+     * @return Stream<T>
+     */
+    public function sorted()
+    {
+        return self::ofAll($this->getIterator()->sort());
+    }
+
+    /**
      * @param callable(T):bool $predicate
      *
      * @return Stream<T>
