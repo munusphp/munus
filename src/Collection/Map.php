@@ -204,6 +204,17 @@ final class Map extends Traversable
     }
 
     /**
+     * @return Map<string,V>
+     */
+    public function sorted()
+    {
+        $map = $this->map;
+        asort($map);
+
+        return self::fromPointer($map);
+    }
+
+    /**
      * @param callable(Tuple):bool $predicate
      *
      * @return Map<string,V>

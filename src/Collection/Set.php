@@ -217,6 +217,17 @@ final class Set extends Traversable
     }
 
     /**
+     * @return Set<T>
+     */
+    public function sorted()
+    {
+        $elements = $this->elements;
+        asort($elements);
+
+        return self::fromPointer($elements);
+    }
+
+    /**
      * @param callable(T):bool $predicate
      *
      * @return Set<T>

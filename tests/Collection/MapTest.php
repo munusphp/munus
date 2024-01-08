@@ -278,4 +278,9 @@ final class MapTest extends TestCase
     {
         self::assertEquals(['a' => 'b', 'c' => 'd'], Map::fromArray(['a' => 'b', 'c' => 'd'])->toArray());
     }
+
+    public function testMapSorted(): void
+    {
+        self::assertTrue(Map::fromArray(['a' => 'b', 'c' => 'd', 'e' => 'f'])->equals(Map::fromArray(['e' => 'f', 'c' => 'd', 'a' => 'b'])->sorted()));
+    }
 }

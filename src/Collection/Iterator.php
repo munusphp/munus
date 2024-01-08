@@ -165,4 +165,12 @@ class Iterator implements \Iterator
 
         return $zero;
     }
+
+    public function sort(): self
+    {
+        $array = $this->toArray();
+        asort($array);
+
+        return self::of(...$array);
+    }
 }

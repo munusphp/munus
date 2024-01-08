@@ -227,4 +227,9 @@ final class SetTest extends TestCase
     {
         self::assertEquals(['php', 'is', 'awesome'], Set::of('php', 'is', 'awesome')->toArray());
     }
+
+    public function testSorted(): void
+    {
+        self::assertTrue(Set::of('a', 'b', 'c', 'd', 'e')->equals(Set::of('e', 'd', 'c', 'b', 'a')->sorted()));
+    }
 }
