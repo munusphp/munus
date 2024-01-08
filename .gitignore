@@ -6,3 +6,5 @@ clover.xml
 .idea
 composer.lock
 /.phpunit.cache/
+.tuple/*
+!.tuple/.gitkeep

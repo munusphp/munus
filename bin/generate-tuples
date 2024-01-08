@@ -1,0 +1,43 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+require __DIR__.'/../vendor/autoload.php';
+
+use Munus\Generators\Tuple\TupleGeneratorConfiguration;
+use Munus\Tuple;
+
+const VALIDATE_OPT = 'validate';
+
+$options = getopt('', [VALIDATE_OPT]);
+$validateOnly = array_key_exists(VALIDATE_OPT, $options);
+
+$tupleGenerator = TupleGeneratorConfiguration::getTupleGenerator();
+$tupleGenerator->prepareTuples(Tuple::TUPLE_MAX_SIZE);
+
+$anyDiffs = false;
+
+foreach ($tupleGenerator->getPreparedTuplesNames() as $className) {
+    passthru(
+            sprintf('diff -u .tuple/%s.php src/Tuple/%s.php', $className, $className),
+            $foundDiff
+    );
+
+    if ($foundDiff) {
+        $anyDiffs = true;
+    }
+}
+
+if ($anyDiffs && $validateOnly) {
+    error_log('Differences between exising and generated Tuples found.');
+    error_log('Please regenerate tuples and try again.');
+    exit(1);
+}
+
+if (!$validateOnly) {
+    $tupleGenerator->commitPreparedTuples();
+    print_r('Tuples successfully generated.'.PHP_EOL);
+}
+
+exit(0);

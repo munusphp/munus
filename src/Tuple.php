@@ -5,56 +5,47 @@ declare(strict_types=1);
 namespace Munus;
 
 use Munus\Exception\UnsupportedOperationException;
+use Munus\Tuple\Tuple0;
+use Munus\Tuple\Tuple1;
+use Munus\Tuple\Tuple2;
+use Munus\Tuple\Tuple3;
+use Munus\Tuple\Tuple4;
+use Munus\Tuple\Tuple5;
+use Munus\Tuple\Tuple6;
+use Munus\Tuple\Tuple7;
+use Munus\Tuple\Tuple8;
 use Munus\Value\Comparator;
 
-/**
- * @template T
- */
-class Tuple implements \ArrayAccess
+abstract class Tuple implements \ArrayAccess
 {
-    /**
-     * @var \SplFixedArray
-     */
-    private $data;
-
-    private function __construct(array $data)
-    {
-        $this->data = \SplFixedArray::fromArray(array_values($data), false);
-    }
+    public const TUPLE_MAX_SIZE = 8;
 
     /**
      * @param mixed ...$values
      */
-    public static function of(...$values): self
+    public static function of(...$values)
     {
-        if ($values === []) {
-            throw new \InvalidArgumentException('At least on value in Tuple is required');
-        }
-
-        return new self($values);
+        return match (count($values)) {
+            0 => new Tuple0(),
+            1 => new Tuple1(...$values),
+            2 => new Tuple2(...$values),
+            3 => new Tuple3(...$values),
+            4 => new Tuple4(...$values),
+            5 => new Tuple5(...$values),
+            6 => new Tuple6(...$values),
+            7 => new Tuple7(...$values),
+            8 => new Tuple8(...$values),
+            default => throw new \InvalidArgumentException('Invalid number of elements'),
+        };
     }
 
-    public function arity(): int
-    {
-        return $this->data->count();
-    }
+    abstract public function arity(): int;
 
-    public function toArray(): array
-    {
-        return $this->data->toArray();
-    }
+    abstract public function toArray(): array;
 
-    /**
-     * @param mixed $value
-     */
-    public function append($value): self
+    public function concat(Tuple0|Tuple1|Tuple2|Tuple3|Tuple4|Tuple5|Tuple6|Tuple7|Tuple8 $tuple): Tuple0|Tuple1|Tuple2|Tuple3|Tuple4|Tuple5|Tuple6|Tuple7|Tuple8
     {
-        return new self(array_merge($this->data->toArray(), [$value]));
-    }
-
-    public function concat(self $tuple): self
-    {
-        return new self(array_merge($this->data->toArray(), $tuple->data->toArray()));
+        return Tuple::of(...$this->toArray(), ...$tuple->toArray());
     }
 
     /**
@@ -66,37 +57,46 @@ class Tuple implements \ArrayAccess
      */
     public function apply(callable $transformer)
     {
-        return call_user_func($transformer, ...$this->data->toArray());
+        return call_user_func($transformer, ...$this->toArray());
     }
 
     public function map(callable $mapper): self
     {
-        return self::of(...array_map($mapper, $this->data->toArray()));
+        return self::of(...array_map($mapper, $this->toArray()));
     }
 
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
-        return isset($this->data[$offset]);
+        return isset($this->toArray()[$offset]);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
-        return $this->data[$offset];
+        $data = $this->toArray();
+        if (!isset($data[$offset])) {
+            throw new \RuntimeException();
+        }
+
+        return $data[$offset];
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         throw new UnsupportedOperationException('cannot change Tuple value with ArrayAccess');
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         throw new UnsupportedOperationException('cannot unset Tuple value');
     }
 
-    public function equals(self $tuple): bool
+    public function equals(Tuple $tuple): bool
     {
-        foreach ($this->data as $key => $value) {
+        if ($this->arity() !== $tuple->arity()) {
+            return false;
+        }
+
+        foreach ($this->toArray() as $key => $value) {
             if (!Comparator::equals($value, $tuple[$key])) {
                 return false;
             }
