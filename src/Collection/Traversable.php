@@ -8,6 +8,7 @@ use Munus\Control\Option;
 use Munus\Exception\UnsupportedOperationException;
 use Munus\Value;
 use Munus\Value\Comparator;
+use ReturnTypeWillChange;
 
 /**
  * An abstraction for inherently recursive, multi-valued data structures. The order of elements is determined by
@@ -300,6 +301,7 @@ abstract class Traversable extends Value implements \IteratorAggregate
     /**
      * @return Iterator<T>
      */
+    #[ReturnTypeWillChange]
     public function getIterator()
     {
         return $this->iterator();
