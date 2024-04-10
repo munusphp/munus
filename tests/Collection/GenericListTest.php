@@ -8,6 +8,7 @@ use Munus\Collection\GenericList;
 use Munus\Collection\Set;
 use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
+use Munus\Collection\Traversable;
 use Munus\Control\Option;
 use PHPUnit\Framework\TestCase;
 
@@ -209,7 +210,7 @@ final class GenericListTest extends TestCase
         self::assertTrue(GenericList::of('a', 'b', 'c', 'd', 'e')->equals(GenericList::of('e', 'd', 'c', 'b', 'a')->sorted()));
     }
 
-    public function testListContainsAll()
+    public function testListContainsAll(): void
     {
         self::assertTrue(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll([3, 2, 1])));
         self::assertTrue(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll([2, 1])));
@@ -219,5 +220,16 @@ final class GenericListTest extends TestCase
         self::assertFalse(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll([1, 2, 4])));
         self::assertFalse(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll([1, 4])));
         self::assertFalse(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll(['a'])));
+    }
+
+    public function testFlatMap(): void
+    {
+        self::assertTrue(GenericList::ofAll([1, 2, 3])->flatMap(fn ($value) => GenericList::of($value, $value))->equals(
+            GenericList::ofAll([1, 1, 2, 2, 3, 3])
+        ));
+
+        self::assertTrue(GenericList::ofAll([GenericList::of(1, 1), GenericList::of(2, 2), GenericList::of(3, 3)])->flatMap(fn (Traversable $value) => $value->take(1))->equals(
+            GenericList::ofAll([1, 2, 3])
+        ));
     }
 }

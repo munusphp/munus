@@ -76,6 +76,18 @@ abstract class GenericList extends Sequence
         return new Cons($mapper($this->head()), $this->tail()->map($mapper));
     }
 
+    public function flatMap(callable $mapper)
+    {
+        $list = self::empty();
+        foreach ($this->toArray() as $value) {
+            foreach ($mapper($value)->toArray() as $mapped) {
+                $list = $list->prepend($mapped);
+            }
+        }
+
+        return $list->reverse();
+    }
+
     /**
      * @param callable(T):bool $predicate
      *

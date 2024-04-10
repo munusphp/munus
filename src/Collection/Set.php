@@ -204,6 +204,20 @@ final class Set extends Traversable
         return self::fromPointer($mapped);
     }
 
+    public function flatMap(callable $mapper)
+    {
+        $mapped = [];
+        $iterator = $this->iterator();
+        while ($iterator->hasNext()) {
+            $mappedIterator = $mapper($iterator->next())->iterator();
+            while ($mappedIterator->hasNext()) {
+                $mapped[] = $mappedIterator->next();
+            }
+        }
+
+        return new self($mapped);
+    }
+
     /**
      * @param callable(T):bool $predicate
      *

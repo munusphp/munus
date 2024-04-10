@@ -7,6 +7,7 @@ namespace Munus\Collection;
 use Munus\Collection\Stream\Collector;
 use Munus\Collection\Stream\Cons;
 use Munus\Collection\Stream\EmptyStream;
+use Munus\Value;
 
 /**
  * @template T
@@ -173,6 +174,18 @@ abstract class Stream extends Sequence
         }
 
         return new Cons($mapper($this->head()), function () use ($mapper) {return $this->tail()->map($mapper); });
+    }
+
+    public function flatMap(callable $mapper)
+    {
+        $stream = self::empty();
+        foreach ($this->toArray() as $value) {
+            foreach ($mapper($value)->toArray() as $mapped) {
+                $stream = $stream->append($mapped);
+            }
+        }
+
+        return $stream;
     }
 
     /**
