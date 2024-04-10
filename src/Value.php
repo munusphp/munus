@@ -7,6 +7,7 @@ namespace Munus;
 use Munus\Collection\Iterator;
 use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collector;
+use Munus\Collection\Traversable;
 use Munus\Control\Option;
 use Munus\Control\TryTo;
 use Munus\Value\Comparator;
@@ -116,6 +117,21 @@ abstract class Value
         }
 
         return false;
+    }
+
+    /**
+     * @param Traversable<T> $elements
+     */
+    public function containsAll(Traversable $elements): bool
+    {
+        $iterator = $elements->iterator();
+        while ($iterator->hasNext()) {
+            if (!$this->contains($iterator->next())) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

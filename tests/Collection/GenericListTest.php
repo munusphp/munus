@@ -208,4 +208,16 @@ final class GenericListTest extends TestCase
     {
         self::assertTrue(GenericList::of('a', 'b', 'c', 'd', 'e')->equals(GenericList::of('e', 'd', 'c', 'b', 'a')->sorted()));
     }
+
+    public function testListContainsAll()
+    {
+        self::assertTrue(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll([3, 2, 1])));
+        self::assertTrue(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll([2, 1])));
+        self::assertTrue(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll([1])));
+
+        self::assertFalse(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll([1, 2, 3, 4])));
+        self::assertFalse(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll([1, 2, 4])));
+        self::assertFalse(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll([1, 4])));
+        self::assertFalse(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll(['a'])));
+    }
 }
