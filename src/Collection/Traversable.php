@@ -118,6 +118,27 @@ abstract class Traversable extends Value implements \IteratorAggregate
     }
 
     /**
+     * Returns true if the two specified collections have no elements in common.
+     *
+     * @param Traversable<T> $traversable
+     */
+    public function disjoint(self $traversable): bool
+    {
+        if ($this->isEmpty() || $traversable->isEmpty()) {
+            return true;
+        }
+
+        $iterator = $traversable->getIterator();
+        while ($iterator->hasNext()) {
+            if ($this->contains($iterator->next())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * @return T
      */
     public function get()
