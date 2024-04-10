@@ -6,6 +6,7 @@ namespace Munus\Tests\Collection;
 
 use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
+use Munus\Collection\Traversable;
 use Munus\Control\Option;
 use Munus\Lazy;
 use PHPUnit\Framework\TestCase;
@@ -268,5 +269,16 @@ final class StreamTest extends TestCase
     public function testStreamSorted(): void
     {
         self::assertTrue(Stream::of('a', 'b', 'c', 'd', 'e')->equals(Stream::of('e', 'd', 'c', 'b', 'a')->sorted()));
+    }
+
+    public function testFlatMap(): void
+    {
+        self::assertTrue(Stream::ofAll([1, 2, 3])->flatMap(fn ($value) => Stream::of($value, $value))->equals(
+            Stream::ofAll([1, 1, 2, 2, 3, 3])
+        ));
+
+        self::assertTrue(Stream::ofAll([Stream::of(1, 1), Stream::of(2, 2), Stream::of(3, 3)])->flatMap(fn (Traversable $value) => $value->take(1))->equals(
+            Stream::ofAll([1, 2, 3])
+        ));
     }
 }

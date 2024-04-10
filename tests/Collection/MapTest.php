@@ -283,4 +283,11 @@ final class MapTest extends TestCase
     {
         self::assertTrue(Map::fromArray(['a' => 'b', 'c' => 'd', 'e' => 'f'])->equals(Map::fromArray(['e' => 'f', 'c' => 'd', 'a' => 'b'])->sorted()));
     }
+
+    public function testFlatMap(): void
+    {
+        self::assertTrue(Map::fromArray(['a' => 'b', 'c' => 'd'])->flatMap(fn ($tuple) => GenericList::of($tuple, Tuple::of($tuple[1], $tuple[0])))->equals(
+            Map::fromArray(['a' => 'b', 'b' => 'a', 'c' => 'd', 'd' => 'c'])
+        ));
+    }
 }

@@ -48,6 +48,15 @@ abstract class Traversable extends Value implements \IteratorAggregate
     abstract public function map(callable $mapper);
 
     /**
+     * @template U
+     *
+     * @param callable(T): Traversable<U> $mapper
+     *
+     * @return Value<U>
+     */
+    abstract public function flatMap(callable $mapper);
+
+    /**
      * Returns a new Traversable consisting of all elements which satisfy the given predicate.
      *
      * @param callable(T):bool $predicate

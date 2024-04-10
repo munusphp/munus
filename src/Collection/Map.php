@@ -8,6 +8,7 @@ use Munus\Collection\Iterator\MapIterator;
 use Munus\Control\Option;
 use Munus\Exception\NoSuchElementException;
 use Munus\Tuple;
+use Munus\Value;
 use Munus\Value\Comparator;
 
 /**
@@ -149,6 +150,18 @@ final class Map extends Traversable
         foreach ($this->map as $key => $value) {
             $mapped = $mapper(Tuple::of($key, $value));
             $map[$mapped[0]] = $mapped[1];
+        }
+
+        return self::fromPointer($map);
+    }
+
+    public function flatMap(callable $mapper)
+    {
+        $map = [];
+        foreach ($this->map as $key => $value) {
+            foreach ($mapper(Tuple::of($key, $value)) as $mapped) {
+                $map[$mapped[0]] = $mapped[1];
+            }
         }
 
         return self::fromPointer($map);

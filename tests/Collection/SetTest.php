@@ -8,6 +8,7 @@ use Munus\Collection\GenericList;
 use Munus\Collection\Set;
 use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
+use Munus\Collection\Traversable;
 use Munus\Control\Option;
 use PHPUnit\Framework\TestCase;
 
@@ -231,5 +232,20 @@ final class SetTest extends TestCase
     public function testSorted(): void
     {
         self::assertTrue(Set::of('a', 'b', 'c', 'd', 'e')->equals(Set::of('e', 'd', 'c', 'b', 'a')->sorted()));
+    }
+
+    public function testFlatMap(): void
+    {
+        self::assertTrue(Set::ofAll([1, 2, 3])->flatMap(fn ($value) => Set::of($value, $value * 4))->equals(
+            Set::ofAll([1, 4, 2, 8, 3, 12])
+        ));
+
+        self::assertTrue(Set::ofAll([Set::of(1, 4), Set::of(2, 8), Set::of(3, 12)])->flatMap(fn (Traversable $value) => $value->take(1))->equals(
+            Set::ofAll([1, 2, 3])
+        ));
+
+        self::assertTrue(Set::ofAll([1, 2, 3])->flatMap(fn ($value) => Set::of($value, $value * 2))->equals(
+            Set::ofAll([1, 2, 4, 3, 6])
+        ));
     }
 }
