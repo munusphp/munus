@@ -258,5 +258,10 @@ final class SetTest extends TestCase
         self::assertFalse($new->contains('gamma'));
         self::assertTrue($set !== $new);
         self::assertEquals(1, $new->length());
+
+        self::assertTrue(Set::ofAll(['alpha', 'beta', 'gamma'])->removeAll(Set::empty())->equals(Set::ofAll(['alpha', 'beta', 'gamma'])));
+        self::assertTrue(Set::ofAll(['alpha', 'beta', 'gamma'])->removeAll(Set::ofAll(['alpha', 'beta', 'gamma']))->equals(Set::empty()));
+        self::assertTrue(Set::ofAll(['alpha', 'beta', 'gamma'])->removeAll(Set::ofAll(['1', '2', '3']))->equals(Set::ofAll(['alpha', 'beta', 'gamma'])));
+        self::assertTrue(Set::ofAll(['alpha', 'beta', 'gamma'])->removeAll(Set::ofAll(['1', '2', 'gamma']))->equals(Set::ofAll(['alpha', 'beta'])));
     }
 }
