@@ -54,7 +54,7 @@ abstract class Stream extends Sequence
     /**
      * @return Stream<int>
      */
-    public static function range(int $start = 1, int $end = null): self
+    public static function range(int $start = 1, ?int $end = null): self
     {
         if ($start === $end) {
             return self::of($start);
