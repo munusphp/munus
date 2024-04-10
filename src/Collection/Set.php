@@ -110,6 +110,23 @@ final class Set extends Traversable
     }
 
     /**
+     * @param Set<T> $elements
+     *
+     * @return Set<T>
+     */
+    public function removeAll(Set $elements): self
+    {
+        $new = [];
+        foreach ($this->elements as $current) {
+            if (!$elements->contains($current)) {
+                $new[] = $current;
+            }
+        }
+
+        return self::fromPointer($new);
+    }
+
+    /**
      * @param Set<T> $set
      *
      * @return Set<T>

@@ -248,4 +248,15 @@ final class SetTest extends TestCase
             Set::ofAll([1, 2, 4, 3, 6])
         ));
     }
+
+    public function testSetRemoveAll(): void
+    {
+        $set = Set::ofAll(['alpha', 'beta', 'gamma']);
+        $new = $set->removeAll(Set::ofAll(['beta', 'gamma']));
+
+        self::assertFalse($new->contains('beata'));
+        self::assertFalse($new->contains('gamma'));
+        self::assertTrue($set !== $new);
+        self::assertEquals(1, $new->length());
+    }
 }
