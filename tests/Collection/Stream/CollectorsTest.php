@@ -27,11 +27,23 @@ final class CollectorsTest extends TestCase
         self::assertTrue(Set::of(1, 2, 3, 4, 5)->equals($set));
     }
 
-    public function testToMapCollector(): void
+    public function testToMapWithDefaultValueMapperCollector(): void
     {
-        $map = Stream::from(1)->take(3)->collect(Collectors::toMap(function (int $value): string {return (string) $value; }));
+        $map = Stream::from(1)->take(3)->collect(Collectors::toMap(
+            fn (int $value): string => (string) $value
+        ));
 
         self::assertTrue(Map::fromArray(['1' => 1, '2' => 2, '3' => 3])->equals($map));
+    }
+
+    public function testToMapCollector(): void
+    {
+        $map = Stream::from(1)->take(3)->collect(Collectors::toMap(
+            fn (int $value): string => (string) $value,
+            fn (int $value): int => $value * 2,
+        ));
+
+        self::assertTrue(Map::fromArray(['1' => 2, '2' => 4, '3' => 6])->equals($map));
     }
 
     public function testSummingCollector(): void

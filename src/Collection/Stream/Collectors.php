@@ -38,15 +38,19 @@ final class Collectors
 
     /**
      * @template T
+     * @template U
      *
-     * @param callable(T):string $keyProvider
+     * @param callable(T):string $keyMapper
+     * @param ?callable(T):U     $valueMapper
      *
      * @return Collector<T,Map>
      */
-    public static function toMap(callable $keyProvider): Collector
+    public static function toMap(callable $keyMapper, ?callable $valueMapper = null): Collector
     {
-        return GenericCollector::of(Map::empty(), /** @param T $value */ function (Map $map, $value) use ($keyProvider): Map {
-            return $map->put($keyProvider($value), $value);
+        $valueMapper ??= fn ($value) => $value;
+
+        return GenericCollector::of(Map::empty(), /** @param T $value */ function (Map $map, $value) use ($keyMapper, $valueMapper): Map {
+            return $map->put($keyMapper($value), $valueMapper($value));
         });
     }
 
