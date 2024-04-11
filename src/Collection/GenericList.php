@@ -79,8 +79,8 @@ abstract class GenericList extends Sequence
     public function flatMap(callable $mapper)
     {
         $list = self::empty();
-        foreach ($this->toArray() as $value) {
-            foreach ($mapper($value)->toArray() as $mapped) {
+        foreach ($this as $value) {
+            foreach ($mapper($value) as $mapped) {
                 $list = $list->prepend($mapped);
             }
         }
