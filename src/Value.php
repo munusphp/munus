@@ -10,6 +10,7 @@ use Munus\Collection\Stream\Collector;
 use Munus\Collection\Traversable;
 use Munus\Control\Option;
 use Munus\Control\TryTo;
+use Munus\Value\Comparable;
 use Munus\Value\Comparator;
 
 /**
@@ -21,7 +22,7 @@ use Munus\Value\Comparator;
  *
  * @template T
  */
-abstract class Value
+abstract class Value implements Comparable
 {
     /**
      * Checks, if the underlying value is absent.
