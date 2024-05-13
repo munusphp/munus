@@ -72,15 +72,14 @@ class Iterator implements \Iterator
         return new ArrayIterator($elements);
     }
 
-    /**
-     * @phpstan-impure
-     */
     public function hasNext(): bool
     {
         return !$this->current->isEmpty();
     }
 
     /**
+     * @phpstan-impure
+     *
      * @return T
      */
     public function next()

@@ -27,3 +27,7 @@ parameters:
 		    count: 1
 		    path: src/Value.php
 
+		-
+			message: '# is marked as impure but does not have any side effects.#'
+			count: 1
+			path: src/Collection/Iterator/EmptyIterator.php
