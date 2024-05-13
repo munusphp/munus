@@ -105,10 +105,8 @@ abstract class Stream extends Sequence
      */
     public static function iterate($seed, callable $iterator): self
     {
-        $current = $iterator($seed);
-
-        return new Cons($current, function () use ($iterator, $current) {
-            return self::iterate($current, $iterator);
+        return new Cons($seed, function () use ($iterator, $seed) {
+            return self::iterate($iterator($seed), $iterator);
         });
     }
 

@@ -143,8 +143,9 @@ final class StreamTest extends TestCase
 
     public function testStreamIterate(): void
     {
-        self::assertTrue(Stream::of(2, 4, 8)->equals(Stream::iterate(1, function (int $i) {return $i * 2; })->take(3)));
-        self::assertTrue(Stream::of(-1, -2, -3)->equals(Stream::iterate(0, function (int $i) {return --$i; })->take(3)));
+        self::assertTrue(Stream::of(1, 2, 4)->equals(Stream::iterate(1, function (int $i) {return $i * 2; })->take(3)));
+        self::assertTrue(Stream::of(0, -1, -2)->equals(Stream::iterate(0, function (int $i) {return --$i; })->take(3)));
+        self::assertTrue(Stream::of('a', 'aa', 'aaaa')->equals(Stream::iterate('a', function (string $t) {return $t.$t; })->take(3)));
     }
 
     public function testStreamCons(): void
