@@ -115,4 +115,34 @@ final class TraversableTest extends TestCase
 
         self::assertEquals(1, Set::of('munus', 'is', 'awesome')->count(function (string $value) {return strpos($value, 'some') !== false; }));
     }
+
+    public function testAnyMatch(): void
+    {
+        self::assertTrue(GenericList::of(1, 2, 3, 4, 5)->anyMatch(fn (int $v) => $v === 1));
+        self::assertTrue(GenericList::of(1, 2, 3, 4, 5)->anyMatch(fn (int $v) => $v === 3));
+        self::assertTrue(GenericList::of(1, 2, 3, 4, 5)->anyMatch(fn (int $v) => $v === 5));
+
+        self::assertFalse(GenericList::of(1, 2, 3, 4, 5)->anyMatch(fn (int $v) => $v === 0));
+        self::assertFalse(GenericList::empty()->anyMatch(fn (int $v) => $v === 0));
+    }
+
+    public function testAllMatch(): void
+    {
+        self::assertTrue(GenericList::of(2, 4, 6, 8)->allMatch(fn (int $v) => $v % 2 === 0));
+        self::assertTrue(GenericList::of(10, 12, 14, 16)->allMatch(fn (int $v) => $v % 2 === 0));
+        self::assertTrue(GenericList::empty()->allMatch(fn (int $v) => $v % 2 === 1));
+
+        self::assertFalse(GenericList::of(2, 4, 6, 8)->allMatch(fn (int $v) => $v % 2 === 1));
+        self::assertFalse(GenericList::of(0)->allMatch(fn (int $v) => $v % 2 === 1));
+    }
+
+    public function testNoneMatch(): void
+    {
+        self::assertTrue(GenericList::of(2, 4, 6, 8)->noneMatch(fn (int $v) => $v % 2 === 1));
+        self::assertTrue(GenericList::empty()->noneMatch(fn (int $v) => $v % 2 === 1));
+
+        self::assertFalse(GenericList::of(2, 4, 6, 8)->noneMatch(fn (int $v) => $v % 2 === 0));
+        self::assertFalse(GenericList::of(1, 2, 3)->noneMatch(fn (int $v) => $v % 2 === 0));
+        self::assertFalse(GenericList::of(1)->noneMatch(fn (int $v) => $v % 2 === 1));
+    }
 }

@@ -118,6 +118,62 @@ abstract class Traversable extends Value implements \IteratorAggregate
     }
 
     /**
+     * Returns true if any element of this collection match the provided predicate.
+     * May not evaluate the predicate on all elements if not necessary for determining the result.
+     *
+     * @param callable(T):bool $predicate
+     */
+    public function anyMatch(callable $predicate): bool
+    {
+        $iterator = $this->getIterator();
+        while ($iterator->hasNext()) {
+            if ($predicate($iterator->next())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns true if all elements of this collection match the provided predicate.
+     * May not evaluate the predicate on all elements if not necessary for determining the result.
+     * If collection is empty true is returned.
+     *
+     * @param callable(T):bool $predicate
+     */
+    public function allMatch(callable $predicate): bool
+    {
+        $iterator = $this->getIterator();
+        while ($iterator->hasNext()) {
+            if (!$predicate($iterator->next())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns true if no elements of this collection match the provided predicate.
+     * May not evaluate the predicate on all elements if not necessary for determining the result.
+     * If collection is empty true is returned.
+     *
+     * @param callable(T):bool $predicate
+     */
+    public function noneMatch(callable $predicate): bool
+    {
+        $iterator = $this->getIterator();
+        while ($iterator->hasNext()) {
+            if ($predicate($iterator->next())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Returns true if the two specified collections have no elements in common.
      *
      * @param Traversable<T> $traversable
