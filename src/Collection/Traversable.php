@@ -233,6 +233,14 @@ abstract class Traversable extends Value implements \IteratorAggregate
         return Option::none();
     }
 
+    /**
+     * @return Option<T>
+     */
+    public function findFirst(): Option
+    {
+        return $this->isEmpty() ? Option::none() : Option::some($this->head());
+    }
+
     public function equals($object): bool
     {
         if ($object === $this) {
