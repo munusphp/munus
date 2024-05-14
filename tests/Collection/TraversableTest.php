@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Munus\Tests\Collection;
 
 use Munus\Collection\GenericList;
+use Munus\Collection\Map;
 use Munus\Collection\Set;
 use Munus\Collection\Stream;
 use Munus\Control\Option;
 use Munus\Exception\UnsupportedOperationException;
+use Munus\Tuple;
 use PHPUnit\Framework\TestCase;
 
 final class TraversableTest extends TestCase
@@ -144,5 +146,22 @@ final class TraversableTest extends TestCase
         self::assertFalse(GenericList::of(2, 4, 6, 8)->noneMatch(fn (int $v) => $v % 2 === 0));
         self::assertFalse(GenericList::of(1, 2, 3)->noneMatch(fn (int $v) => $v % 2 === 0));
         self::assertFalse(GenericList::of(1)->noneMatch(fn (int $v) => $v % 2 === 1));
+    }
+
+    public function testFindFirstWhenEmpty(): void
+    {
+        self::assertTrue(GenericList::empty()->findFirst()->isEmpty());
+        self::assertTrue(Map::empty()->findFirst()->isEmpty());
+        self::assertTrue(Set::empty()->findFirst()->isEmpty());
+        self::assertTrue(Stream::empty()->findFirst()->isEmpty());
+    }
+
+    public function testFindFirstWhenNotEmpty(): void
+    {
+        self::assertSame('a', GenericList::of('a', 'b', 'c')->findFirst()->get());
+        self::assertEquals(Tuple::of('a', 'b'), Map::fromArray(['a' => 'b', 'c' => 'd'])->findFirst()->get());
+        self::assertSame('a', Set::of('a', 'b', 'c')->findFirst()->get());
+        self::assertSame('a', Stream::of('a', 'b', 'c')->findFirst()->get());
+        self::assertSame('a', Stream::iterate('a', fn () => 'a')->findFirst()->get());
     }
 }
