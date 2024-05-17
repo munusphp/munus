@@ -9,6 +9,7 @@ use Munus\Collection\Stream\Collectors;
 use Munus\Collection\Traversable;
 use Munus\Control\Option;
 use Munus\Lazy;
+use Munus\Tests\Stub\Event;
 use PHPUnit\Framework\TestCase;
 
 final class StreamTest extends TestCase
@@ -281,5 +282,28 @@ final class StreamTest extends TestCase
         self::assertTrue(Stream::ofAll([Stream::of(1, 1), Stream::of(2, 2), Stream::of(3, 3)])->flatMap(fn (Traversable $value) => $value->take(1))->equals(
             Stream::ofAll([1, 2, 3])
         ));
+    }
+
+    public function testIndexOf(): void
+    {
+        $stream = Stream::of('a', 'b', 'c', 'd', 'e', 'f');
+
+        self::assertSame(0, $stream->indexOf('a'));
+        self::assertSame(1, $stream->indexOf('b'));
+        self::assertSame(5, $stream->indexOf('f'));
+        self::assertSame(-1, $stream->indexOf('g'));
+    }
+
+    public function testIndexOfIsUsingComparator(): void
+    {
+        $stream = Stream::of(new Event('1', 'payment.failed'), new Event('2', 'payment.pending'));
+
+        self::assertSame(1, $stream->indexOf(new Event('3', 'payment.pending')));
+        self::assertSame(-1, $stream->indexOf(new Event('1', 'payment.success')));
+    }
+
+    public function testIndexOfOnEmptyStream(): void
+    {
+        self::assertSame(-1, Stream::empty()->indexOf('a'));
     }
 }
