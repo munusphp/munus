@@ -26,8 +26,3 @@ parameters:
 		    message: "#Method Munus\\\\Value::toStream\\(\\) should return Munus\\\\Collection\\\\Stream\\<T\\> but returns Munus\\\\Collection\\\\Stream\\\\Cons\\<Munus\\\\Collection\\\\Stream\\|T\\>.#"
 		    count: 1
 		    path: src/Value.php
-
-		-
-			message: '# is marked as impure but does not have any side effects.#'
-			count: 1
-			path: src/Collection/Iterator/EmptyIterator.php
