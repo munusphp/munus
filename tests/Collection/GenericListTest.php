@@ -10,6 +10,7 @@ use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
 use Munus\Collection\Traversable;
 use Munus\Control\Option;
+use Munus\Tests\Stub\Event;
 use PHPUnit\Framework\TestCase;
 
 final class GenericListTest extends TestCase
@@ -231,5 +232,28 @@ final class GenericListTest extends TestCase
         self::assertTrue(GenericList::ofAll([GenericList::of(1, 1), GenericList::of(2, 2), GenericList::of(3, 3)])->flatMap(fn (Traversable $value) => $value->take(1))->equals(
             GenericList::ofAll([1, 2, 3])
         ));
+    }
+
+    public function testIndexOf(): void
+    {
+        $list = GenericList::of('a', 'b', 'c', 'd', 'e', 'f');
+
+        self::assertSame(0, $list->indexOf('a'));
+        self::assertSame(1, $list->indexOf('b'));
+        self::assertSame(5, $list->indexOf('f'));
+        self::assertSame(-1, $list->indexOf('g'));
+    }
+
+    public function testIndexOfIsUsingComparator(): void
+    {
+        $list = GenericList::of(new Event('1', 'payment.failed'), new Event('2', 'payment.pending'));
+
+        self::assertSame(1, $list->indexOf(new Event('3', 'payment.pending')));
+        self::assertSame(-1, $list->indexOf(new Event('1', 'payment.success')));
+    }
+
+    public function testIndexOfOnEmptyList(): void
+    {
+        self::assertSame(-1, GenericList::empty()->indexOf('a'));
     }
 }
