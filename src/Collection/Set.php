@@ -95,12 +95,14 @@ final class Set extends Traversable
      */
     public function addAll(Set $elements): self
     {
-        $new = $this;
+        $new = $this->elements;
         foreach ($elements->elements as $current) {
-            $new = $new->add($current);
+            if (!$this->contains($current)) {
+                $new[] = $current;
+            }
         }
 
-        return $new;
+        return self::fromPointer($new);
     }
 
     /**
