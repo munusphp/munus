@@ -51,11 +51,17 @@ final class EmptyStream extends Stream
         return Iterator::empty();
     }
 
+    /**
+     * @return Stream<T>
+     */
     public function append($element)
     {
         return Stream::of($element);
     }
 
+    /**
+     * @return Stream<T>
+     */
     public function appendAll(Traversable $elements)
     {
         if ($elements->isEmpty()) {

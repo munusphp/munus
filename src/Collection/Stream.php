@@ -174,6 +174,13 @@ abstract class Stream extends Sequence
         return new Cons($mapper($this->head()), function () use ($mapper) {return $this->tail()->map($mapper); });
     }
 
+    /**
+     * @template U
+     *
+     * @param callable(T): Traversable<U> $mapper
+     *
+     * @return Stream<U>
+     */
     public function flatMap(callable $mapper)
     {
         $stream = self::empty();
@@ -292,6 +299,9 @@ abstract class Stream extends Sequence
         return new Cons($element, function () {return $this; });
     }
 
+    /**
+     * @return Stream<T>
+     */
     public function prependAll(Traversable $elements)
     {
         if ($elements->isEmpty()) {

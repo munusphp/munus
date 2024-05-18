@@ -71,6 +71,9 @@ final class Cons extends Stream
         return new StreamIterator($this);
     }
 
+    /**
+     * @return Stream<T>
+     */
     public function append($element)
     {
         return new Cons($this->head, function () use ($element) {
@@ -78,6 +81,9 @@ final class Cons extends Stream
         });
     }
 
+    /**
+     * @return Stream<T>
+     */
     public function appendAll(Traversable $elements)
     {
         if ($elements->isEmpty()) {
