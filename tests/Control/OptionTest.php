@@ -182,4 +182,10 @@ final class OptionTest extends TestCase
         self::assertTrue(Option::some(null)->isPresent());
         self::assertFalse(Option::none()->isPresent());
     }
+
+    public function testOptionIfPresent(): void
+    {
+        Option::none()->ifPresent(fn ($v) => throw new \RuntimeException('impossible is nothing'));
+        Option::of('a')->ifPresent(fn ($v) => self::assertSame('a', $v));
+    }
 }
