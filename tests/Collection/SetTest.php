@@ -275,4 +275,12 @@ final class SetTest extends TestCase
         self::assertFalse(Set::of('a', 'b', 'c')->disjoint(Set::of('d', 'b', 'f')));
         self::assertFalse(Set::of('a', 'b', 'c')->disjoint(Set::of('d', 'e', 'c')));
     }
+
+    public function testSetAddAll()
+    {
+        self::assertTrue(Set::of('a', 'b', 'c')->equals(Set::of('a')->addAll(Set::of('b', 'c'))));
+        self::assertTrue(Set::of('a', 'b', 'c')->equals(Set::empty()->addAll(Set::of('a', 'b', 'c'))));
+        self::assertTrue(Set::empty()->equals(Set::empty()->addAll(Set::empty())));
+        self::assertTrue(Set::of('a', 'b', 'c')->equals(Set::of('a')->addAll(Set::of('a', 'b', 'c'))));
+    }
 }

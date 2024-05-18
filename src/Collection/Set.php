@@ -89,6 +89,21 @@ final class Set extends Traversable
     }
 
     /**
+     * @param Set<T> $elements
+     *
+     * @return Set<T>
+     */
+    public function addAll(Set $elements): self
+    {
+        $new = $this;
+        foreach ($elements->elements as $current) {
+            $new = $new->add($current);
+        }
+
+        return $new;
+    }
+
+    /**
      * @param T $element
      *
      * @return Set<T>
