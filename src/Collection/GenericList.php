@@ -76,6 +76,13 @@ abstract class GenericList extends Sequence
         return new Cons($mapper($this->head()), $this->tail()->map($mapper));
     }
 
+    /**
+     * @template U
+     *
+     * @param callable(T): Traversable<U> $mapper
+     *
+     * @return GenericList<U>
+     */
     public function flatMap(callable $mapper)
     {
         $list = self::empty();
@@ -224,6 +231,9 @@ abstract class GenericList extends Sequence
         return $list;
     }
 
+    /**
+     * @return GenericList<T>
+     */
     public function appendAll(Traversable $elements)
     {
         if ($elements->isEmpty()) {
@@ -233,6 +243,9 @@ abstract class GenericList extends Sequence
         return self::ofAll($elements)->prependAll($this);
     }
 
+    /**
+     * @return GenericList<T>
+     */
     public function prependAll(Traversable $elements)
     {
         if ($this->isEmpty()) {
