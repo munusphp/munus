@@ -26,20 +26,8 @@ jobs:
         php-version: "${{ matrix.php-version }}"
         ini-values: memory_limit=-1
 
-    - name: Get Composer Cache Directory
-      id: composer-cache
-      run: |
-        echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - name: "Install composer dependencies"
+      uses: "ramsey/composer-install@v2"
 
-    - uses: actions/cache@v2
-      with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-${{ matrix.php-version }}-composer-
-
-    - name: Install dependencies
-      run: composer install
-
-    - name: Run test suite
-      run: composer tests
+    - name: "Run test suite"
+      run: "composer tests"
