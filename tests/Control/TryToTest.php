@@ -271,4 +271,34 @@ final class TryToTest extends TestCase
         self::assertSame($try, $try->peek(function ($value) use (&$check) {$check = $value; }));
         self::assertEquals('munus', $check);
     }
+
+    public function testTryToIteratorSuccess(): void
+    {
+        $iterator = TryTo::run(function () {return 'munus'; })->iterator();
+
+        self::assertTrue($iterator->hasNext());
+        self::assertSame('munus', $iterator->next());
+        self::assertFalse($iterator->hasNext());
+    }
+
+    public function testTryToIteratorFailure(): void
+    {
+        $iterator = TryTo::run(fn () => throw new \RuntimeException())->iterator();
+
+        self::assertFalse($iterator->hasNext());
+    }
+
+    public function testTryToGetCauseOnSuccess(): void
+    {
+        $this->expectException(\BadMethodCallException::class);
+
+        TryTo::run(function () {return 'munus'; })->getCause();
+    }
+
+    public function testTryToGetOnFailure(): void
+    {
+        $this->expectException(\BadMethodCallException::class);
+
+        TryTo::run(fn () => throw new \RuntimeException())->get();
+    }
 }

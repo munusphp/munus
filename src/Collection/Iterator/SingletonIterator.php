@@ -64,4 +64,9 @@ final class SingletonIterator extends Iterator
     {
         $this->hasNext = true;
     }
+
+    public function key(): mixed
+    {
+        return 0;
+    }
 }

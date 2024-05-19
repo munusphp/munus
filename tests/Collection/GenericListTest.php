@@ -256,4 +256,18 @@ final class GenericListTest extends TestCase
     {
         self::assertSame(-1, GenericList::empty()->indexOf('a'));
     }
+
+    public function testHeadOfEmptyList(): void
+    {
+        $this->expectException(\RuntimeException::class);
+
+        GenericList::empty()->head();
+    }
+
+    public function testTailOfEmptyList(): void
+    {
+        $this->expectException(\RuntimeException::class);
+
+        GenericList::empty()->tail();
+    }
 }
