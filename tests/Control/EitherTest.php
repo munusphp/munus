@@ -11,6 +11,7 @@ use Munus\Control\Either;
 use Munus\Control\Either\Left;
 use Munus\Control\Either\Right;
 use Munus\Control\Option;
+use Munus\Exception\NoSuchElementException;
 use Munus\Tests\Stub\Expect;
 use Munus\Tests\Stub\Failure;
 use Munus\Tests\Stub\Result;
@@ -39,7 +40,7 @@ final class EitherTest extends TestCase
 
     public function testLeftThrowExceptionOnGet(): void
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(NoSuchElementException::class);
         (new Left(null))->get();
     }
 
@@ -58,7 +59,7 @@ final class EitherTest extends TestCase
 
     public function testRightThrowExceptionOnGetLeft(): void
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(NoSuchElementException::class);
         (new Right(null))->getLeft();
     }
 

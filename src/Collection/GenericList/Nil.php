@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Munus\Collection\GenericList;
 
 use Munus\Collection\GenericList;
+use Munus\Exception\NoSuchElementException;
 
 /**
  * @template T
@@ -32,13 +33,19 @@ final class Nil extends GenericList
         return true;
     }
 
+    /**
+     * @throws NoSuchElementException
+     */
     public function head()
     {
-        throw new \RuntimeException('head of empty list');
+        throw new NoSuchElementException('head of empty list');
     }
 
+    /**
+     * @throws NoSuchElementException
+     */
     public function tail()
     {
-        throw new \RuntimeException('tail of empty list');
+        throw new NoSuchElementException('tail of empty list');
     }
 }

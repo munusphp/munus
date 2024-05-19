@@ -9,6 +9,7 @@ use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
 use Munus\Control\Option;
 use Munus\Control\TryTo;
+use Munus\Exception\NoSuchElementException;
 use Munus\Tests\Stub\Expect;
 use Munus\Tests\Stub\Result;
 use Munus\Tests\Stub\Success;
@@ -290,14 +291,14 @@ final class TryToTest extends TestCase
 
     public function testTryToGetCauseOnSuccess(): void
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(NoSuchElementException::class);
 
         TryTo::run(function () {return 'munus'; })->getCause();
     }
 
     public function testTryToGetOnFailure(): void
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(NoSuchElementException::class);
 
         TryTo::run(fn () => throw new \RuntimeException())->get();
     }

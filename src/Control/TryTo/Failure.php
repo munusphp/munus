@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Munus\Control\TryTo;
 
 use Munus\Control\TryTo;
+use Munus\Exception\NoSuchElementException;
 
 /**
  * @template T
@@ -34,11 +35,13 @@ final class Failure extends TryTo
     }
 
     /**
+     * @throws NoSuchElementException
+     *
      * @return T
      */
     public function get()
     {
-        throw new \BadMethodCallException('get() on Failure');
+        throw new NoSuchElementException('get() on Failure');
     }
 
     public function getCause(): \Throwable

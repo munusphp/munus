@@ -8,6 +8,7 @@ use Munus\Collection\Set;
 use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
 use Munus\Control\Option;
+use Munus\Exception\NoSuchElementException;
 use Munus\Lazy;
 use Munus\Tests\Stub\Expect;
 use Munus\Tests\Stub\Success;
@@ -191,7 +192,7 @@ final class OptionTest extends TestCase
 
     public function testOptionOfNoneGet(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(NoSuchElementException::class);
 
         Option::none()->get();
     }
