@@ -286,19 +286,13 @@ abstract class Traversable extends Value implements \IteratorAggregate
         return $this->iterator()->fold($zero, $combine);
     }
 
-    /**
-     * @return int|float
-     */
-    public function sum()
+    public function sum(): float|int
     {
         return $this->fold(0,
             /**
-             * @param int|float $sum
-             * @param T         $x
-             *
-             * @return int|float
+             * @param T $x
              */
-            function ($sum, $x) {
+            function (float|int $sum, $x): float|int {
                 if (!is_numeric($x)) {
                     throw new UnsupportedOperationException('not numeric value');
                 }
@@ -308,19 +302,13 @@ abstract class Traversable extends Value implements \IteratorAggregate
         );
     }
 
-    /**
-     * @return int|float
-     */
-    public function product()
+    public function product(): float|int
     {
         return $this->fold(1,
             /**
-             * @param int|float $product
-             * @param T         $x
-             *
-             * @return int|float
+             * @param T $x
              */
-            function ($product, $x) {
+            function (float|int $product, $x): float|int {
                 if (!is_numeric($x)) {
                     throw new UnsupportedOperationException('not numeric value');
                 }
@@ -330,6 +318,9 @@ abstract class Traversable extends Value implements \IteratorAggregate
         );
     }
 
+    /**
+     * @throws UnsupportedOperationException
+     */
     public function average(): float
     {
         if ($this->isEmpty()) {
@@ -394,7 +385,7 @@ abstract class Traversable extends Value implements \IteratorAggregate
     /**
      * @return Iterator<T>
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return $this->iterator();
     }

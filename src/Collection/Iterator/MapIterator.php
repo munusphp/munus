@@ -11,9 +11,9 @@ use Munus\Tuple;
 final class MapIterator extends Iterator
 {
     /**
-     * @var array
+     * @var mixed[]
      */
-    private $map;
+    private array $map;
 
     public function __construct(array $map)
     {
@@ -21,28 +21,22 @@ final class MapIterator extends Iterator
         reset($this->map);
     }
 
-    /**
-     * @return int|string|null
-     */
-    public function key()
+    public function key(): mixed
     {
         return key($this->map);
     }
 
-    public function current()
+    public function current(): mixed
     {
         return current($this->map);
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         reset($this->map);
     }
 
-    /**
-     * @return Tuple
-     */
-    public function next()
+    public function next(): Tuple
     {
         if (!$this->valid()) {
             throw new NoSuchElementException();
@@ -53,7 +47,7 @@ final class MapIterator extends Iterator
         return $next;
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return key($this->map) !== null;
     }

@@ -17,17 +17,14 @@ class Iterator implements \Iterator
     /**
      * @var Traversable<T>
      */
-    private $traversable;
+    private Traversable $traversable;
 
     /**
      * @var Traversable<T>
      */
-    private $current;
+    private Traversable $current;
 
-    /**
-     * @var int
-     */
-    private $index;
+    private int $index;
 
     /**
      * @param Traversable<T> $traversable
@@ -82,6 +79,7 @@ class Iterator implements \Iterator
      *
      * @return T
      */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         $result = $this->current->head();
@@ -107,31 +105,30 @@ class Iterator implements \Iterator
     /**
      * @return T
      */
-    public function current()
+    public function current(): mixed
     {
         return $this->current->head();
     }
 
-    /**
-     * @return int
-     */
-    public function key()
+    public function key(): mixed
     {
         return $this->index;
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return $this->hasNext();
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->current = $this->traversable;
     }
 
     /**
      * @param callable(T,T):T $operation
+     *
+     * @throws NoSuchElementException
      *
      * @return T
      */
@@ -165,6 +162,9 @@ class Iterator implements \Iterator
         return $zero;
     }
 
+    /**
+     * @return self<T>
+     */
     public function sort(): self
     {
         $array = $this->toArray();

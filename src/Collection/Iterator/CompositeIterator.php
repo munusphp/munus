@@ -17,12 +17,12 @@ final class CompositeIterator extends Iterator
     /**
      * @var ArrayIterator<Iterator<T>>
      */
-    private $iterators;
+    private ArrayIterator $iterators;
 
     /**
      * @var Iterator<T>
      */
-    private $current;
+    private mixed $current;
 
     /**
      * @param array<int, Iterator<T>> $iterators
@@ -61,6 +61,8 @@ final class CompositeIterator extends Iterator
     }
 
     /**
+     * @throws NoSuchElementException
+     *
      * @return T
      */
     public function next()
@@ -72,13 +74,13 @@ final class CompositeIterator extends Iterator
         return $this->current->next();
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->iterators->rewind();
         $this->current = $this->iterators->current();
     }
 
-    public function current()
+    public function current(): mixed
     {
         return $this->current->current();
     }
