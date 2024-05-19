@@ -92,9 +92,10 @@ final class StreamTest extends TestCase
 
     public function testStreamLength(): void
     {
-        self::assertEquals(5, Stream::from(0)->take(5)->length());
-        self::assertEquals(5, Stream::range(6, 10)->length());
-        self::assertEquals(5, Stream::ofAll(str_split('Munus'))->length());
+        self::assertSame(5, Stream::from(0)->take(5)->length());
+        self::assertSame(5, Stream::range(6, 10)->length());
+        self::assertSame(5, Stream::ofAll(str_split('Munus'))->length());
+        self::assertSame(0, Stream::empty()->length());
     }
 
     public function testStreamContains(): void
@@ -263,6 +264,13 @@ final class StreamTest extends TestCase
         self::assertTrue(Stream::of('a', 'b', 'c', 'd', 'e')->equals(Stream::of('e')->prependAll(Stream::of('a', 'b', 'c', 'd'))));
     }
 
+    public function testStreamPrependAllEmptyStream(): void
+    {
+        $stream = Stream::of(1, 2, 3);
+
+        self::assertSame($stream, $stream->prependAll(Stream::empty()));
+    }
+
     public function testStreamToArray(): void
     {
         self::assertEquals([1, 2, 3, 4, 5], Stream::range(1, 5)->toArray());
@@ -305,5 +313,19 @@ final class StreamTest extends TestCase
     public function testIndexOfOnEmptyStream(): void
     {
         self::assertSame(-1, Stream::empty()->indexOf('a'));
+    }
+
+    public function testHeadOfEmptyStream(): void
+    {
+        $this->expectException(\RuntimeException::class);
+
+        Stream::empty()->head();
+    }
+
+    public function testTailOfEmptyStream(): void
+    {
+        $this->expectException(\RuntimeException::class);
+
+        Stream::empty()->tail();
     }
 }

@@ -17,10 +17,6 @@ use Munus\Value;
  */
 abstract class Either extends Value
 {
-    private function __construct()
-    {
-    }
-
     /**
      * @template L1
      *

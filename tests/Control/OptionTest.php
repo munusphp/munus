@@ -188,4 +188,11 @@ final class OptionTest extends TestCase
         Option::none()->ifPresent(fn ($v) => throw new \RuntimeException('impossible is nothing'));
         Option::of('a')->ifPresent(fn ($v) => self::assertSame('a', $v));
     }
+
+    public function testOptionOfNoneGet(): void
+    {
+        $this->expectException(\RuntimeException::class);
+
+        Option::none()->get();
+    }
 }

@@ -119,4 +119,20 @@ final class EitherTest extends TestCase
         self::assertEquals(['a'], Either::right('a')->toArray());
         self::assertEquals([], Either::left('a')->toArray());
     }
+
+    public function testEitherIteratorLeft(): void
+    {
+        $iterator = Either::left('left')->iterator();
+
+        self::assertFalse($iterator->hasNext());
+    }
+
+    public function testEitherIteratorRight(): void
+    {
+        $iterator = Either::right('right')->iterator();
+
+        self::assertTrue($iterator->hasNext());
+        self::assertSame('right', $iterator->next());
+        self::assertFalse($iterator->hasNext());
+    }
 }
