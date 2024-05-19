@@ -19,7 +19,7 @@ final class StreamIterator extends Iterator
     /**
      * @var Lazy<Stream<T>>
      */
-    private $current;
+    private Lazy $current;
 
     /**
      * @param Stream<T> $current
@@ -32,7 +32,7 @@ final class StreamIterator extends Iterator
     /**
      * @return T
      */
-    public function current()
+    public function current(): mixed
     {
         return $this->current->get()->head();
     }

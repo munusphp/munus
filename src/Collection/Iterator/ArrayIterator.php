@@ -17,12 +17,9 @@ final class ArrayIterator extends Iterator
     /**
      * @var T[]
      */
-    private $elements;
+    private array $elements;
 
-    /**
-     * @var int
-     */
-    private $index;
+    private int $index;
 
     /**
      * @param T[] $elements
@@ -39,6 +36,8 @@ final class ArrayIterator extends Iterator
     }
 
     /**
+     * @throws NoSuchElementException
+     *
      * @return T
      */
     public function next()
@@ -50,12 +49,20 @@ final class ArrayIterator extends Iterator
         throw new NoSuchElementException();
     }
 
-    public function current()
+    /**
+     * @throws NoSuchElementException
+     */
+    public function current(): mixed
     {
         if (isset($this->elements[$this->index])) {
             return $this->elements[$this->index];
         }
 
         throw new NoSuchElementException();
+    }
+
+    public function rewind(): void
+    {
+        $this->index = 0;
     }
 }

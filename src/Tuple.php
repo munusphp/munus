@@ -12,20 +12,14 @@ use Munus\Value\Comparator;
  */
 class Tuple implements \ArrayAccess
 {
-    /**
-     * @var \SplFixedArray
-     */
-    private $data;
+    private \SplFixedArray $data;
 
     private function __construct(array $data)
     {
         $this->data = \SplFixedArray::fromArray(array_values($data), false);
     }
 
-    /**
-     * @param mixed ...$values
-     */
-    public static function of(...$values): self
+    public static function of(mixed ...$values): self
     {
         if ($values === []) {
             throw new \InvalidArgumentException('At least on value in Tuple is required');
@@ -44,10 +38,7 @@ class Tuple implements \ArrayAccess
         return $this->data->toArray();
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function append($value): self
+    public function append(mixed $value): self
     {
         return new self(array_merge($this->data->toArray(), [$value]));
     }
@@ -74,22 +65,28 @@ class Tuple implements \ArrayAccess
         return self::of(...array_map($mapper, $this->data->toArray()));
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->data[$offset]);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->data[$offset];
     }
 
-    public function offsetSet($offset, $value)
+    /**
+     * @throws UnsupportedOperationException
+     */
+    public function offsetSet($offset, $value): void
     {
         throw new UnsupportedOperationException('cannot change Tuple value with ArrayAccess');
     }
 
-    public function offsetUnset($offset)
+    /**
+     * @throws UnsupportedOperationException
+     */
+    public function offsetUnset($offset): void
     {
         throw new UnsupportedOperationException('cannot unset Tuple value');
     }
