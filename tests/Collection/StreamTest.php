@@ -8,6 +8,7 @@ use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
 use Munus\Collection\Traversable;
 use Munus\Control\Option;
+use Munus\Exception\NoSuchElementException;
 use Munus\Lazy;
 use Munus\Tests\Stub\Event;
 use PHPUnit\Framework\TestCase;
@@ -317,14 +318,14 @@ final class StreamTest extends TestCase
 
     public function testHeadOfEmptyStream(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(NoSuchElementException::class);
 
         Stream::empty()->head();
     }
 
     public function testTailOfEmptyStream(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(NoSuchElementException::class);
 
         Stream::empty()->tail();
     }

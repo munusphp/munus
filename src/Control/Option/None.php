@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Munus\Control\Option;
 
 use Munus\Control\Option;
+use Munus\Exception\NoSuchElementException;
 
 /**
  * @template T
@@ -19,11 +20,13 @@ final class None extends Option
     }
 
     /**
+     * @throws NoSuchElementException
+     *
      * @return T
      */
     public function get()
     {
-        throw new \RuntimeException('No value present');
+        throw new NoSuchElementException('No value present');
     }
 
     public function equals($object): bool

@@ -10,6 +10,7 @@ use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
 use Munus\Collection\Traversable;
 use Munus\Control\Option;
+use Munus\Exception\NoSuchElementException;
 use PHPUnit\Framework\TestCase;
 
 final class SetTest extends TestCase
@@ -112,7 +113,7 @@ final class SetTest extends TestCase
     {
         $set = Set::empty();
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(NoSuchElementException::class);
 
         $set->head();
     }

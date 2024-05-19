@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Munus\Control\TryTo;
 
 use Munus\Control\TryTo;
+use Munus\Exception\NoSuchElementException;
 
 /**
  * @template T
@@ -44,9 +45,12 @@ final class Success extends TryTo
         return $this->value;
     }
 
+    /**
+     * @throws NoSuchElementException
+     */
     public function getCause(): \Throwable
     {
-        throw new \BadMethodCallException('getCause() on Success');
+        throw new NoSuchElementException('getCause() on Success');
     }
 
     public function isEmpty(): bool

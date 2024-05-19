@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Munus\Collection;
 
 use Munus\Collection\Iterator\ArrayIterator;
+use Munus\Exception\NoSuchElementException;
 
 /**
  * @template T
@@ -199,6 +200,9 @@ final class Set extends Traversable
         return new ArrayIterator($this->elements);
     }
 
+    /**
+     * @throws NoSuchElementException
+     */
     public function head()
     {
         reset($this->elements);
@@ -206,7 +210,7 @@ final class Set extends Traversable
         $element = current($this->elements);
 
         if ($element === false) {
-            throw new \RuntimeException('Set is empty');
+            throw new NoSuchElementException('Set is empty');
         }
 
         return $element;

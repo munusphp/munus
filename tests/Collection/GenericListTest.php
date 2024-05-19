@@ -10,6 +10,7 @@ use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
 use Munus\Collection\Traversable;
 use Munus\Control\Option;
+use Munus\Exception\NoSuchElementException;
 use Munus\Tests\Stub\Event;
 use PHPUnit\Framework\TestCase;
 
@@ -259,14 +260,14 @@ final class GenericListTest extends TestCase
 
     public function testHeadOfEmptyList(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(NoSuchElementException::class);
 
         GenericList::empty()->head();
     }
 
     public function testTailOfEmptyList(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(NoSuchElementException::class);
 
         GenericList::empty()->tail();
     }
