@@ -9,6 +9,8 @@ use Munus\Control\Option;
 use Munus\Exception\NoSuchElementException;
 use Munus\Exception\UnsupportedOperationException;
 use Munus\Tuple;
+use Munus\Tuple\Tuple1;
+use Munus\Tuple\Tuple2;
 use Munus\Value;
 use Munus\Value\Comparator;
 
@@ -116,7 +118,10 @@ final class Map extends Traversable implements \ArrayAccess
         return count($this->map);
     }
 
-    public function head(): Tuple
+    /**
+     * @return Tuple2<K, V>
+     */
+    public function head(): Tuple2
     {
         if ($this->isEmpty()) {
             throw new NoSuchElementException('head of empty Map');
@@ -141,7 +146,7 @@ final class Map extends Traversable implements \ArrayAccess
     /**
      * @template U
      *
-     * @phpstan-param callable(Tuple<V>): Tuple<U> $mapper
+     * @phpstan-param callable(Tuple1<V>): Tuple1<U> $mapper
      *
      * @return Map<string,U>
      */

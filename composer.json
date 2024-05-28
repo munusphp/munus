@@ -14,8 +14,9 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.27",
+        "nette/php-generator": "^4.0",
         "phpunit/phpunit": "^9.6.13",
-        "phpstan/phpstan": "^1.11.0"
+        "phpstan/phpstan": "1.11.1"
     },
     "autoload": {
         "psr-4": {
@@ -28,7 +29,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Munus\\Tests\\": "tests/"
+            "Munus\\Tests\\": "tests/",
+            "Munus\\Generators\\": "generators/"
         }
     },
 
@@ -51,7 +53,14 @@
         "coverage-html": [
             "phpunit --coverage-html coverage"
         ],
+        "generate-tuples": [
+            "./bin/generate-tuples"
+        ],
+        "validate-tuples": [
+            "./bin/generate-tuples --validate"
+        ],
         "tests": [
+            "@validate-tuples",
             "@check-cs",
             "@phpstan",
             "@phpunit-coverage"
