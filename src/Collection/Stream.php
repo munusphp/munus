@@ -7,6 +7,7 @@ namespace Munus\Collection;
 use Munus\Collection\Stream\Collector;
 use Munus\Collection\Stream\Cons;
 use Munus\Collection\Stream\EmptyStream;
+use Munus\Value;
 
 /**
  * @template T
@@ -54,7 +55,7 @@ abstract class Stream extends Sequence
     /**
      * @return Stream<int>
      */
-    public static function range(int $start = 1, int $end = null): self
+    public static function range(int $start = 1, ?int $end = null): self
     {
         if ($start === $end) {
             return self::of($start);
@@ -104,10 +105,8 @@ abstract class Stream extends Sequence
      */
     public static function iterate($seed, callable $iterator): self
     {
-        $current = $iterator($seed);
-
-        return new Cons($current, function () use ($iterator, $current) {
-            return self::iterate($current, $iterator);
+        return new Cons($seed, function () use ($iterator, $seed) {
+            return self::iterate($iterator($seed), $iterator);
         });
     }
 
@@ -176,6 +175,25 @@ abstract class Stream extends Sequence
     }
 
     /**
+     * @template U
+     *
+     * @param callable(T): Traversable<U> $mapper
+     *
+     * @return Stream<U>
+     */
+    public function flatMap(callable $mapper)
+    {
+        $stream = self::empty();
+        foreach ($this->toArray() as $value) {
+            foreach ($mapper($value)->toArray() as $mapped) {
+                $stream = $stream->append($mapped);
+            }
+        }
+
+        return $stream;
+    }
+
+    /**
      * @param callable(T):bool $predicate
      *
      * @return Stream<T>
@@ -196,6 +214,14 @@ abstract class Stream extends Sequence
         return $stream->isEmpty() ? self::empty() : new Cons($stream->head(), function () use ($finalStream, $predicate) {
             return $finalStream->tail()->filter($predicate);
         });
+    }
+
+    /**
+     * @return Stream<T>
+     */
+    public function sorted()
+    {
+        return self::ofAll($this->getIterator()->sort());
     }
 
     /**
@@ -273,6 +299,9 @@ abstract class Stream extends Sequence
         return new Cons($element, function () {return $this; });
     }
 
+    /**
+     * @return Stream<T>
+     */
     public function prependAll(Traversable $elements)
     {
         if ($elements->isEmpty()) {

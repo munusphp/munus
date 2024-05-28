@@ -7,6 +7,7 @@ namespace Munus\Collection\Stream;
 use Munus\Collection\Iterator;
 use Munus\Collection\Stream;
 use Munus\Collection\Traversable;
+use Munus\Exception\NoSuchElementException;
 
 /**
  * Empty is better but it is reserved keyword.
@@ -31,14 +32,20 @@ final class EmptyStream extends Stream
         return 0;
     }
 
+    /**
+     * @throws NoSuchElementException
+     */
     public function head()
     {
-        throw new \RuntimeException('head of empty stream');
+        throw new NoSuchElementException('head of empty stream');
     }
 
+    /**
+     * @throws NoSuchElementException
+     */
     public function tail()
     {
-        throw new \RuntimeException('tail of empty stream');
+        throw new NoSuchElementException('tail of empty stream');
     }
 
     public function isEmpty(): bool
@@ -51,11 +58,17 @@ final class EmptyStream extends Stream
         return Iterator::empty();
     }
 
+    /**
+     * @return Stream<T>
+     */
     public function append($element)
     {
         return Stream::of($element);
     }
 
+    /**
+     * @return Stream<T>
+     */
     public function appendAll(Traversable $elements)
     {
         if ($elements->isEmpty()) {

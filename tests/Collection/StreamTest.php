@@ -6,8 +6,11 @@ namespace Munus\Tests\Collection;
 
 use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
+use Munus\Collection\Traversable;
 use Munus\Control\Option;
+use Munus\Exception\NoSuchElementException;
 use Munus\Lazy;
+use Munus\Tests\Stub\Event;
 use PHPUnit\Framework\TestCase;
 
 final class StreamTest extends TestCase
@@ -90,14 +93,27 @@ final class StreamTest extends TestCase
 
     public function testStreamLength(): void
     {
-        self::assertEquals(5, Stream::from(0)->take(5)->length());
-        self::assertEquals(5, Stream::range(6, 10)->length());
-        self::assertEquals(5, Stream::ofAll(str_split('Munus'))->length());
+        self::assertSame(5, Stream::from(0)->take(5)->length());
+        self::assertSame(5, Stream::range(6, 10)->length());
+        self::assertSame(5, Stream::ofAll(str_split('Munus'))->length());
+        self::assertSame(0, Stream::empty()->length());
     }
 
     public function testStreamContains(): void
     {
         self::assertTrue(Stream::ofAll([1, 2, 3])->contains(2));
+    }
+
+    public function testStreamContainsAll(): void
+    {
+        self::assertTrue(Stream::ofAll([1, 2, 3])->containsAll(Stream::ofAll([3, 2, 1])));
+        self::assertTrue(Stream::ofAll([1, 2, 3])->containsAll(Stream::ofAll([2, 1])));
+        self::assertTrue(Stream::ofAll([1, 2, 3])->containsAll(Stream::ofAll([1])));
+
+        self::assertFalse(Stream::ofAll([1, 2, 3])->containsAll(Stream::ofAll([1, 2, 3, 4])));
+        self::assertFalse(Stream::ofAll([1, 2, 3])->containsAll(Stream::ofAll([1, 2, 4])));
+        self::assertFalse(Stream::ofAll([1, 2, 3])->containsAll(Stream::ofAll([1, 4])));
+        self::assertFalse(Stream::ofAll([1, 2, 3])->containsAll(Stream::ofAll(['a'])));
     }
 
     public function testStreamMapSingle(): void
@@ -130,8 +146,9 @@ final class StreamTest extends TestCase
 
     public function testStreamIterate(): void
     {
-        self::assertTrue(Stream::of(2, 4, 8)->equals(Stream::iterate(1, function (int $i) {return $i * 2; })->take(3)));
-        self::assertTrue(Stream::of(-1, -2, -3)->equals(Stream::iterate(0, function (int $i) {return --$i; })->take(3)));
+        self::assertTrue(Stream::of(1, 2, 4)->equals(Stream::iterate(1, function (int $i) {return $i * 2; })->take(3)));
+        self::assertTrue(Stream::of(0, -1, -2)->equals(Stream::iterate(0, function (int $i) {return --$i; })->take(3)));
+        self::assertTrue(Stream::of('a', 'aa', 'aaaa')->equals(Stream::iterate('a', function (string $t) {return $t.$t; })->take(3)));
     }
 
     public function testStreamCons(): void
@@ -248,8 +265,68 @@ final class StreamTest extends TestCase
         self::assertTrue(Stream::of('a', 'b', 'c', 'd', 'e')->equals(Stream::of('e')->prependAll(Stream::of('a', 'b', 'c', 'd'))));
     }
 
+    public function testStreamPrependAllEmptyStream(): void
+    {
+        $stream = Stream::of(1, 2, 3);
+
+        self::assertSame($stream, $stream->prependAll(Stream::empty()));
+    }
+
     public function testStreamToArray(): void
     {
         self::assertEquals([1, 2, 3, 4, 5], Stream::range(1, 5)->toArray());
+    }
+
+    public function testStreamSorted(): void
+    {
+        self::assertTrue(Stream::of('a', 'b', 'c', 'd', 'e')->equals(Stream::of('e', 'd', 'c', 'b', 'a')->sorted()));
+    }
+
+    public function testFlatMap(): void
+    {
+        self::assertTrue(Stream::ofAll([1, 2, 3])->flatMap(fn ($value) => Stream::of($value, $value))->equals(
+            Stream::ofAll([1, 1, 2, 2, 3, 3])
+        ));
+
+        self::assertTrue(Stream::ofAll([Stream::of(1, 1), Stream::of(2, 2), Stream::of(3, 3)])->flatMap(fn (Traversable $value) => $value->take(1))->equals(
+            Stream::ofAll([1, 2, 3])
+        ));
+    }
+
+    public function testIndexOf(): void
+    {
+        $stream = Stream::of('a', 'b', 'c', 'd', 'e', 'f');
+
+        self::assertSame(0, $stream->indexOf('a'));
+        self::assertSame(1, $stream->indexOf('b'));
+        self::assertSame(5, $stream->indexOf('f'));
+        self::assertSame(-1, $stream->indexOf('g'));
+    }
+
+    public function testIndexOfIsUsingComparator(): void
+    {
+        $stream = Stream::of(new Event('1', 'payment.failed'), new Event('2', 'payment.pending'));
+
+        self::assertSame(1, $stream->indexOf(new Event('3', 'payment.pending')));
+        self::assertSame(-1, $stream->indexOf(new Event('1', 'payment.success')));
+    }
+
+    public function testIndexOfOnEmptyStream(): void
+    {
+        self::assertSame(-1, Stream::empty()->indexOf('a'));
+    }
+
+    public function testHeadOfEmptyStream(): void
+    {
+        $this->expectException(NoSuchElementException::class);
+
+        Stream::empty()->head();
+    }
+
+    public function testTailOfEmptyStream(): void
+    {
+        $this->expectException(NoSuchElementException::class);
+
+        Stream::empty()->tail();
     }
 }

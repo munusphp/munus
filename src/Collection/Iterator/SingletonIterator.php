@@ -17,10 +17,7 @@ final class SingletonIterator extends Iterator
      */
     private $element;
 
-    /**
-     * @var bool
-     */
-    private $hasNext;
+    private bool $hasNext;
 
     /**
      * @param T $element
@@ -37,6 +34,8 @@ final class SingletonIterator extends Iterator
     }
 
     /**
+     * @throws NoSuchElementException
+     *
      * @return T
      */
     public function next()
@@ -49,12 +48,25 @@ final class SingletonIterator extends Iterator
         return $this->element;
     }
 
-    public function current()
+    /**
+     * @throws NoSuchElementException
+     */
+    public function current(): mixed
     {
         if ($this->hasNext === true) {
             return $this->element;
         }
 
         throw new NoSuchElementException();
+    }
+
+    public function rewind(): void
+    {
+        $this->hasNext = true;
+    }
+
+    public function key(): mixed
+    {
+        return 0;
     }
 }

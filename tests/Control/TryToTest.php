@@ -9,6 +9,7 @@ use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
 use Munus\Control\Option;
 use Munus\Control\TryTo;
+use Munus\Exception\NoSuchElementException;
 use Munus\Tests\Stub\Expect;
 use Munus\Tests\Stub\Result;
 use Munus\Tests\Stub\Success;
@@ -270,5 +271,35 @@ final class TryToTest extends TestCase
         $try = TryTo::run(function () {return 'munus'; });
         self::assertSame($try, $try->peek(function ($value) use (&$check) {$check = $value; }));
         self::assertEquals('munus', $check);
+    }
+
+    public function testTryToIteratorSuccess(): void
+    {
+        $iterator = TryTo::run(function () {return 'munus'; })->iterator();
+
+        self::assertTrue($iterator->hasNext());
+        self::assertSame('munus', $iterator->next());
+        self::assertFalse($iterator->hasNext());
+    }
+
+    public function testTryToIteratorFailure(): void
+    {
+        $iterator = TryTo::run(fn () => throw new \RuntimeException())->iterator();
+
+        self::assertFalse($iterator->hasNext());
+    }
+
+    public function testTryToGetCauseOnSuccess(): void
+    {
+        $this->expectException(NoSuchElementException::class);
+
+        TryTo::run(function () {return 'munus'; })->getCause();
+    }
+
+    public function testTryToGetOnFailure(): void
+    {
+        $this->expectException(NoSuchElementException::class);
+
+        TryTo::run(fn () => throw new \RuntimeException())->get();
     }
 }

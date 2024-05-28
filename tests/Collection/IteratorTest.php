@@ -7,6 +7,7 @@ namespace Munus\Tests\Collection;
 use Munus\Collection\Iterator;
 use Munus\Collection\Iterator\CompositeIterator;
 use Munus\Collection\Map;
+use Munus\Collection\Set;
 use Munus\Exception\NoSuchElementException;
 use Munus\Tuple;
 use PHPUnit\Framework\TestCase;
@@ -79,5 +80,23 @@ final class IteratorTest extends TestCase
         $iterator = Iterator::of(1, 2, 3);
 
         self::assertEquals(6, $iterator->reduce(fn (int $a, int $b) => $a + $b));
+    }
+
+    public function testReduceOnEmpty(): void
+    {
+        $this->expectException(NoSuchElementException::class);
+
+        Iterator::empty()->reduce(fn (int $a, int $b) => $a + $b);
+    }
+
+    public function testIteratorKey(): void
+    {
+        $iterator = new Iterator(Set::of(1, 2, 3));
+
+        self::assertSame(0, $iterator->key());
+        $iterator->next();
+        self::assertSame(1, $iterator->key());
+        $iterator->next();
+        self::assertSame(2, $iterator->key());
     }
 }

@@ -11,6 +11,7 @@ use Munus\Control\Either;
 use Munus\Control\Either\Left;
 use Munus\Control\Either\Right;
 use Munus\Control\Option;
+use Munus\Exception\NoSuchElementException;
 use Munus\Tests\Stub\Expect;
 use Munus\Tests\Stub\Failure;
 use Munus\Tests\Stub\Result;
@@ -39,7 +40,7 @@ final class EitherTest extends TestCase
 
     public function testLeftThrowExceptionOnGet(): void
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(NoSuchElementException::class);
         (new Left(null))->get();
     }
 
@@ -58,7 +59,7 @@ final class EitherTest extends TestCase
 
     public function testRightThrowExceptionOnGetLeft(): void
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(NoSuchElementException::class);
         (new Right(null))->getLeft();
     }
 
@@ -118,5 +119,21 @@ final class EitherTest extends TestCase
     {
         self::assertEquals(['a'], Either::right('a')->toArray());
         self::assertEquals([], Either::left('a')->toArray());
+    }
+
+    public function testEitherIteratorLeft(): void
+    {
+        $iterator = Either::left('left')->iterator();
+
+        self::assertFalse($iterator->hasNext());
+    }
+
+    public function testEitherIteratorRight(): void
+    {
+        $iterator = Either::right('right')->iterator();
+
+        self::assertTrue($iterator->hasNext());
+        self::assertSame('right', $iterator->next());
+        self::assertFalse($iterator->hasNext());
     }
 }

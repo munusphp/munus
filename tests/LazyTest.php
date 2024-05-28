@@ -28,6 +28,14 @@ final class LazyTest extends TestCase
         self::assertTrue($lazy->isEvaluated());
     }
 
+    public function testInvoke(): void
+    {
+        $lazy = Lazy::of(function () {return 'Munus is awesome'; });
+
+        self::assertEquals('Munus is awesome', $lazy());
+        self::assertTrue($lazy->isEvaluated());
+    }
+
     public function testEvaluationOnlyOnce(): void
     {
         $lazy = Lazy::of(function (): int {return random_int(1, 1000); });
@@ -80,5 +88,14 @@ final class LazyTest extends TestCase
         self::assertSame($lazy, $lazy->peek(function ($value) use (&$check) {$check = $value; }));
         self::assertEquals('munus', $check);
         self::assertTrue($lazy->isEvaluated());
+    }
+
+    public function testLazyIterator(): void
+    {
+        $iterator = Lazy::of(function () {return 'munus'; })->iterator();
+
+        self::assertTrue($iterator->hasNext());
+        self::assertSame('munus', $iterator->next());
+        self::assertFalse($iterator->hasNext());
     }
 }

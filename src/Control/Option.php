@@ -71,6 +71,16 @@ abstract class Option extends Value
     }
 
     /**
+     * @param callable(T): void $consumer
+     */
+    public function ifPresent(callable $consumer): void
+    {
+        if ($this->isPresent()) {
+            $consumer($this->get());
+        }
+    }
+
+    /**
      * @template U
      *
      * @param callable(T):U $mapper

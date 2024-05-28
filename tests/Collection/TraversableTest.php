@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Munus\Tests\Collection;
 
 use Munus\Collection\GenericList;
+use Munus\Collection\Map;
 use Munus\Collection\Set;
 use Munus\Collection\Stream;
 use Munus\Control\Option;
 use Munus\Exception\UnsupportedOperationException;
+use Munus\Tuple;
 use PHPUnit\Framework\TestCase;
 
 final class TraversableTest extends TestCase
@@ -114,5 +116,52 @@ final class TraversableTest extends TestCase
         self::assertEquals(0, Set::of(1, 2, 3, 4)->count(function (int $value) {return $value % 7 === 0; }));
 
         self::assertEquals(1, Set::of('munus', 'is', 'awesome')->count(function (string $value) {return strpos($value, 'some') !== false; }));
+    }
+
+    public function testAnyMatch(): void
+    {
+        self::assertTrue(GenericList::of(1, 2, 3, 4, 5)->anyMatch(fn (int $v) => $v === 1));
+        self::assertTrue(GenericList::of(1, 2, 3, 4, 5)->anyMatch(fn (int $v) => $v === 3));
+        self::assertTrue(GenericList::of(1, 2, 3, 4, 5)->anyMatch(fn (int $v) => $v === 5));
+
+        self::assertFalse(GenericList::of(1, 2, 3, 4, 5)->anyMatch(fn (int $v) => $v === 0));
+        self::assertFalse(GenericList::empty()->anyMatch(fn (int $v) => $v === 0));
+    }
+
+    public function testAllMatch(): void
+    {
+        self::assertTrue(GenericList::of(2, 4, 6, 8)->allMatch(fn (int $v) => $v % 2 === 0));
+        self::assertTrue(GenericList::of(10, 12, 14, 16)->allMatch(fn (int $v) => $v % 2 === 0));
+        self::assertTrue(GenericList::empty()->allMatch(fn (int $v) => $v % 2 === 1));
+
+        self::assertFalse(GenericList::of(2, 4, 6, 8)->allMatch(fn (int $v) => $v % 2 === 1));
+        self::assertFalse(GenericList::of(0)->allMatch(fn (int $v) => $v % 2 === 1));
+    }
+
+    public function testNoneMatch(): void
+    {
+        self::assertTrue(GenericList::of(2, 4, 6, 8)->noneMatch(fn (int $v) => $v % 2 === 1));
+        self::assertTrue(GenericList::empty()->noneMatch(fn (int $v) => $v % 2 === 1));
+
+        self::assertFalse(GenericList::of(2, 4, 6, 8)->noneMatch(fn (int $v) => $v % 2 === 0));
+        self::assertFalse(GenericList::of(1, 2, 3)->noneMatch(fn (int $v) => $v % 2 === 0));
+        self::assertFalse(GenericList::of(1)->noneMatch(fn (int $v) => $v % 2 === 1));
+    }
+
+    public function testFindFirstWhenEmpty(): void
+    {
+        self::assertTrue(GenericList::empty()->findFirst()->isEmpty());
+        self::assertTrue(Map::empty()->findFirst()->isEmpty());
+        self::assertTrue(Set::empty()->findFirst()->isEmpty());
+        self::assertTrue(Stream::empty()->findFirst()->isEmpty());
+    }
+
+    public function testFindFirstWhenNotEmpty(): void
+    {
+        self::assertSame('a', GenericList::of('a', 'b', 'c')->findFirst()->get());
+        self::assertEquals(Tuple::of('a', 'b'), Map::fromArray(['a' => 'b', 'c' => 'd'])->findFirst()->get());
+        self::assertSame('a', Set::of('a', 'b', 'c')->findFirst()->get());
+        self::assertSame('a', Stream::of('a', 'b', 'c')->findFirst()->get());
+        self::assertSame('a', Stream::iterate('a', fn () => 'a')->findFirst()->get());
     }
 }

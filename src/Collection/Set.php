@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Munus\Collection;
 
 use Munus\Collection\Iterator\ArrayIterator;
+use Munus\Exception\NoSuchElementException;
 
 /**
  * @template T
@@ -89,6 +90,23 @@ final class Set extends Traversable
     }
 
     /**
+     * @param Set<T> $elements
+     *
+     * @return Set<T>
+     */
+    public function addAll(Set $elements): self
+    {
+        $new = $this->elements;
+        foreach ($elements->elements as $current) {
+            if (!$this->contains($current)) {
+                $new[] = $current;
+            }
+        }
+
+        return self::fromPointer($new);
+    }
+
+    /**
      * @param T $element
      *
      * @return Set<T>
@@ -107,6 +125,23 @@ final class Set extends Traversable
         }
 
         return self::fromPointer($elements);
+    }
+
+    /**
+     * @param Set<T> $elements
+     *
+     * @return Set<T>
+     */
+    public function removeAll(Set $elements): self
+    {
+        $new = [];
+        foreach ($this->elements as $current) {
+            if (!$elements->contains($current)) {
+                $new[] = $current;
+            }
+        }
+
+        return self::fromPointer($new);
     }
 
     /**
@@ -165,6 +200,9 @@ final class Set extends Traversable
         return new ArrayIterator($this->elements);
     }
 
+    /**
+     * @throws NoSuchElementException
+     */
     public function head()
     {
         reset($this->elements);
@@ -172,7 +210,7 @@ final class Set extends Traversable
         $element = current($this->elements);
 
         if ($element === false) {
-            throw new \RuntimeException('Set is empty');
+            throw new NoSuchElementException('Set is empty');
         }
 
         return $element;
@@ -204,6 +242,20 @@ final class Set extends Traversable
         return self::fromPointer($mapped);
     }
 
+    public function flatMap(callable $mapper)
+    {
+        $mapped = [];
+        $iterator = $this->iterator();
+        while ($iterator->hasNext()) {
+            $mappedIterator = $mapper($iterator->next())->iterator();
+            while ($mappedIterator->hasNext()) {
+                $mapped[] = $mappedIterator->next();
+            }
+        }
+
+        return new self($mapped);
+    }
+
     /**
      * @param callable(T):bool $predicate
      *
@@ -214,6 +266,17 @@ final class Set extends Traversable
         $filtered = array_filter($this->elements, $predicate);
 
         return self::fromPointer($filtered);
+    }
+
+    /**
+     * @return Set<T>
+     */
+    public function sorted()
+    {
+        $elements = $this->elements;
+        asort($elements);
+
+        return self::fromPointer($elements);
     }
 
     /**

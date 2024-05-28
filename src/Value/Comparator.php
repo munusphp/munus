@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Munus\Value;
 
 use Munus\Tuple;
-use Munus\Value;
 
 final class Comparator
 {
@@ -15,11 +14,11 @@ final class Comparator
      */
     public static function equals($a, $b): bool
     {
-        if ($a instanceof Value) {
+        if ($a instanceof Comparable) {
             return $a->equals($b);
         }
 
-        if ($b instanceof Value) {
+        if ($b instanceof Comparable) {
             return $b->equals($a);
         }
 

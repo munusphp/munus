@@ -7,6 +7,7 @@ namespace Munus\Collection\Iterator;
 use Munus\Collection\Iterator;
 use Munus\Collection\Stream;
 use Munus\Collection\Stream\Cons;
+use Munus\Exception\NoSuchElementException;
 use Munus\Lazy;
 
 /**
@@ -19,7 +20,7 @@ final class StreamIterator extends Iterator
     /**
      * @var Lazy<Stream<T>>
      */
-    private $current;
+    private Lazy $current;
 
     /**
      * @param Stream<T> $current
@@ -32,7 +33,7 @@ final class StreamIterator extends Iterator
     /**
      * @return T
      */
-    public function current()
+    public function current(): mixed
     {
         return $this->current->get()->head();
     }
@@ -43,12 +44,14 @@ final class StreamIterator extends Iterator
     }
 
     /**
+     * @throws NoSuchElementException
+     *
      * @return T
      */
     public function next()
     {
         if (!$this->hasNext()) {
-            throw new \LogicException('next() on empty iterator');
+            throw new NoSuchElementException('next() on empty iterator');
         }
         /** @var Cons<T> $stream */
         $stream = $this->current->get();

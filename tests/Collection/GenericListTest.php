@@ -8,7 +8,10 @@ use Munus\Collection\GenericList;
 use Munus\Collection\Set;
 use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
+use Munus\Collection\Traversable;
 use Munus\Control\Option;
+use Munus\Exception\NoSuchElementException;
+use Munus\Tests\Stub\Event;
 use PHPUnit\Framework\TestCase;
 
 final class GenericListTest extends TestCase
@@ -202,5 +205,70 @@ final class GenericListTest extends TestCase
     {
         self::assertTrue(GenericList::of(1, 2, 3, 4)->equals(GenericList::of(1, 2)->appendAll(GenericList::of(3, 4))));
         self::assertTrue(GenericList::of('a', 'b', 'c', 'd', 'e')->equals(GenericList::of('a')->appendAll(GenericList::of('b', 'c', 'd', 'e'))));
+    }
+
+    public function testListSorted(): void
+    {
+        self::assertTrue(GenericList::of('a', 'b', 'c', 'd', 'e')->equals(GenericList::of('e', 'd', 'c', 'b', 'a')->sorted()));
+    }
+
+    public function testListContainsAll(): void
+    {
+        self::assertTrue(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll([3, 2, 1])));
+        self::assertTrue(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll([2, 1])));
+        self::assertTrue(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll([1])));
+
+        self::assertFalse(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll([1, 2, 3, 4])));
+        self::assertFalse(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll([1, 2, 4])));
+        self::assertFalse(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll([1, 4])));
+        self::assertFalse(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll(['a'])));
+    }
+
+    public function testFlatMap(): void
+    {
+        self::assertTrue(GenericList::ofAll([1, 2, 3])->flatMap(fn ($value) => GenericList::of($value, $value))->equals(
+            GenericList::ofAll([1, 1, 2, 2, 3, 3])
+        ));
+
+        self::assertTrue(GenericList::ofAll([GenericList::of(1, 1), GenericList::of(2, 2), GenericList::of(3, 3)])->flatMap(fn (Traversable $value) => $value->take(1))->equals(
+            GenericList::ofAll([1, 2, 3])
+        ));
+    }
+
+    public function testIndexOf(): void
+    {
+        $list = GenericList::of('a', 'b', 'c', 'd', 'e', 'f');
+
+        self::assertSame(0, $list->indexOf('a'));
+        self::assertSame(1, $list->indexOf('b'));
+        self::assertSame(5, $list->indexOf('f'));
+        self::assertSame(-1, $list->indexOf('g'));
+    }
+
+    public function testIndexOfIsUsingComparator(): void
+    {
+        $list = GenericList::of(new Event('1', 'payment.failed'), new Event('2', 'payment.pending'));
+
+        self::assertSame(1, $list->indexOf(new Event('3', 'payment.pending')));
+        self::assertSame(-1, $list->indexOf(new Event('1', 'payment.success')));
+    }
+
+    public function testIndexOfOnEmptyList(): void
+    {
+        self::assertSame(-1, GenericList::empty()->indexOf('a'));
+    }
+
+    public function testHeadOfEmptyList(): void
+    {
+        $this->expectException(NoSuchElementException::class);
+
+        GenericList::empty()->head();
+    }
+
+    public function testTailOfEmptyList(): void
+    {
+        $this->expectException(NoSuchElementException::class);
+
+        GenericList::empty()->tail();
     }
 }

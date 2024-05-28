@@ -8,6 +8,7 @@ use Munus\Collection\Set;
 use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
 use Munus\Control\Option;
+use Munus\Exception\NoSuchElementException;
 use Munus\Lazy;
 use Munus\Tests\Stub\Expect;
 use Munus\Tests\Stub\Success;
@@ -181,5 +182,18 @@ final class OptionTest extends TestCase
         self::assertTrue(Option::of(43)->isPresent());
         self::assertTrue(Option::some(null)->isPresent());
         self::assertFalse(Option::none()->isPresent());
+    }
+
+    public function testOptionIfPresent(): void
+    {
+        Option::none()->ifPresent(fn ($v) => throw new \RuntimeException('impossible is nothing'));
+        Option::of('a')->ifPresent(fn ($v) => self::assertSame('a', $v));
+    }
+
+    public function testOptionOfNoneGet(): void
+    {
+        $this->expectException(NoSuchElementException::class);
+
+        Option::none()->get();
     }
 }

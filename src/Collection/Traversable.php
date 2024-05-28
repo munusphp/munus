@@ -48,6 +48,15 @@ abstract class Traversable extends Value implements \IteratorAggregate
     abstract public function map(callable $mapper);
 
     /**
+     * @template U
+     *
+     * @param callable(T): Traversable<U> $mapper
+     *
+     * @return Value<U>
+     */
+    abstract public function flatMap(callable $mapper);
+
+    /**
      * Returns a new Traversable consisting of all elements which satisfy the given predicate.
      *
      * @param callable(T):bool $predicate
@@ -55,6 +64,11 @@ abstract class Traversable extends Value implements \IteratorAggregate
      * @return Traversable<T>
      */
     abstract public function filter(callable $predicate);
+
+    /**
+     * @return Traversable<T>
+     */
+    abstract public function sorted();
 
     /**
      * @return Traversable<T>
@@ -104,6 +118,83 @@ abstract class Traversable extends Value implements \IteratorAggregate
     }
 
     /**
+     * Returns true if any element of this collection match the provided predicate.
+     * May not evaluate the predicate on all elements if not necessary for determining the result.
+     *
+     * @param callable(T):bool $predicate
+     */
+    public function anyMatch(callable $predicate): bool
+    {
+        $iterator = $this->getIterator();
+        while ($iterator->hasNext()) {
+            if ($predicate($iterator->next())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns true if all elements of this collection match the provided predicate.
+     * May not evaluate the predicate on all elements if not necessary for determining the result.
+     * If collection is empty true is returned.
+     *
+     * @param callable(T):bool $predicate
+     */
+    public function allMatch(callable $predicate): bool
+    {
+        $iterator = $this->getIterator();
+        while ($iterator->hasNext()) {
+            if (!$predicate($iterator->next())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns true if no elements of this collection match the provided predicate.
+     * May not evaluate the predicate on all elements if not necessary for determining the result.
+     * If collection is empty true is returned.
+     *
+     * @param callable(T):bool $predicate
+     */
+    public function noneMatch(callable $predicate): bool
+    {
+        $iterator = $this->getIterator();
+        while ($iterator->hasNext()) {
+            if ($predicate($iterator->next())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns true if the two specified collections have no elements in common.
+     *
+     * @param Traversable<T> $traversable
+     */
+    public function disjoint(self $traversable): bool
+    {
+        if ($this->isEmpty() || $traversable->isEmpty()) {
+            return true;
+        }
+
+        $iterator = $traversable->getIterator();
+        while ($iterator->hasNext()) {
+            if ($this->contains($iterator->next())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * @return T
      */
     public function get()
@@ -140,6 +231,14 @@ abstract class Traversable extends Value implements \IteratorAggregate
         }
 
         return Option::none();
+    }
+
+    /**
+     * @return Option<T>
+     */
+    public function findFirst(): Option
+    {
+        return $this->isEmpty() ? Option::none() : Option::some($this->head());
     }
 
     public function equals($object): bool
@@ -187,19 +286,13 @@ abstract class Traversable extends Value implements \IteratorAggregate
         return $this->iterator()->fold($zero, $combine);
     }
 
-    /**
-     * @return int|float
-     */
-    public function sum()
+    public function sum(): float|int
     {
         return $this->fold(0,
             /**
-             * @param int|float $sum
-             * @param T         $x
-             *
-             * @return int|float
+             * @param T $x
              */
-            function ($sum, $x) {
+            function (float|int $sum, $x): float|int {
                 if (!is_numeric($x)) {
                     throw new UnsupportedOperationException('not numeric value');
                 }
@@ -209,19 +302,13 @@ abstract class Traversable extends Value implements \IteratorAggregate
         );
     }
 
-    /**
-     * @return int|float
-     */
-    public function product()
+    public function product(): float|int
     {
         return $this->fold(1,
             /**
-             * @param int|float $product
-             * @param T         $x
-             *
-             * @return int|float
+             * @param T $x
              */
-            function ($product, $x) {
+            function (float|int $product, $x): float|int {
                 if (!is_numeric($x)) {
                     throw new UnsupportedOperationException('not numeric value');
                 }
@@ -231,6 +318,9 @@ abstract class Traversable extends Value implements \IteratorAggregate
         );
     }
 
+    /**
+     * @throws UnsupportedOperationException
+     */
     public function average(): float
     {
         if ($this->isEmpty()) {
@@ -295,7 +385,7 @@ abstract class Traversable extends Value implements \IteratorAggregate
     /**
      * @return Iterator<T>
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return $this->iterator();
     }

@@ -8,7 +8,9 @@ use Munus\Collection\GenericList;
 use Munus\Collection\Set;
 use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
+use Munus\Collection\Traversable;
 use Munus\Control\Option;
+use Munus\Exception\NoSuchElementException;
 use PHPUnit\Framework\TestCase;
 
 final class SetTest extends TestCase
@@ -111,7 +113,7 @@ final class SetTest extends TestCase
     {
         $set = Set::empty();
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(NoSuchElementException::class);
 
         $set->head();
     }
@@ -226,5 +228,60 @@ final class SetTest extends TestCase
     public function testToArray(): void
     {
         self::assertEquals(['php', 'is', 'awesome'], Set::of('php', 'is', 'awesome')->toArray());
+    }
+
+    public function testSorted(): void
+    {
+        self::assertTrue(Set::of('a', 'b', 'c', 'd', 'e')->equals(Set::of('e', 'd', 'c', 'b', 'a')->sorted()));
+    }
+
+    public function testFlatMap(): void
+    {
+        self::assertTrue(Set::ofAll([1, 2, 3])->flatMap(fn ($value) => Set::of($value, $value * 4))->equals(
+            Set::ofAll([1, 4, 2, 8, 3, 12])
+        ));
+
+        self::assertTrue(Set::ofAll([Set::of(1, 4), Set::of(2, 8), Set::of(3, 12)])->flatMap(fn (Traversable $value) => $value->take(1))->equals(
+            Set::ofAll([1, 2, 3])
+        ));
+
+        self::assertTrue(Set::ofAll([1, 2, 3])->flatMap(fn ($value) => Set::of($value, $value * 2))->equals(
+            Set::ofAll([1, 2, 4, 3, 6])
+        ));
+    }
+
+    public function testSetRemoveAll(): void
+    {
+        $set = Set::ofAll(['alpha', 'beta', 'gamma']);
+        $new = $set->removeAll(Set::ofAll(['beta', 'gamma']));
+
+        self::assertFalse($new->contains('beata'));
+        self::assertFalse($new->contains('gamma'));
+        self::assertTrue($set !== $new);
+        self::assertEquals(1, $new->length());
+
+        self::assertTrue(Set::ofAll(['alpha', 'beta', 'gamma'])->removeAll(Set::empty())->equals(Set::ofAll(['alpha', 'beta', 'gamma'])));
+        self::assertTrue(Set::ofAll(['alpha', 'beta', 'gamma'])->removeAll(Set::ofAll(['alpha', 'beta', 'gamma']))->equals(Set::empty()));
+        self::assertTrue(Set::ofAll(['alpha', 'beta', 'gamma'])->removeAll(Set::ofAll(['1', '2', '3']))->equals(Set::ofAll(['alpha', 'beta', 'gamma'])));
+        self::assertTrue(Set::ofAll(['alpha', 'beta', 'gamma'])->removeAll(Set::ofAll(['1', '2', 'gamma']))->equals(Set::ofAll(['alpha', 'beta'])));
+    }
+
+    public function testSetDisjoint()
+    {
+        self::assertTrue(Set::of('a', 'b', 'c')->disjoint(Set::empty()));
+        self::assertTrue(Set::empty()->disjoint(Set::of('a', 'b', 'c')));
+        self::assertTrue(Set::of('a', 'b', 'c')->disjoint(Set::of('d', 'e', 'f')));
+
+        self::assertFalse(Set::of('a', 'b', 'c')->disjoint(Set::of('a', 'e', 'f')));
+        self::assertFalse(Set::of('a', 'b', 'c')->disjoint(Set::of('d', 'b', 'f')));
+        self::assertFalse(Set::of('a', 'b', 'c')->disjoint(Set::of('d', 'e', 'c')));
+    }
+
+    public function testSetAddAll()
+    {
+        self::assertTrue(Set::of('a', 'b', 'c')->equals(Set::of('a')->addAll(Set::of('b', 'c'))));
+        self::assertTrue(Set::of('a', 'b', 'c')->equals(Set::empty()->addAll(Set::of('a', 'b', 'c'))));
+        self::assertTrue(Set::empty()->equals(Set::empty()->addAll(Set::empty())));
+        self::assertTrue(Set::of('a', 'b', 'c')->equals(Set::of('a')->addAll(Set::of('a', 'b', 'c'))));
     }
 }

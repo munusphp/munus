@@ -7,9 +7,11 @@ namespace Munus\Collection;
 use Munus\Collection\Iterator\MapIterator;
 use Munus\Control\Option;
 use Munus\Exception\NoSuchElementException;
+use Munus\Exception\UnsupportedOperationException;
 use Munus\Tuple;
 use Munus\Tuple\Tuple1;
 use Munus\Tuple\Tuple2;
+use Munus\Value;
 use Munus\Value\Comparator;
 
 /**
@@ -20,7 +22,7 @@ use Munus\Value\Comparator;
  *
  * @extends Traversable<V>
  */
-final class Map extends Traversable
+final class Map extends Traversable implements \ArrayAccess
 {
     /**
      * @var array<string,V>
@@ -159,6 +161,18 @@ final class Map extends Traversable
         return self::fromPointer($map);
     }
 
+    public function flatMap(callable $mapper)
+    {
+        $map = [];
+        foreach ($this->map as $key => $value) {
+            foreach ($mapper(Tuple::of($key, $value)) as $mapped) {
+                $map[$mapped[0]] = $mapped[1];
+            }
+        }
+
+        return self::fromPointer($map);
+    }
+
     /**
      * @param callable(string):string $keyMapper
      *
@@ -204,6 +218,17 @@ final class Map extends Traversable
                 $map[$key] = $value;
             }
         }
+
+        return self::fromPointer($map);
+    }
+
+    /**
+     * @return Map<string,V>
+     */
+    public function sorted()
+    {
+        $map = $this->map;
+        asort($map);
 
         return self::fromPointer($map);
     }
@@ -332,5 +357,33 @@ final class Map extends Traversable
         return $map->fold($this, function (Map $result, Tuple $entry) {
             return !$result->containsKey($entry[0]) ? $result->put($entry[0], $entry[1]) : $result;
         });
+    }
+
+    public function offsetExists(mixed $offset): bool
+    {
+        return isset($this->map[$offset]);
+    }
+
+    /**
+     * @throws NoSuchElementException
+     *
+     * @return V
+     */
+    public function offsetGet(mixed $offset): mixed
+    {
+        return $this->map[$offset] ?? throw new NoSuchElementException();
+    }
+
+    /**
+     * @throws UnsupportedOperationException
+     */
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    public function offsetUnset(mixed $offset): void
+    {
+        throw new UnsupportedOperationException();
     }
 }

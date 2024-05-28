@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Munus\Control\Either;
 
 use Munus\Control\Either;
+use Munus\Exception\NoSuchElementException;
 
 /**
  * @template L
@@ -38,11 +39,13 @@ final class Left extends Either
     }
 
     /**
+     * @throws NoSuchElementException
+     *
      * @return R
      */
     public function get()
     {
-        throw new \BadMethodCallException('get() on Left');
+        throw new NoSuchElementException('get() on Left');
     }
 
     /**

@@ -11,6 +11,7 @@ use Munus\Collection\Stream;
 use Munus\Collection\Stream\Collectors;
 use Munus\Control\Option;
 use Munus\Exception\NoSuchElementException;
+use Munus\Exception\UnsupportedOperationException;
 use Munus\Tuple;
 use PHPUnit\Framework\TestCase;
 
@@ -277,5 +278,56 @@ final class MapTest extends TestCase
     public function testMapToArray(): void
     {
         self::assertEquals(['a' => 'b', 'c' => 'd'], Map::fromArray(['a' => 'b', 'c' => 'd'])->toArray());
+    }
+
+    public function testMapSorted(): void
+    {
+        self::assertTrue(Map::fromArray(['a' => 'b', 'c' => 'd', 'e' => 'f'])->equals(Map::fromArray(['e' => 'f', 'c' => 'd', 'a' => 'b'])->sorted()));
+    }
+
+    public function testFlatMap(): void
+    {
+        self::assertTrue(Map::fromArray(['a' => 'b', 'c' => 'd'])->flatMap(fn ($tuple) => GenericList::of($tuple, Tuple::of($tuple[1], $tuple[0])))->equals(
+            Map::fromArray(['a' => 'b', 'b' => 'a', 'c' => 'd', 'd' => 'c'])
+        ));
+    }
+
+    public function testMapArrayAccessOffsetExists(): void
+    {
+        $map = Map::fromArray(['a' => 'b', 'c' => 'd']);
+
+        self::assertTrue(isset($map['a']));
+        self::assertTrue(isset($map['c']));
+        self::assertFalse(isset($map['b']));
+    }
+
+    public function testMapArrayAccessOffsetGet(): void
+    {
+        $map = Map::fromArray(['a' => 'b', 'c' => 'd']);
+
+        self::assertSame('b', $map['a']);
+        self::assertSame('d', $map['c']);
+
+        $this->expectException(NoSuchElementException::class);
+
+        $a = $map['x'];
+    }
+
+    public function testMapArrayAccessOffsetSet(): void
+    {
+        $map = Map::fromArray(['a' => 'b', 'c' => 'd']);
+
+        $this->expectException(UnsupportedOperationException::class);
+
+        $map['e'] = 'f';
+    }
+
+    public function testMapArrayAccessOffsetUnset(): void
+    {
+        $map = Map::fromArray(['a' => 'b', 'c' => 'd']);
+
+        $this->expectException(UnsupportedOperationException::class);
+
+        unset($map['a']);
     }
 }

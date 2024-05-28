@@ -70,6 +70,7 @@ abstract class Tuple implements \ArrayAccess
         return isset($this->toArray()[$offset]);
     }
 
+
     public function offsetGet(mixed $offset): mixed
     {
         $data = $this->toArray();
@@ -80,11 +81,17 @@ abstract class Tuple implements \ArrayAccess
         return $data[$offset];
     }
 
+    /**
+     * @throws UnsupportedOperationException
+     */
     public function offsetSet(mixed $offset, mixed $value): void
     {
         throw new UnsupportedOperationException('cannot change Tuple value with ArrayAccess');
     }
 
+    /**
+     * @throws UnsupportedOperationException
+     */
     public function offsetUnset(mixed $offset): void
     {
         throw new UnsupportedOperationException('cannot unset Tuple value');

@@ -77,6 +77,25 @@ abstract class GenericList extends Sequence
     }
 
     /**
+     * @template U
+     *
+     * @param callable(T): Traversable<U> $mapper
+     *
+     * @return GenericList<U>
+     */
+    public function flatMap(callable $mapper)
+    {
+        $list = self::empty();
+        foreach ($this as $value) {
+            foreach ($mapper($value) as $mapped) {
+                $list = $list->prepend($mapped);
+            }
+        }
+
+        return $list->reverse();
+    }
+
+    /**
      * @param callable(T):bool $predicate
      *
      * @return GenericList<T>
@@ -101,6 +120,14 @@ abstract class GenericList extends Sequence
         }
 
         return $filtered->reverse();
+    }
+
+    /**
+     * @return GenericList<T>
+     */
+    public function sorted()
+    {
+        return self::ofAll($this->iterator()->sort());
     }
 
     /**
@@ -204,6 +231,9 @@ abstract class GenericList extends Sequence
         return $list;
     }
 
+    /**
+     * @return GenericList<T>
+     */
     public function appendAll(Traversable $elements)
     {
         if ($elements->isEmpty()) {
@@ -213,6 +243,9 @@ abstract class GenericList extends Sequence
         return self::ofAll($elements)->prependAll($this);
     }
 
+    /**
+     * @return GenericList<T>
+     */
     public function prependAll(Traversable $elements)
     {
         if ($this->isEmpty()) {
