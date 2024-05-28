@@ -339,15 +339,7 @@ abstract class Traversable extends Value implements \IteratorAggregate
             return Option::none();
         }
 
-        return Option::of($this->fold($this->head(),
-            /**
-             * @param T $min
-             * @param T $x
-             */
-            function ($min, $x) {
-                return $min <= $x ? $min : $x;
-            }
-        ));
+        return Option::of($this->fold($this->head(), min(...)));
     }
 
     /**
@@ -359,15 +351,7 @@ abstract class Traversable extends Value implements \IteratorAggregate
             return Option::none();
         }
 
-        return Option::of($this->fold($this->head(),
-            /**
-             * @param T $max
-             * @param T $x
-             */
-            function ($max, $x) {
-                return $max >= $x ? $max : $x;
-            }
-        ));
+        return Option::of($this->fold($this->head(), max(...)));
     }
 
     /**

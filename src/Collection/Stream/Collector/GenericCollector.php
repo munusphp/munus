@@ -20,12 +20,12 @@ final class GenericCollector implements Collector
     private $supplier;
 
     /**
-     * @var callable
+     * @var callable(R,T):R
      */
     private $accumulator;
 
     /**
-     * @var callable
+     * @var callable(R):R
      */
     private $finisher;
 
@@ -52,14 +52,10 @@ final class GenericCollector implements Collector
      */
     public static function of($supplier, callable $accumulator): self
     {
-        return new self($supplier, $accumulator,
-            /**
-             * @param W $supplier
-             *
-             * @return W
-             */
-            function ($supplier) {return $supplier; }
-        );
+        /** @var self<U,W> $instance */
+        $instance = new self($supplier, $accumulator, fn ($s) => $s);
+
+        return $instance;
     }
 
     /**
@@ -67,7 +63,7 @@ final class GenericCollector implements Collector
      */
     public function accumulate($value): void
     {
-        $this->supplier = call_user_func($this->accumulator, $this->supplier, $value);
+        $this->supplier = ($this->accumulator)($this->supplier, $value);
     }
 
     /**
@@ -75,6 +71,6 @@ final class GenericCollector implements Collector
      */
     public function finish()
     {
-        return call_user_func($this->finisher, $this->supplier);
+        return ($this->finisher)($this->supplier);
     }
 }
