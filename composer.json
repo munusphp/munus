@@ -16,7 +16,7 @@
         "friendsofphp/php-cs-fixer": "^3.27",
         "nette/php-generator": "^4.0",
         "phpunit/phpunit": "^9.6.13",
-        "phpstan/phpstan": "1.11.1"
+        "phpstan/phpstan": "^1.11.2"
     },
     "autoload": {
         "psr-4": {
