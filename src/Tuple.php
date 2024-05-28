@@ -70,7 +70,6 @@ abstract class Tuple implements \ArrayAccess
         return isset($this->toArray()[$offset]);
     }
 
-
     public function offsetGet(mixed $offset): mixed
     {
         $data = $this->toArray();

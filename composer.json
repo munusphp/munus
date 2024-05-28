@@ -14,9 +14,9 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.27",
+        "nette/php-generator": "^4.0",
         "phpunit/phpunit": "^9.6.13",
-        "phpstan/phpstan": "^1.11.0",
-        "nette/php-generator": "^4.0"
+        "phpstan/phpstan": "^1.11.0"
     },
     "autoload": {
         "psr-4": {
@@ -56,8 +56,11 @@
         "generate-tuples": [
             "./bin/generate-tuples"
         ],
+        "validate-tuples": [
+            "./bin/generate-tuples --validate"
+        ],
         "tests": [
-            "./bin/generate-tuples --validate",
+            "@validate-tuples",
             "@check-cs",
             "@phpstan",
             "@phpunit-coverage"

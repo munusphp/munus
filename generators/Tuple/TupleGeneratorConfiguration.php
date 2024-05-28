@@ -17,8 +17,8 @@ class TupleGeneratorConfiguration
     public const DEFAULT_SOURCE_PATH = __DIR__.'/../../';
 
     public static function getTupleGenerator(
-        ClassPersister $classPersister = null,
-        string $sourcePath = null,
+        ?ClassPersister $classPersister = null,
+        ?string $sourcePath = null,
     ): TupleGenerator {
         if (null === $classPersister) {
             $classPersister = new FilePutContentsClassPersister($sourcePath ?? self::DEFAULT_SOURCE_PATH);
