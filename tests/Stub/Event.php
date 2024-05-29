@@ -12,7 +12,7 @@ final class Event implements Comparable
     {
     }
 
-    public function equals(Comparable $other): bool
+    public function equals(mixed $other): bool
     {
         return self::class === $other::class && $this->name === $other->name;
     }
