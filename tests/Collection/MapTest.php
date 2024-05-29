@@ -12,6 +12,7 @@ use Munus\Collection\Stream\Collectors;
 use Munus\Control\Option;
 use Munus\Exception\NoSuchElementException;
 use Munus\Exception\UnsupportedOperationException;
+use Munus\Tests\Stub\Event;
 use Munus\Tuple;
 use PHPUnit\Framework\TestCase;
 
@@ -329,5 +330,24 @@ final class MapTest extends TestCase
         $this->expectException(UnsupportedOperationException::class);
 
         unset($map['a']);
+    }
+
+    public function testMapWithObjects(): void
+    {
+        $event1 = new Event('1', 'same');
+        $event2 = new Event('2', 'same');
+        $event3 = new Event('2', 'different');
+
+        $map = Map::empty();
+        $map = $map->put($event1, 'magic');
+
+        self::assertSame('magic', $map->get($event1)->getOrNull());
+        self::assertSame('magic', $map[$event1]);
+        self::assertSame('magic', $map->get($event2)->getOrNull());
+        self::assertSame('magic', $map[$event2]);
+        self::assertNull($map->get($event3)->getOrNull());
+
+        self::assertTrue(Set::of($event1)->equals($map->keys()));
+        self::assertTrue(Stream::of('magic')->equals($map->values()));
     }
 }
