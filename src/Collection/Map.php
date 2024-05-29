@@ -9,7 +9,6 @@ use Munus\Control\Option;
 use Munus\Exception\NoSuchElementException;
 use Munus\Exception\UnsupportedOperationException;
 use Munus\Tuple;
-use Munus\Tuple\Tuple1;
 use Munus\Tuple\Tuple2;
 use Munus\Value;
 use Munus\Value\Comparator;
@@ -21,13 +20,15 @@ use Munus\Value\Comparator;
  * @template V
  *
  * @extends Traversable<V>
+ *
+ * @implements \ArrayAccess<K, V>
  */
 final class Map extends Traversable implements \ArrayAccess
 {
     /**
-     * @var array<string,V>
+     * @var array<Tuple2<K, V>>
      */
-    private $map = [];
+    private array $map = [];
 
     private function __construct()
     {
@@ -51,7 +52,7 @@ final class Map extends Traversable implements \ArrayAccess
     {
         $map = [];
         foreach ($array as $key => $value) {
-            $map[(string) $key] = $value;
+            $map[] = new Tuple2((string) $key, $value);
         }
 
         return self::fromPointer($map);
@@ -59,10 +60,11 @@ final class Map extends Traversable implements \ArrayAccess
 
     /**
      * @template U
+     * @template T
      *
-     * @param array<string,U> $map
+     * @param array<Tuple2<U, T>> $map
      *
-     * @return Map<string,U>
+     * @return Map<U, T>
      */
     private static function fromPointer(array &$map): self
     {
@@ -82,33 +84,44 @@ final class Map extends Traversable implements \ArrayAccess
         }
         $key = func_get_arg(0);
 
+        $position = $this->findPosition($key);
         /** @var Option<V> $option */
-        $option = isset($this->map[$key]) ? Option::some($this->map[$key]) : Option::none();
+        $option = $position !== false ? Option::some($this->map[$position][1]) : Option::none();
 
         return $option;
     }
 
     /**
+     * @param K $key
      * @param V $value
      *
-     * @return Map<string,V>
+     * @return Map<K,V>
      */
-    public function put(string $key, $value): self
+    public function put(mixed $key, mixed $value): self
     {
         $map = $this->map;
-        $map[$key] = $value;
+        $position = $this->findPosition($key);
+        if ($position === false) {
+            $map[] = new Tuple2($key, $value);
+        } else {
+            $map[$position] = new Tuple2($key, $value);
+        }
 
         return self::fromPointer($map);
     }
 
-    public function remove(string $key): self
+    /**
+     * @param K $key
+     */
+    public function remove(mixed $key): self
     {
-        if (!isset($this->map[$key])) {
+        $position = $this->findPosition($key);
+        if ($position === false) {
             return $this;
         }
 
         $map = $this->map;
-        unset($map[$key]);
+        array_splice($map, $position, 1);
 
         return self::fromPointer($map);
     }
@@ -119,6 +132,8 @@ final class Map extends Traversable implements \ArrayAccess
     }
 
     /**
+     * @throws NoSuchElementException
+     *
      * @return Tuple2<K, V>
      */
     public function head(): Tuple2
@@ -127,35 +142,39 @@ final class Map extends Traversable implements \ArrayAccess
             throw new NoSuchElementException('head of empty Map');
         }
 
-        $key = array_key_first($this->map);
-
-        return Tuple::of($key, $this->map[$key]);
+        return $this->map[0];
     }
 
+    /**
+     * @throws NoSuchElementException
+     *
+     * @return Map<K, V>
+     */
     public function tail()
     {
         if ($this->isEmpty()) {
             throw new NoSuchElementException('tail of empty Map');
         }
 
-        $key = array_key_last($this->map);
+        $map = $this->map;
+        array_splice($map, 0, 1);
 
-        return Tuple::of($key, $this->map[$key]);
+        return self::fromPointer($map);
     }
 
     /**
      * @template U
+     * @template T
      *
-     * @phpstan-param callable(Tuple1<V>): Tuple1<U> $mapper
+     * @phpstan-param callable(Tuple2<K, V>): Tuple2<U, T> $mapper
      *
-     * @return Map<string,U>
+     * @return Map<U, T>
      */
     public function map(callable $mapper)
     {
         $map = [];
-        foreach ($this->map as $key => $value) {
-            $mapped = $mapper(Tuple::of($key, $value));
-            $map[$mapped[0]] = $mapped[1];
+        foreach ($this->map as $tuple) {
+            $map[] = $mapper($tuple);
         }
 
         return self::fromPointer($map);
@@ -164,9 +183,9 @@ final class Map extends Traversable implements \ArrayAccess
     public function flatMap(callable $mapper)
     {
         $map = [];
-        foreach ($this->map as $key => $value) {
-            foreach ($mapper(Tuple::of($key, $value)) as $mapped) {
-                $map[$mapped[0]] = $mapped[1];
+        foreach ($this->map as $tuple) {
+            foreach ($mapper($tuple) as $mapped) {
+                $map[] = $mapped;
             }
         }
 
@@ -174,15 +193,17 @@ final class Map extends Traversable implements \ArrayAccess
     }
 
     /**
-     * @param callable(string):string $keyMapper
+     * @template U
      *
-     * @return Map<string,V>
+     * @param callable(K):U $keyMapper
+     *
+     * @return Map<U,V>
      */
     public function mapKeys(callable $keyMapper): self
     {
         $map = [];
-        foreach ($this->map as $key => $value) {
-            $map[$keyMapper($key)] = $value;
+        foreach ($this->map as $tuple) {
+            $map[] = new Tuple2($keyMapper($tuple[0]), $tuple[1]);
         }
 
         return self::fromPointer($map);
@@ -193,29 +214,29 @@ final class Map extends Traversable implements \ArrayAccess
      *
      * @param callable(V):U $valueMapper
      *
-     * @return Map<string,U>
+     * @return Map<K,U>
      */
     public function mapValues(callable $valueMapper): self
     {
         $map = [];
-        foreach ($this->map as $key => $value) {
-            $map[$key] = $valueMapper($value);
+        foreach ($this->map as $tuple) {
+            $map[] = new Tuple2($tuple[0], $valueMapper($tuple[1]));
         }
 
         return self::fromPointer($map);
     }
 
     /**
-     * @param callable(Tuple):bool $predicate
+     * @param callable(Tuple2<K, V>):bool $predicate
      *
-     * @return Map<string,V>
+     * @return Map<K,V>
      */
     public function filter(callable $predicate)
     {
         $map = [];
-        foreach ($this->map as $key => $value) {
-            if ($predicate(Tuple::of($key, $value)) === true) {
-                $map[$key] = $value;
+        foreach ($this->map as $tuple) {
+            if ($predicate($tuple) === true) {
+                $map[] = $tuple;
             }
         }
 
@@ -223,25 +244,25 @@ final class Map extends Traversable implements \ArrayAccess
     }
 
     /**
-     * @return Map<string,V>
+     * @return Map<K,V>
      */
     public function sorted()
     {
         $map = $this->map;
-        asort($map);
+        usort($map, fn (Tuple2 $a, Tuple2 $b) => $a[1] <=> $b[1]);
 
         return self::fromPointer($map);
     }
 
     /**
-     * @param callable(Tuple):bool $predicate
+     * @param callable(Tuple2<K, V>):bool $predicate
      *
-     * @return Map<string,V>
+     * @return Map<K,V>
      */
     public function dropWhile(callable $predicate)
     {
         $map = $this->map;
-        while ($map !== [] && $predicate(Tuple::of(key($map), current($map))) === true) {
+        while ($map !== [] && $predicate(current($map)) === true) {
             unset($map[key($map)]);
         }
 
@@ -251,7 +272,7 @@ final class Map extends Traversable implements \ArrayAccess
     /**
      * Take n next entries of map.
      *
-     * @return Map<string,V>
+     * @return Map<K,V>
      */
     public function take(int $n)
     {
@@ -267,7 +288,7 @@ final class Map extends Traversable implements \ArrayAccess
     /**
      * Drop n next entries of map.
      *
-     * @return Map<string,V>
+     * @return Map<K,V>
      */
     public function drop(int $n)
     {
@@ -299,32 +320,45 @@ final class Map extends Traversable implements \ArrayAccess
      */
     public function values(): Stream
     {
-        return Stream::ofAll(array_values($this->map));
+        return Stream::ofAll(array_map(fn (Tuple2 $tuple) => $tuple[1], $this->map));
     }
 
     /**
-     * @return Set<string>
+     * @return Set<K>
      */
     public function keys(): Set
     {
-        return Set::ofAll(array_keys($this->map));
+        return Set::ofAll(array_map(fn (Tuple2 $tuple) => $tuple[0], $this->map));
     }
 
     /**
      * Default contains() method will search for Tuple of key and value.
      *
-     * @param Tuple $element
+     * @param Tuple2<K, V> $element
      */
     public function contains($element): bool
     {
-        return $this->get($element[0])->map(function ($value) use ($element) {
-            return Comparator::equals($value, $element[1]);
-        })->getOrElse(false);
+        foreach ($this->map as $tuple) {
+            if ($tuple->equals($element)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    public function containsKey(string $key): bool
+    /**
+     * @param K $key
+     */
+    public function containsKey($key): bool
     {
-        return isset($this->map[$key]);
+        foreach ($this->map as $tuple) {
+            if (Comparator::equals($tuple[0], $key)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -332,8 +366,8 @@ final class Map extends Traversable implements \ArrayAccess
      */
     public function containsValue($value): bool
     {
-        foreach ($this->map as $v) {
-            if (Comparator::equals($v, $value)) {
+        foreach ($this->map as $tuple) {
+            if (Comparator::equals($tuple[1], $value)) {
                 return true;
             }
         }
@@ -354,14 +388,17 @@ final class Map extends Traversable implements \ArrayAccess
             return $this;
         }
 
-        return $map->fold($this, function (Map $result, Tuple $entry) {
+        return $map->fold($this, function (Map $result, Tuple2 $entry) {
             return !$result->containsKey($entry[0]) ? $result->put($entry[0], $entry[1]) : $result;
         });
     }
 
+    /**
+     * @param K $offset
+     */
     public function offsetExists(mixed $offset): bool
     {
-        return isset($this->map[$offset]);
+        return $this->findPosition($offset) !== false;
     }
 
     /**
@@ -371,7 +408,12 @@ final class Map extends Traversable implements \ArrayAccess
      */
     public function offsetGet(mixed $offset): mixed
     {
-        return $this->map[$offset] ?? throw new NoSuchElementException();
+        $position = $this->findPosition($offset);
+        if ($position === false) {
+            throw new NoSuchElementException();
+        }
+
+        return $this->map[$position][1];
     }
 
     /**
@@ -385,5 +427,19 @@ final class Map extends Traversable implements \ArrayAccess
     public function offsetUnset(mixed $offset): void
     {
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * @param K $key
+     */
+    private function findPosition(mixed $key): int|false
+    {
+        foreach ($this->map as $index => $tuple) {
+            if (Comparator::equals($tuple[0], $key)) {
+                return $index;
+            }
+        }
+
+        return false;
     }
 }

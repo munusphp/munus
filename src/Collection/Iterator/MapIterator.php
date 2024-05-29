@@ -6,15 +6,22 @@ namespace Munus\Collection\Iterator;
 
 use Munus\Collection\Iterator;
 use Munus\Exception\NoSuchElementException;
-use Munus\Tuple;
+use Munus\Tuple\Tuple2;
 
+/**
+ * @template K
+ * @template V
+ */
 final class MapIterator extends Iterator
 {
     /**
-     * @var mixed[]
+     * @var array<Tuple2<K,V>>
      */
     private array $map;
 
+    /**
+     * @param array<Tuple2<K,V>> $map
+     */
     public function __construct(array $map)
     {
         $this->map = $map;
@@ -23,12 +30,12 @@ final class MapIterator extends Iterator
 
     public function key(): mixed
     {
-        return key($this->map);
+        return current($this->map)[0];
     }
 
     public function current(): mixed
     {
-        return current($this->map);
+        return current($this->map)[1];
     }
 
     public function rewind(): void
@@ -36,12 +43,17 @@ final class MapIterator extends Iterator
         reset($this->map);
     }
 
-    public function next(): Tuple
+    /**
+     * @throws NoSuchElementException
+     *
+     * @return Tuple2<K, V>
+     */
+    public function next(): Tuple2
     {
         if (!$this->valid()) {
             throw new NoSuchElementException();
         }
-        $next = Tuple::of(key($this->map), current($this->map));
+        $next = current($this->map);
         next($this->map);
 
         return $next;
@@ -57,6 +69,9 @@ final class MapIterator extends Iterator
         return $this->valid();
     }
 
+    /**
+     * @return array<Tuple2<K, V>>
+     */
     public function toArray(): array
     {
         return $this->map;

@@ -68,8 +68,8 @@ final class MapTest extends TestCase
 
     public function testMapTail(): void
     {
-        self::assertTrue(Map::fromArray(['a' => 'b', 'c' => 'd', 'e' => 'f'])->tail()->equals(Tuple::of('e', 'f')));
-        self::assertTrue(Map::fromArray(['e' => 'f', 'a' => 'b'])->tail()->equals(Tuple::of('a', 'b')));
+        self::assertTrue(Map::fromArray(['a' => 'b', 'c' => 'd', 'e' => 'f'])->tail()->equals(Map::fromArray(['c' => 'd', 'e' => 'f'])));
+        self::assertTrue(Map::fromArray(['e' => 'f', 'a' => 'b'])->tail()->equals(Map::fromArray(['a' => 'b'])));
 
         $this->expectException(NoSuchElementException::class);
         Map::empty()->tail();
@@ -277,7 +277,7 @@ final class MapTest extends TestCase
 
     public function testMapToArray(): void
     {
-        self::assertEquals(['a' => 'b', 'c' => 'd'], Map::fromArray(['a' => 'b', 'c' => 'd'])->toArray());
+        self::assertEquals([Tuple::of('a', 'b'), Tuple::of('c', 'd')], Map::fromArray(['a' => 'b', 'c' => 'd'])->toArray());
     }
 
     public function testMapSorted(): void
