@@ -118,7 +118,7 @@ abstract class Stream extends Sequence
      * @param U            $head
      * @param callable():U $supplier
      *
-     * @return Cons<U>
+     * @return self<U>
      */
     public static function cons($head, callable $supplier): self
     {
