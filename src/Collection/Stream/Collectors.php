@@ -13,6 +13,9 @@ use Munus\Tuple\Tuple2;
 
 final class Collectors
 {
+    /**
+     * @return Collector<mixed,GenericList>
+     */
     public static function toList(): Collector
     {
         return GenericCollector::of(GenericList::empty(), function (GenericList $list, $value): GenericList {
@@ -20,6 +23,9 @@ final class Collectors
         });
     }
 
+    /**
+     * @return Collector<mixed,Set>
+     */
     public static function toSet(): Collector
     {
         return GenericCollector::of(Set::empty(), function (Set $set, $value): Set {
@@ -45,6 +51,9 @@ final class Collectors
         });
     }
 
+    /**
+     * @return Collector<mixed,int|float>
+     */
     public static function summing(): Collector
     {
         return GenericCollector::of(0,
@@ -64,6 +73,9 @@ final class Collectors
         );
     }
 
+    /**
+     * @return Collector<mixed,string>
+     */
     public static function joining(string $glue = ''): Collector
     {
         return new GenericCollector('', /** @param T $value */ function (string $text, $value) use ($glue): string {
@@ -73,14 +85,20 @@ final class Collectors
         });
     }
 
+    /**
+     * @return Collector<mixed,int>
+     */
     public static function counting(): Collector
     {
-        return GenericCollector::of(0, function (int $count): int {return ++$count; });
+        return GenericCollector::of(0, /** @param T $value */ function (int $count, $value): int {return ++$count; });
     }
 
+    /**
+     * @return Collector<mixed,int|float>
+     */
     public static function averaging(): Collector
     {
-        return new GenericCollector(Tuple::of(0, 0), function (Tuple2 $acc, $value): Tuple2 {
+        return new GenericCollector(Tuple::of(0, 0), /** @param T $value */ function (Tuple2 $acc, $value): Tuple2 {
             if (!is_numeric($value)) {
                 throw new \InvalidArgumentException(sprintf('Could not convert %s to number', (string) $value));
             }
