@@ -200,12 +200,10 @@ abstract class Value implements Comparable
 
     /**
      * Similar to "==" operator, but also checks congruence of structures and equality of contained values.
-     *
-     * @param mixed $object
      */
-    public function equals($object): bool
+    public function equals(mixed $other): bool
     {
-        return Comparator::equals($this->get(), $object);
+        return Comparator::equals($this->get(), $other);
     }
 
     /**

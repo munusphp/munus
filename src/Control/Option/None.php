@@ -29,7 +29,7 @@ final class None extends Option
         throw new NoSuchElementException('No value present');
     }
 
-    public function equals($object): bool
+    public function equals(mixed $object): bool
     {
         return $object instanceof self;
     }

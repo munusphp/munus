@@ -6,5 +6,5 @@ namespace Munus\Value;
 
 interface Comparable
 {
-    public function equals(self $other): bool;
+    public function equals(mixed $other): bool;
 }

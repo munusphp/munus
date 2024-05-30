@@ -54,7 +54,7 @@ final class Failure extends TryTo
         return true;
     }
 
-    public function equals($object): bool
+    public function equals(mixed $object): bool
     {
         return $this->cause == $object;
     }

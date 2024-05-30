@@ -241,7 +241,7 @@ abstract class Traversable extends Value implements \IteratorAggregate
         return $this->isEmpty() ? Option::none() : Option::some($this->head());
     }
 
-    public function equals($object): bool
+    public function equals(mixed $object): bool
     {
         if ($object === $this) {
             return true;
