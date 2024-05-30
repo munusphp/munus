@@ -53,7 +53,7 @@ final class OptionTest extends TestCase
         /** @var Option<string> $option */
         $option = Option::of(null);
         self::assertNull($option->getOrNull());
-        self::assertTrue($option->getOrElse(true));
+        self::assertSame('string', $option->getOrElse('string'));
     }
 
     public function testMap(): void

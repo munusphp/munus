@@ -129,7 +129,7 @@ final class SetTest extends TestCase
         $set = Set::ofAll([Set::of(1, 2, 3), Set::of(4, 5, 6)]);
 
         self::assertEquals(2, $set->length());
-        self::assertFalse($set->contains(new \stdClass()));
+        self::assertFalse($set->contains(Set::empty()));
         self::assertTrue($set->contains(Set::of(1, 2, 3)));
     }
 

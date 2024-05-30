@@ -286,6 +286,30 @@ final class Map extends Traversable implements \ArrayAccess
     }
 
     /**
+     * @param callable(Tuple2<K, V>):bool $predicate
+     *
+     * @return Map<K,V>
+     */
+    public function dropUntil(callable $predicate)
+    {
+        return parent::dropUntil($predicate);
+    }
+
+    /**
+     * @param callable(V): void $action
+     *
+     * @return Map<K,V>
+     */
+    public function peek(callable $action)
+    {
+        if (!$this->isEmpty()) {
+            $action($this->get()->get());
+        }
+
+        return $this;
+    }
+
+    /**
      * Take n next entries of map.
      *
      * @return Map<K,V>

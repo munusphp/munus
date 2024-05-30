@@ -221,7 +221,7 @@ final class GenericListTest extends TestCase
         self::assertFalse(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll([1, 2, 3, 4])));
         self::assertFalse(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll([1, 2, 4])));
         self::assertFalse(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll([1, 4])));
-        self::assertFalse(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll(['a'])));
+        self::assertFalse(GenericList::ofAll([1, 2, 3])->containsAll(GenericList::ofAll([0])));
     }
 
     public function testFlatMap(): void

@@ -30,20 +30,20 @@ final class CollectorsTest extends TestCase
     public function testToMapWithDefaultValueMapperCollector(): void
     {
         $map = Stream::from(1)->take(3)->collect(Collectors::toMap(
-            fn (int $value): string => (string) $value
+            fn (int $value): string => 'a'.$value
         ));
 
-        self::assertTrue(Map::fromArray(['1' => 1, '2' => 2, '3' => 3])->equals($map));
+        self::assertTrue(Map::fromArray(['a1' => 1, 'a2' => 2, 'a3' => 3])->equals($map));
     }
 
     public function testToMapCollector(): void
     {
         $map = Stream::from(1)->take(3)->collect(Collectors::toMap(
-            fn (int $value): string => (string) $value,
+            fn (int $value): string => 'a'.$value,
             fn (int $value): int => $value * 2,
         ));
 
-        self::assertTrue(Map::fromArray(['1' => 2, '2' => 4, '3' => 6])->equals($map));
+        self::assertTrue(Map::fromArray(['a1' => 2, 'a2' => 4, 'a3' => 6])->equals($map));
     }
 
     public function testSummingCollector(): void
