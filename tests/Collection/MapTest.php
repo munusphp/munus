@@ -12,6 +12,7 @@ use Munus\Collection\Stream\Collectors;
 use Munus\Control\Option;
 use Munus\Exception\NoSuchElementException;
 use Munus\Exception\UnsupportedOperationException;
+use Munus\Tests\Stub\Event;
 use Munus\Tuple;
 use PHPUnit\Framework\TestCase;
 
@@ -68,8 +69,8 @@ final class MapTest extends TestCase
 
     public function testMapTail(): void
     {
-        self::assertTrue(Map::fromArray(['a' => 'b', 'c' => 'd', 'e' => 'f'])->tail()->equals(Tuple::of('e', 'f')));
-        self::assertTrue(Map::fromArray(['e' => 'f', 'a' => 'b'])->tail()->equals(Tuple::of('a', 'b')));
+        self::assertTrue(Map::fromArray(['a' => 'b', 'c' => 'd', 'e' => 'f'])->tail()->equals(Map::fromArray(['c' => 'd', 'e' => 'f'])));
+        self::assertTrue(Map::fromArray(['e' => 'f', 'a' => 'b'])->tail()->equals(Map::fromArray(['a' => 'b'])));
 
         $this->expectException(NoSuchElementException::class);
         Map::empty()->tail();
@@ -277,7 +278,7 @@ final class MapTest extends TestCase
 
     public function testMapToArray(): void
     {
-        self::assertEquals(['a' => 'b', 'c' => 'd'], Map::fromArray(['a' => 'b', 'c' => 'd'])->toArray());
+        self::assertEquals([Tuple::of('a', 'b'), Tuple::of('c', 'd')], Map::fromArray(['a' => 'b', 'c' => 'd'])->toArray());
     }
 
     public function testMapSorted(): void
@@ -329,5 +330,37 @@ final class MapTest extends TestCase
         $this->expectException(UnsupportedOperationException::class);
 
         unset($map['a']);
+    }
+
+    public function testMapWithObjects(): void
+    {
+        $event1 = new Event('1', 'same');
+        $event2 = new Event('2', 'same');
+        $event3 = new Event('2', 'different');
+
+        $map = Map::empty();
+        $map = $map->put($event1, 'magic');
+
+        self::assertSame('magic', $map->get($event1)->getOrNull());
+        self::assertSame('magic', $map[$event1]);
+        self::assertSame('magic', $map->get($event2)->getOrNull());
+        self::assertSame('magic', $map[$event2]);
+        self::assertNull($map->get($event3)->getOrNull());
+
+        self::assertTrue(Set::of($event1)->equals($map->keys()));
+        self::assertTrue(Stream::of('magic')->equals($map->values()));
+    }
+
+    public function testMapToNativeArray(): void
+    {
+        self::assertSame(['a' => 'b', 'c' => 'd'], Map::fromArray(['a' => 'b', 'c' => 'd'])->toNativeArray());
+
+        $map = Map::from([Tuple::of(new Event('a', 'same'), 'one'), Tuple::of(new Event('b', 'same'), 'two')]);
+
+        self::assertSame(['a' => 'one', 'b' => 'two'], $map->toNativeArray());
+
+        $map = Map::from([Tuple::of(new Event('a', 'same'), 'one'), Tuple::of(new Event('a', 'same'), 'two')]);
+
+        self::assertSame(['a' => 'two'], $map->toNativeArray());
     }
 }
