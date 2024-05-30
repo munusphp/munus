@@ -14,25 +14,21 @@ use Munus\Tuple\Tuple2;
 final class Collectors
 {
     /**
-     * @template T
-     *
-     * @return Collector<T,GenericList>
+     * @return Collector<mixed,GenericList>
      */
     public static function toList(): Collector
     {
-        return GenericCollector::of(GenericList::empty(), /** @param T $value */ function (GenericList $list, $value): GenericList {
+        return GenericCollector::of(GenericList::empty(), function (GenericList $list, $value): GenericList {
             return $list->append($value);
         });
     }
 
     /**
-     * @template T
-     *
-     * @return Collector<T,Set>
+     * @return Collector<mixed,Set>
      */
     public static function toSet(): Collector
     {
-        return GenericCollector::of(Set::empty(), /** @param T $value */ function (Set $set, $value): Set {
+        return GenericCollector::of(Set::empty(), function (Set $set, $value): Set {
             return $set->add($value);
         });
     }
@@ -56,9 +52,7 @@ final class Collectors
     }
 
     /**
-     * @template T
-     *
-     * @return Collector<T,int|float>
+     * @return Collector<mixed,int|float>
      */
     public static function summing(): Collector
     {
@@ -80,9 +74,7 @@ final class Collectors
     }
 
     /**
-     * @template T
-     *
-     * @return Collector<T,string>
+     * @return Collector<mixed,string>
      */
     public static function joining(string $glue = ''): Collector
     {
@@ -94,9 +86,7 @@ final class Collectors
     }
 
     /**
-     * @template T
-     *
-     * @return Collector<T,int>
+     * @return Collector<mixed,int>
      */
     public static function counting(): Collector
     {
@@ -104,9 +94,7 @@ final class Collectors
     }
 
     /**
-     * @template T
-     *
-     * @return Collector<T,int|float>
+     * @return Collector<mixed,int|float>
      */
     public static function averaging(): Collector
     {

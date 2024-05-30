@@ -249,9 +249,12 @@ abstract class Value implements Comparable
 
         $iterator = $this->iterator();
 
-        return Stream::cons($iterator->next(), function () use ($iterator) {
+        /** @var Stream<T> $stream */
+        $stream = Stream::cons($iterator->next(), function () use ($iterator) {
             return $iterator->hasNext() ? $iterator->next() : Stream::empty();
         });
+
+        return $stream;
     }
 
     /**
