@@ -350,4 +350,17 @@ final class MapTest extends TestCase
         self::assertTrue(Set::of($event1)->equals($map->keys()));
         self::assertTrue(Stream::of('magic')->equals($map->values()));
     }
+
+    public function testMapToNativeArray(): void
+    {
+        self::assertSame(['a' => 'b', 'c' => 'd'], Map::fromArray(['a' => 'b', 'c' => 'd'])->toNativeArray());
+
+        $map = Map::from([Tuple::of(new Event('a', 'same'), 'one'), Tuple::of(new Event('b', 'same'), 'two')]);
+
+        self::assertSame(['a' => 'one', 'b' => 'two'], $map->toNativeArray());
+
+        $map = Map::from([Tuple::of(new Event('a', 'same'), 'one'), Tuple::of(new Event('a', 'same'), 'two')]);
+
+        self::assertSame(['a' => 'two'], $map->toNativeArray());
+    }
 }

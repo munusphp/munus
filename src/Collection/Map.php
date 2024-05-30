@@ -40,6 +40,22 @@ final class Map extends Traversable implements \ArrayAccess
     }
 
     /**
+     * @template U
+     * @template T
+     *
+     * @param array<Tuple2<U, T>> $map
+     *
+     * @return self<U, T>
+     */
+    public static function from(array $map): self
+    {
+        $newMap = new self();
+        $newMap->map = $map;
+
+        return $newMap;
+    }
+
+    /**
      * Creates Map from given array, all keys will be cast to string.
      *
      * @template U
@@ -427,6 +443,21 @@ final class Map extends Traversable implements \ArrayAccess
     public function offsetUnset(mixed $offset): void
     {
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Will try to cast all keys to string, may result in data loss if the keys cannot be converted to a unique string.
+     *
+     * @return array<string, V>
+     */
+    public function toNativeArray(): array
+    {
+        $map = [];
+        foreach ($this->map as $tuple) {
+            $map[(string) $tuple[0]] = $tuple[1];
+        }
+
+        return $map;
     }
 
     /**
