@@ -92,13 +92,13 @@ final class MapTest extends TestCase
     public function testMapPeek(): void
     {
         $counter = 0;
-        Map::fromArray(['a' => 1])->peek(function (Option $head) use (&$counter) {$counter = $head->get(); });
+        Map::fromArray(['a' => 1])->peek(function (int $head) use (&$counter) {$counter = $head; });
         self::assertEquals(1, $counter);
     }
 
     public function testMapTake(): void
     {
-        $map = Map::fromArray(['a' => 'apple', 'b' => 'banana', '42' => 'pear', 'd' => 'orange']);
+        $map = Map::fromArray(['a' => 'apple', 'b' => 'banana', 'a42' => 'pear', 'd' => 'orange']);
 
         self::assertTrue(Map::fromArray(['a' => 'apple', 'b' => 'banana'])->equals($map->take(2)));
         self::assertTrue(Map::fromArray(['a' => 'apple'])->equals($map->take(1)));
@@ -109,9 +109,9 @@ final class MapTest extends TestCase
 
     public function testMapDrop(): void
     {
-        $map = Map::fromArray(['a' => 'apple', 'b' => 'banana', '42' => 'pear', 'd' => 'orange']);
+        $map = Map::fromArray(['a' => 'apple', 'b' => 'banana', 'a42' => 'pear', 'd' => 'orange']);
 
-        self::assertTrue(Map::fromArray(['42' => 'pear', 'd' => 'orange'])->equals($map->drop(2)));
+        self::assertTrue(Map::fromArray(['a42' => 'pear', 'd' => 'orange'])->equals($map->drop(2)));
         self::assertTrue(Map::fromArray(['d' => 'orange'])->equals($map->drop(3)));
         self::assertTrue($map->equals($map->drop(0)));
         self::assertSame($map, $map->drop(-1));
@@ -120,14 +120,14 @@ final class MapTest extends TestCase
 
     public function testMapFilter(): void
     {
-        $map = Map::fromArray(['a' => 'apple', 'b' => 'banana', '42' => 'pear', 'd' => 'orange']);
+        $map = Map::fromArray(['a' => 'apple', 'b' => 'banana', 'a42' => 'pear', 'd' => 'orange']);
 
         self::assertTrue(Map::fromArray(['a' => 'apple'])->equals(
             $map->filter(function ($entry) {return $entry[1] === 'apple'; })
         ));
 
-        self::assertTrue(Map::fromArray(['42' => 'pear'])->equals(
-            $map->filter(function ($entry) {return is_numeric($entry[0]); })
+        self::assertTrue(Map::fromArray(['a42' => 'pear'])->equals(
+            $map->filter(function ($entry) {return $entry[0] === 'a42'; })
         ));
 
         self::assertNotSame($map, $map->filter(function () {return true; }));
@@ -190,8 +190,8 @@ final class MapTest extends TestCase
         $map = Map::fromArray(['a' => 'b', 'c' => 'd', 'e' => Option::of('munus')]);
 
         self::assertTrue($map->containsValue('d'));
-        self::assertFalse($map->containsValue('a'));
-        self::assertTrue($map->containsValue('munus'));
+        self::assertFalse($map->containsValue('a')); // @phpstan-ignore-line phpstan is too smart and knows what exactly is in map
+        self::assertTrue($map->containsValue('munus')); // @phpstan-ignore-line phpstan is too smart and knows what exactly is in map
     }
 
     public function testMapValues(): void
@@ -231,9 +231,7 @@ final class MapTest extends TestCase
         self::assertTrue(Map::fromArray(['c' => 3, 'd' => 4])->equals($map->dropUntil(function (Tuple $node): bool {
             return $node[0] === 'c';
         })));
-        self::assertTrue(Map::empty()->equals($map->dropUntil(function (Tuple $node): bool {
-            return false;
-        })));
+        self::assertTrue(Map::empty()->equals($map->dropUntil(fn () => false)));
     }
 
     public function testMapMerge(): void

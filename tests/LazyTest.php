@@ -47,8 +47,8 @@ final class LazyTest extends TestCase
     {
         $lazy = Lazy::of(function () {return 4; });
 
-        self::assertInstanceOf(Lazy::class, $lazy->map('range'));
-        self::assertEquals(2, $lazy->map('sqrt')->get());
+        self::assertSame(5, $lazy->map(fn (int $x) => $x + 1)->get());
+        self::assertEquals(2, $lazy->map('sqrt')->get()); // sqrt returns float
     }
 
     public function testCollect(): void

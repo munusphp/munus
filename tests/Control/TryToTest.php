@@ -59,9 +59,9 @@ final class TryToTest extends TestCase
 
     public function testMapWithMapperFailure(): void
     {
-        $try = TryTo::run('time');
+        $try = TryTo::run(fn () => 0);
 
-        self::assertInstanceOf(\TypeError::class, $try->map('strtoupper')->getCause());
+        self::assertInstanceOf(\DivisionByZeroError::class, $try->map(fn (int $x) => 1 / $x)->getCause());
     }
 
     public function testMapWitMapperSuccess(): void

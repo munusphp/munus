@@ -113,7 +113,7 @@ final class StreamTest extends TestCase
         self::assertFalse(Stream::ofAll([1, 2, 3])->containsAll(Stream::ofAll([1, 2, 3, 4])));
         self::assertFalse(Stream::ofAll([1, 2, 3])->containsAll(Stream::ofAll([1, 2, 4])));
         self::assertFalse(Stream::ofAll([1, 2, 3])->containsAll(Stream::ofAll([1, 4])));
-        self::assertFalse(Stream::ofAll([1, 2, 3])->containsAll(Stream::ofAll(['a'])));
+        self::assertFalse(Stream::ofAll([1, 2, 3])->containsAll(Stream::ofAll([0])));
     }
 
     public function testStreamMapSingle(): void
