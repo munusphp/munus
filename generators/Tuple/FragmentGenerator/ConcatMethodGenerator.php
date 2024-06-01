@@ -47,7 +47,12 @@ class ConcatMethodGenerator extends FragmentGenerator
 
         $concatTupleN->addComment(sprintf('@param Tuple%s%s $tuple', $n, $paramTupleGenerics));
         $concatTupleN->addComment(self::EMPTY_COMMENT_LINE);
-        $concatTupleN->addComment(sprintf('@returns Tuple%s%s', $returnTupleSize, $returnTupleGenerics));
-        $concatTupleN->addBody('return $this->concat($tuple);');
+        $concatTupleN->addComment(sprintf('@return Tuple%s%s', $returnTupleSize, $returnTupleGenerics));
+
+        if ($this->isTupleZero($tupleSize) && $n === 0) {
+            $concatTupleN->addBody('return new Tuple0();');
+        } else {
+            $concatTupleN->addBody('return $this->concat($tuple);');
+        }
     }
 }

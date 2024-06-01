@@ -181,7 +181,7 @@ final class TupleTest extends TestCase
 
     public function testTupleApply(): void
     {
-        self::assertEquals(6, Tuple::of(1, 2, 3)->apply(function (int $a, int $b, int $c): int {return $a + $b + $c; }));
+        self::assertEquals(6, Tuple::of(1, 2, 3)->apply(function (int $a, int $b, int $c): int {return $a + $b + $c; })); // @phpstan-ignore-line
         self::assertEquals('Munus', Tuple::of('M', 'u', 'n', 'u', 's')->apply(function () {return join('', func_get_args()); }));
     }
 

@@ -17,19 +17,20 @@ abstract class AppendPrependMethodAbstractGenerator extends FragmentGenerator
 
         $method = $class->addMethod($this->methodName());
         $method->addParameter('value');
+        $method->addComment('@template T');
+        $method->addComment(self::EMPTY_COMMENT_LINE);
+        $method->addComment('@param T $value');
+        $method->addComment(self::EMPTY_COMMENT_LINE);
 
         if ($this->isMaxSizeTuple($tupleSize, $maxTupleSize)) {
             $namespace->addUse(UnsupportedOperationException::class);
             $method->setBody($this->getMaxTupleSizeExceptionThrowBody());
+            $method->setReturnType('never');
 
             return;
         }
 
         $method->setReturnType($this->getMethodReturnType($namespace, $resultTupleSize));
-        $method->addComment('@template T');
-        $method->addComment(self::EMPTY_COMMENT_LINE);
-        $method->addComment('@param T $value');
-        $method->addComment(self::EMPTY_COMMENT_LINE);
         $method->addComment($this->getReturnTypeComment($resultTupleSize, $tupleSize));
         $method->setBody($this->getMethodBody($resultTupleSize, $tupleSize));
     }
@@ -49,7 +50,7 @@ abstract class AppendPrependMethodAbstractGenerator extends FragmentGenerator
 
     private function getReturnTypeComment(int $resultTupleSize, int $tupleSize): string
     {
-        return sprintf('@returns Tuple%s<%s>', $resultTupleSize, $this->listOfTypes($tupleSize));
+        return sprintf('@return Tuple%s<%s>', $resultTupleSize, $this->listOfTypes($tupleSize));
     }
 
     private function getMethodBody(int $resultTupleSize, int $tupleSize): string

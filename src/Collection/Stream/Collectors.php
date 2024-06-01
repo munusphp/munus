@@ -8,7 +8,6 @@ use Munus\Collection\GenericList;
 use Munus\Collection\Map;
 use Munus\Collection\Set;
 use Munus\Collection\Stream\Collector\GenericCollector;
-use Munus\Tuple;
 use Munus\Tuple\Tuple2;
 
 final class Collectors
@@ -94,17 +93,17 @@ final class Collectors
     }
 
     /**
-     * @return Collector<mixed,int|float>
+     * @return Collector<mixed,int|float|Tuple2>
      */
     public static function averaging(): Collector
     {
-        return new GenericCollector(Tuple::of(0, 0), /** @param T $value */ function (Tuple2 $acc, $value): Tuple2 {
+        return new GenericCollector(new Tuple2(0, 0), /** @param T $value */ function (Tuple2 $acc, $value): Tuple2 {
             if (!is_numeric($value)) {
                 throw new \InvalidArgumentException(sprintf('Could not convert %s to number', (string) $value));
             }
 
-            return Tuple::of($acc[0] + $value, $acc[1] + 1);
-        }, /** @return int|float */ function (Tuple2 $acc) {
+            return new Tuple2($acc[0] + $value, $acc[1] + 1);
+        }, function (Tuple2 $acc): int|float {
             if ($acc[1] === 0) {
                 return 0;
             }

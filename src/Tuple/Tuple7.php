@@ -47,6 +47,9 @@ class Tuple7 extends Tuple
         return 7;
     }
 
+    /**
+     * @return array{T1, T2, T3, T4, T5, T6, T7}
+     */
     public function toArray(): array
     {
         return [
@@ -65,7 +68,7 @@ class Tuple7 extends Tuple
      *
      * @param T $value
      *
-     * @returns Tuple8<T, T1, T2, T3, T4, T5, T6, T7>
+     * @return Tuple8<T, T1, T2, T3, T4, T5, T6, T7>
      */
     public function prepend($value): Tuple8
     {
@@ -77,7 +80,7 @@ class Tuple7 extends Tuple
      *
      * @param T $value
      *
-     * @returns Tuple8<T1, T2, T3, T4, T5, T6, T7, T>
+     * @return Tuple8<T1, T2, T3, T4, T5, T6, T7, T>
      */
     public function append($value): Tuple8
     {
@@ -87,7 +90,7 @@ class Tuple7 extends Tuple
     /**
      * @param Tuple0 $tuple
      *
-     * @returns Tuple7<T1, T2, T3, T4, T5, T6, T7>
+     * @return Tuple7<T1, T2, T3, T4, T5, T6, T7>
      */
     public function concatTuple0($tuple)
     {
@@ -99,7 +102,7 @@ class Tuple7 extends Tuple
      *
      * @param Tuple1<U1> $tuple
      *
-     * @returns Tuple8<T1, T2, T3, T4, T5, T6, T7, U1>
+     * @return Tuple8<T1, T2, T3, T4, T5, T6, T7, U1>
      */
     public function concatTuple1($tuple)
     {

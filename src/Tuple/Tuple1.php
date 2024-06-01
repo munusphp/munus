@@ -29,6 +29,9 @@ class Tuple1 extends Tuple
         return 1;
     }
 
+    /**
+     * @return array{T1}
+     */
     public function toArray(): array
     {
         return [
@@ -41,7 +44,7 @@ class Tuple1 extends Tuple
      *
      * @param T $value
      *
-     * @returns Tuple2<T, T1>
+     * @return Tuple2<T, T1>
      */
     public function prepend($value): Tuple2
     {
@@ -53,7 +56,7 @@ class Tuple1 extends Tuple
      *
      * @param T $value
      *
-     * @returns Tuple2<T1, T>
+     * @return Tuple2<T1, T>
      */
     public function append($value): Tuple2
     {
@@ -63,7 +66,7 @@ class Tuple1 extends Tuple
     /**
      * @param Tuple0 $tuple
      *
-     * @returns Tuple1<T1>
+     * @return Tuple1<T1>
      */
     public function concatTuple0($tuple)
     {
@@ -75,7 +78,7 @@ class Tuple1 extends Tuple
      *
      * @param Tuple1<U1> $tuple
      *
-     * @returns Tuple2<T1, U1>
+     * @return Tuple2<T1, U1>
      */
     public function concatTuple1($tuple)
     {
@@ -88,7 +91,7 @@ class Tuple1 extends Tuple
      *
      * @param Tuple2<U1, U2> $tuple
      *
-     * @returns Tuple3<T1, U1, U2>
+     * @return Tuple3<T1, U1, U2>
      */
     public function concatTuple2($tuple)
     {
@@ -102,7 +105,7 @@ class Tuple1 extends Tuple
      *
      * @param Tuple3<U1, U2, U3> $tuple
      *
-     * @returns Tuple4<T1, U1, U2, U3>
+     * @return Tuple4<T1, U1, U2, U3>
      */
     public function concatTuple3($tuple)
     {
@@ -117,7 +120,7 @@ class Tuple1 extends Tuple
      *
      * @param Tuple4<U1, U2, U3, U4> $tuple
      *
-     * @returns Tuple5<T1, U1, U2, U3, U4>
+     * @return Tuple5<T1, U1, U2, U3, U4>
      */
     public function concatTuple4($tuple)
     {
@@ -133,7 +136,7 @@ class Tuple1 extends Tuple
      *
      * @param Tuple5<U1, U2, U3, U4, U5> $tuple
      *
-     * @returns Tuple6<T1, U1, U2, U3, U4, U5>
+     * @return Tuple6<T1, U1, U2, U3, U4, U5>
      */
     public function concatTuple5($tuple)
     {
@@ -150,7 +153,7 @@ class Tuple1 extends Tuple
      *
      * @param Tuple6<U1, U2, U3, U4, U5, U6> $tuple
      *
-     * @returns Tuple7<T1, U1, U2, U3, U4, U5, U6>
+     * @return Tuple7<T1, U1, U2, U3, U4, U5, U6>
      */
     public function concatTuple6($tuple)
     {
@@ -168,7 +171,7 @@ class Tuple1 extends Tuple
      *
      * @param Tuple7<U1, U2, U3, U4, U5, U6, U7> $tuple
      *
-     * @returns Tuple8<T1, U1, U2, U3, U4, U5, U6, U7>
+     * @return Tuple8<T1, U1, U2, U3, U4, U5, U6, U7>
      */
     public function concatTuple7($tuple)
     {

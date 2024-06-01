@@ -51,6 +51,9 @@ class Tuple8 extends Tuple
         return 8;
     }
 
+    /**
+     * @return array{T1, T2, T3, T4, T5, T6, T7, T8}
+     */
     public function toArray(): array
     {
         return [
@@ -65,12 +68,22 @@ class Tuple8 extends Tuple
         ];
     }
 
-    public function prepend($value)
+    /**
+     * @template T
+     *
+     * @param T $value
+     */
+    public function prepend($value): never
     {
         throw new UnsupportedOperationException('Can\'t prepend next value. This is biggest possible Tuple');
     }
 
-    public function append($value)
+    /**
+     * @template T
+     *
+     * @param T $value
+     */
+    public function append($value): never
     {
         throw new UnsupportedOperationException('Can\'t append next value. This is biggest possible Tuple');
     }
@@ -78,7 +91,7 @@ class Tuple8 extends Tuple
     /**
      * @param Tuple0 $tuple
      *
-     * @returns Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>
+     * @return Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>
      */
     public function concatTuple0($tuple)
     {
