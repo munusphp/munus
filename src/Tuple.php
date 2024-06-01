@@ -16,6 +16,9 @@ use Munus\Tuple\Tuple7;
 use Munus\Tuple\Tuple8;
 use Munus\Value\Comparator;
 
+/**
+ * @implements \ArrayAccess<int, mixed>
+ */
 abstract class Tuple implements \ArrayAccess
 {
     public const TUPLE_MAX_SIZE = 8;
@@ -23,7 +26,7 @@ abstract class Tuple implements \ArrayAccess
     /**
      * @param mixed ...$values
      */
-    public static function of(...$values)
+    public static function of(...$values): self
     {
         return match (count($values)) {
             0 => new Tuple0(),
@@ -41,9 +44,26 @@ abstract class Tuple implements \ArrayAccess
 
     abstract public function arity(): int;
 
+    /**
+     * @return mixed[]
+     */
     abstract public function toArray(): array;
 
-    public function concat(Tuple0|Tuple1|Tuple2|Tuple3|Tuple4|Tuple5|Tuple6|Tuple7|Tuple8 $tuple): Tuple0|Tuple1|Tuple2|Tuple3|Tuple4|Tuple5|Tuple6|Tuple7|Tuple8
+    /**
+     * @template T
+     *
+     * @param T $value
+     */
+    abstract public function append($value): self;
+
+    /**
+     * @template T
+     *
+     * @param T $value
+     */
+    abstract public function prepend($value): self;
+
+    public function concat(self $tuple): self
     {
         return Tuple::of(...$this->toArray(), ...$tuple->toArray());
     }
