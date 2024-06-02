@@ -21,11 +21,7 @@
     "autoload": {
         "psr-4": {
             "Munus\\": "src/"
-        },
-        "files": [
-            "src/Match/match.php",
-            "src/Match/Predicates/predicates.php"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
