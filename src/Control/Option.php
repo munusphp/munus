@@ -46,7 +46,7 @@ abstract class Option extends Value
     /**
      * @phpstan-return Option<T>
      *
-     * @psalm-return Option<none>
+     * @psalm-return Option<None>
      */
     public static function none(): self
     {
