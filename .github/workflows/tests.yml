@@ -32,3 +32,5 @@ jobs:
 
     - name: "Run test suite"
       run: "composer tests"
+      env:
+        PHP_CS_FIXER_IGNORE_ENV: true
