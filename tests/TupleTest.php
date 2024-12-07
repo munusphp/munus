@@ -22,7 +22,7 @@ final class TupleTest extends TestCase
         self::assertEquals($arity, Tuple::of(...$values)->arity());
     }
 
-    public function arityTestData(): array
+    public static function arityTestData(): array
     {
         return [
             [['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'], 8],
@@ -69,7 +69,7 @@ final class TupleTest extends TestCase
         self::assertEquals($values, Tuple::of(...$values)->toArray());
     }
 
-    public function toArrayTestData(): array
+    public static function toArrayTestData(): array
     {
         return [
             [['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']],
@@ -97,7 +97,7 @@ final class TupleTest extends TestCase
         self::assertEquals($result, $newTuple->toArray());
     }
 
-    public function concatTestData(): array
+    public static function concatTestData(): array
     {
         return TupleConcatTestHelper::concatTestData();
     }
@@ -119,7 +119,7 @@ final class TupleTest extends TestCase
         self::assertEquals($expected, Tuple::of(...$values)->append($appendValue)->toArray());
     }
 
-    public function appendTestData(): array
+    public static function appendTestData(): array
     {
         return [
             [['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'], ['a', 'b', 'c', 'd', 'e', 'f', 'g'], 'h'],
@@ -141,7 +141,7 @@ final class TupleTest extends TestCase
         self::assertEquals($expected, Tuple::of(...$values)->prepend($appendValue)->toArray());
     }
 
-    public function prependTestData(): array
+    public static function prependTestData(): array
     {
         return [
             [['h', 'a', 'b', 'c', 'd', 'e', 'f', 'g'], ['a', 'b', 'c', 'd', 'e', 'f', 'g'], 'h'],
