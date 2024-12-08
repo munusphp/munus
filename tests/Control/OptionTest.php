@@ -58,17 +58,13 @@ final class OptionTest extends TestCase
 
     public function testMap(): void
     {
-        $option = Option::of('munus');
-
-        self::assertInstanceOf(Option::class, $option->map('strtolower'));
-        self::assertEquals('MUNUS', $option->map('strtoupper')->get());
+        self::assertEquals('MUNUS', Option::of('munus')->map('strtoupper')->get());
     }
 
     public function testFlatMapSome(): void
     {
         $option = Option::of('munus');
 
-        self::assertInstanceOf(Option::class, $option->flatMap(fn (string $value) => Option::some($value)));
         self::assertEquals('munus', $option->flatMap(fn (string $value) => Option::some($value))->get());
         self::assertEquals('2', $option->flatMap(fn () => Option::of('2'))->get());
         self::assertTrue(Option::none()->equals($option->flatMap(fn () => Option::none())));

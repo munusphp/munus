@@ -89,6 +89,9 @@ final class Lazy extends Value
         return $this->supplier === null ? $this->value : $this->computeValue();
     }
 
+    /**
+     * @return T
+     */
     public function __invoke()
     {
         return $this->get();

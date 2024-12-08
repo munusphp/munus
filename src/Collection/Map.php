@@ -34,6 +34,9 @@ final class Map extends Traversable implements \ArrayAccess
     {
     }
 
+    /**
+     * @return self<K,V>
+     */
     public static function empty(): self
     {
         return new self();
@@ -62,7 +65,7 @@ final class Map extends Traversable implements \ArrayAccess
      *
      * @param array<string,U> $array
      *
-     * @return Map<string,U>
+     * @return self<string,U>
      */
     public static function fromArray(array $array): self
     {
@@ -80,7 +83,7 @@ final class Map extends Traversable implements \ArrayAccess
      *
      * @param array<Tuple2<U, T>> $map
      *
-     * @return Map<U, T>
+     * @return self<U, T>
      */
     private static function fromPointer(array &$map): self
     {
@@ -111,7 +114,7 @@ final class Map extends Traversable implements \ArrayAccess
      * @param K $key
      * @param V $value
      *
-     * @return Map<K,V>
+     * @return self<K,V>
      */
     public function put(mixed $key, mixed $value): self
     {
@@ -128,6 +131,8 @@ final class Map extends Traversable implements \ArrayAccess
 
     /**
      * @param K $key
+     *
+     * @return self<K,V>
      */
     public function remove(mixed $key): self
     {
@@ -164,9 +169,9 @@ final class Map extends Traversable implements \ArrayAccess
     /**
      * @throws NoSuchElementException
      *
-     * @return Map<K, V>
+     * @return self<K, V>
      */
-    public function tail()
+    public function tail(): self
     {
         if ($this->isEmpty()) {
             throw new NoSuchElementException('tail of empty Map');
@@ -184,9 +189,9 @@ final class Map extends Traversable implements \ArrayAccess
      *
      * @phpstan-param callable(Tuple2<K, V>): Tuple2<U, T> $mapper
      *
-     * @return Map<U, T>
+     * @return self<U, T>
      */
-    public function map(callable $mapper)
+    public function map(callable $mapper): self
     {
         $map = [];
         foreach ($this->map as $tuple) {
@@ -196,7 +201,15 @@ final class Map extends Traversable implements \ArrayAccess
         return self::fromPointer($map);
     }
 
-    public function flatMap(callable $mapper)
+    /**
+     * @template U
+     * @template T
+     *
+     * @phpstan-param callable(Tuple2<K, V>): Traversable<Tuple2<U, T>> $mapper
+     *
+     * @return self<U, T>
+     */
+    public function flatMap(callable $mapper): self
     {
         $map = [];
         foreach ($this->map as $tuple) {
@@ -213,7 +226,7 @@ final class Map extends Traversable implements \ArrayAccess
      *
      * @param callable(K):U $keyMapper
      *
-     * @return Map<U,V>
+     * @return self<U,V>
      */
     public function mapKeys(callable $keyMapper): self
     {
@@ -230,7 +243,7 @@ final class Map extends Traversable implements \ArrayAccess
      *
      * @param callable(V):U $valueMapper
      *
-     * @return Map<K,U>
+     * @return self<K,U>
      */
     public function mapValues(callable $valueMapper): self
     {
@@ -245,9 +258,9 @@ final class Map extends Traversable implements \ArrayAccess
     /**
      * @param callable(Tuple2<K, V>):bool $predicate
      *
-     * @return Map<K,V>
+     * @return self<K,V>
      */
-    public function filter(callable $predicate)
+    public function filter(callable $predicate): self
     {
         $map = [];
         foreach ($this->map as $tuple) {
@@ -260,9 +273,9 @@ final class Map extends Traversable implements \ArrayAccess
     }
 
     /**
-     * @return Map<K,V>
+     * @return self<K,V>
      */
-    public function sorted()
+    public function sorted(): self
     {
         $map = $this->map;
         usort($map, fn (Tuple2 $a, Tuple2 $b) => $a[1] <=> $b[1]);
@@ -273,9 +286,9 @@ final class Map extends Traversable implements \ArrayAccess
     /**
      * @param callable(Tuple2<K, V>):bool $predicate
      *
-     * @return Map<K,V>
+     * @return self<K,V>
      */
-    public function dropWhile(callable $predicate)
+    public function dropWhile(callable $predicate): self
     {
         $map = $this->map;
         while ($map !== [] && $predicate(current($map)) === true) {
@@ -288,9 +301,9 @@ final class Map extends Traversable implements \ArrayAccess
     /**
      * @param callable(Tuple2<K, V>):bool $predicate
      *
-     * @return Map<K,V>
+     * @return self<K,V>
      */
-    public function dropUntil(callable $predicate)
+    public function dropUntil(callable $predicate): self
     {
         return parent::dropUntil($predicate);
     }
@@ -298,9 +311,9 @@ final class Map extends Traversable implements \ArrayAccess
     /**
      * @param callable(V): void $action
      *
-     * @return Map<K,V>
+     * @return self<K,V>
      */
-    public function peek(callable $action)
+    public function peek(callable $action): self
     {
         if (!$this->isEmpty()) {
             $action($this->get()->get());
@@ -312,9 +325,9 @@ final class Map extends Traversable implements \ArrayAccess
     /**
      * Take n next entries of map.
      *
-     * @return Map<K,V>
+     * @return self<K,V>
      */
-    public function take(int $n)
+    public function take(int $n): self
     {
         if ($n >= $this->length()) {
             return $this;
@@ -328,9 +341,9 @@ final class Map extends Traversable implements \ArrayAccess
     /**
      * Drop n next entries of map.
      *
-     * @return Map<K,V>
+     * @return self<K,V>
      */
-    public function drop(int $n)
+    public function drop(int $n): self
     {
         if ($n <= 0) {
             return $this;
@@ -350,6 +363,9 @@ final class Map extends Traversable implements \ArrayAccess
         return $this->length() === 0;
     }
 
+    /**
+     * @return Iterator<Tuple2<K,V>>
+     */
     public function iterator(): Iterator
     {
         return new MapIterator($this->map);
@@ -417,6 +433,10 @@ final class Map extends Traversable implements \ArrayAccess
 
     /**
      *  If collisions occur, the value of this map is taken.
+     *
+     * @param self<K,V> $map
+     *
+     * @return self<K,V>
      */
     public function merge(self $map): self
     {
@@ -429,7 +449,7 @@ final class Map extends Traversable implements \ArrayAccess
         }
 
         return $map->fold($this, function (Map $result, Tuple2 $entry) {
-            return !$result->containsKey($entry[0]) ? $result->put($entry[0], $entry[1]) : $result;
+            return !$result->containsKey($entry[0]) ? $result->put($entry[0], $entry[1]) : $result; // @phpstan-ignore offsetAccess.notFound, offsetAccess.notFound, offsetAccess.notFound
         });
     }
 
@@ -464,6 +484,9 @@ final class Map extends Traversable implements \ArrayAccess
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * @throws UnsupportedOperationException
+     */
     public function offsetUnset(mixed $offset): void
     {
         throw new UnsupportedOperationException();

@@ -21,7 +21,7 @@ abstract class Stream extends Sequence
      *
      * @param U ...$elements
      *
-     * @return Stream<U>
+     * @return self<U>
      */
     public static function of(...$elements): self
     {
@@ -33,13 +33,16 @@ abstract class Stream extends Sequence
      *
      * @param iterable<U> $elements
      *
-     * @return Stream<U>
+     * @return self<U>
      */
     public static function ofAll(iterable $elements): self
     {
         $elements = Iterator::fromIterable($elements);
         if (!$elements->hasNext()) {
-            return self::empty();
+            /** @var self<U> $empty */
+            $empty = self::empty();
+
+            return $empty;
         }
 
         return new Cons($elements->next(), function () use ($elements) {
@@ -47,13 +50,16 @@ abstract class Stream extends Sequence
         });
     }
 
+    /**
+     * @return self<T>
+     */
     public static function empty(): self
     {
         return EmptyStream::instance();
     }
 
     /**
-     * @return Stream<int>
+     * @return self<int>
      */
     public static function range(int $start = 1, ?int $end = null): self
     {
@@ -135,14 +141,14 @@ abstract class Stream extends Sequence
     /**
      * @throws \RuntimeException if is empty
      *
-     * @return Stream<T>
+     * @return self<T>
      */
     abstract public function tail();
 
     /**
      * @param callable(T):void $action
      *
-     * @return Stream<T>
+     * @return self<T>
      */
     public function peek(callable $action): self
     {
@@ -163,12 +169,15 @@ abstract class Stream extends Sequence
      *
      * @param callable(T):U $mapper
      *
-     * @return Stream<U>
+     * @return self<U>
      */
     public function map(callable $mapper): self
     {
         if ($this->isEmpty()) {
-            return self::empty();
+            /** @var self<U> $empty */
+            $empty = self::empty();
+
+            return $empty;
         }
 
         return new Cons($mapper($this->head()), function () use ($mapper) {return $this->tail()->map($mapper); });
@@ -179,7 +188,7 @@ abstract class Stream extends Sequence
      *
      * @param callable(T): Traversable<U> $mapper
      *
-     * @return Stream<U>
+     * @return self<U>
      */
     public function flatMap(callable $mapper)
     {
@@ -196,7 +205,7 @@ abstract class Stream extends Sequence
     /**
      * @param callable(T):bool $predicate
      *
-     * @return Stream<T>
+     * @return self<T>
      */
     public function filter(callable $predicate)
     {
@@ -217,7 +226,7 @@ abstract class Stream extends Sequence
     }
 
     /**
-     * @return Stream<T>
+     * @return self<T>
      */
     public function sorted()
     {
@@ -227,7 +236,7 @@ abstract class Stream extends Sequence
     /**
      * @param callable(T):bool $predicate
      *
-     * @return Stream<T>
+     * @return self<T>
      */
     public function dropWhile(callable $predicate)
     {
@@ -241,7 +250,7 @@ abstract class Stream extends Sequence
     }
 
     /**
-     * @return Stream<T>
+     * @return self<T>
      */
     public function take(int $n)
     {
@@ -259,7 +268,7 @@ abstract class Stream extends Sequence
     }
 
     /**
-     * @return Stream<T>
+     * @return self<T>
      */
     public function drop(int $n)
     {
@@ -292,7 +301,7 @@ abstract class Stream extends Sequence
     /**
      * @param T $element
      *
-     * @return Stream<T>
+     * @return self<T>
      */
     public function prepend($element)
     {
@@ -300,7 +309,7 @@ abstract class Stream extends Sequence
     }
 
     /**
-     * @return Stream<T>
+     * @return self<T>
      */
     public function prependAll(Traversable $elements)
     {

@@ -266,7 +266,7 @@ final class SetTest extends TestCase
         self::assertTrue(Set::ofAll(['alpha', 'beta', 'gamma'])->removeAll(Set::ofAll(['1', '2', 'gamma']))->equals(Set::ofAll(['alpha', 'beta'])));
     }
 
-    public function testSetDisjoint()
+    public function testSetDisjoint(): void
     {
         self::assertTrue(Set::of('a', 'b', 'c')->disjoint(Set::empty()));
         self::assertTrue(Set::empty()->disjoint(Set::of('a', 'b', 'c')));
@@ -277,7 +277,7 @@ final class SetTest extends TestCase
         self::assertFalse(Set::of('a', 'b', 'c')->disjoint(Set::of('d', 'e', 'c')));
     }
 
-    public function testSetAddAll()
+    public function testSetAddAll(): void
     {
         self::assertTrue(Set::of('a', 'b', 'c')->equals(Set::of('a')->addAll(Set::of('b', 'c'))));
         self::assertTrue(Set::of('a', 'b', 'c')->equals(Set::empty()->addAll(Set::of('a', 'b', 'c'))));

@@ -8,7 +8,6 @@ use Munus\Collection\GenericList;
 use Munus\Collection\Stream;
 use Munus\Control\Option;
 use Munus\Exception\UnsupportedOperationException;
-use Munus\Tests\Helpers\TupleConcatTestHelper;
 use Munus\Tuple;
 use PHPUnit\Framework\TestCase;
 
@@ -16,12 +15,17 @@ final class TupleTest extends TestCase
 {
     /**
      * @dataProvider arityTestData
+     *
+     * @param array<string> $values
      */
     public function testTupleArity(array $values, int $arity): void
     {
         self::assertEquals($arity, Tuple::of(...$values)->arity());
     }
 
+    /**
+     * @return array<array<string[]|int>>
+     */
     public static function arityTestData(): array
     {
         return [
@@ -63,12 +67,17 @@ final class TupleTest extends TestCase
 
     /**
      * @dataProvider toArrayTestData
+     *
+     * @param array<string> $values
      */
     public function testTupleToArray(array $values): void
     {
         self::assertEquals($values, Tuple::of(...$values)->toArray());
     }
 
+    /**
+     * @return array<array<array<string>>>
+     */
     public static function toArrayTestData(): array
     {
         return [
@@ -86,6 +95,10 @@ final class TupleTest extends TestCase
 
     /**
      * @dataProvider concatTestData
+     *
+     * @param array<string> $firstValues
+     * @param array<string> $secondValues
+     * @param array<string> $result
      */
     public function testTupleConcat(array $firstValues, array $secondValues, string $method, array $result): void
     {
@@ -97,9 +110,58 @@ final class TupleTest extends TestCase
         self::assertEquals($result, $newTuple->toArray());
     }
 
+    /**
+     * @return array<array<array<string>|string>>
+     */
     public static function concatTestData(): array
     {
-        return TupleConcatTestHelper::concatTestData();
+        return [
+            [[], [], 'concatTuple0', []],
+            [[], ['a'], 'concatTuple1', ['a']],
+            [[], ['a', 'b'], 'concatTuple2', ['a', 'b']],
+            [[], ['a', 'b', 'c'], 'concatTuple3', ['a', 'b', 'c']],
+            [[], ['a', 'b', 'c', 'd'], 'concatTuple4', ['a', 'b', 'c', 'd']],
+            [[], ['a', 'b', 'c', 'd', 'e'], 'concatTuple5', ['a', 'b', 'c', 'd', 'e']],
+            [[], ['a', 'b', 'c', 'd', 'e', 'f'], 'concatTuple6', ['a', 'b', 'c', 'd', 'e', 'f']],
+            [[], ['a', 'b', 'c', 'd', 'e', 'f', 'g'], 'concatTuple7', ['a', 'b', 'c', 'd', 'e', 'f', 'g']],
+            [[], ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'], 'concatTuple8', ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']],
+            [['1'], [], 'concatTuple0', ['1']],
+            [['1'], ['a'], 'concatTuple1', ['1', 'a']],
+            [['1'], ['a', 'b'], 'concatTuple2', ['1', 'a', 'b']],
+            [['1'], ['a', 'b', 'c'], 'concatTuple3', ['1', 'a', 'b', 'c']],
+            [['1'], ['a', 'b', 'c', 'd'], 'concatTuple4', ['1', 'a', 'b', 'c', 'd']],
+            [['1'], ['a', 'b', 'c', 'd', 'e'], 'concatTuple5', ['1', 'a', 'b', 'c', 'd', 'e']],
+            [['1'], ['a', 'b', 'c', 'd', 'e', 'f'], 'concatTuple6', ['1', 'a', 'b', 'c', 'd', 'e', 'f']],
+            [['1'], ['a', 'b', 'c', 'd', 'e', 'f', 'g'], 'concatTuple7', ['1', 'a', 'b', 'c', 'd', 'e', 'f', 'g']],
+            [['1', '2'], [], 'concatTuple0', ['1', '2']],
+            [['1', '2'], ['a'], 'concatTuple1', ['1', '2', 'a']],
+            [['1', '2'], ['a', 'b'], 'concatTuple2', ['1', '2', 'a', 'b']],
+            [['1', '2'], ['a', 'b', 'c'], 'concatTuple3', ['1', '2', 'a', 'b', 'c']],
+            [['1', '2'], ['a', 'b', 'c', 'd'], 'concatTuple4', ['1', '2', 'a', 'b', 'c', 'd']],
+            [['1', '2'], ['a', 'b', 'c', 'd', 'e'], 'concatTuple5', ['1', '2', 'a', 'b', 'c', 'd', 'e']],
+            [['1', '2'], ['a', 'b', 'c', 'd', 'e', 'f'], 'concatTuple6', ['1', '2', 'a', 'b', 'c', 'd', 'e', 'f']],
+            [['1', '2', '3'], [], 'concatTuple0', ['1', '2', '3']],
+            [['1', '2', '3'], ['a'], 'concatTuple1', ['1', '2', '3', 'a']],
+            [['1', '2', '3'], ['a', 'b'], 'concatTuple2', ['1', '2', '3', 'a', 'b']],
+            [['1', '2', '3'], ['a', 'b', 'c'], 'concatTuple3', ['1', '2', '3', 'a', 'b', 'c']],
+            [['1', '2', '3'], ['a', 'b', 'c', 'd'], 'concatTuple4', ['1', '2', '3', 'a', 'b', 'c', 'd']],
+            [['1', '2', '3'], ['a', 'b', 'c', 'd', 'e'], 'concatTuple5', ['1', '2', '3', 'a', 'b', 'c', 'd', 'e']],
+            [['1', '2', '3', '4'], [], 'concatTuple0', ['1', '2', '3', '4']],
+            [['1', '2', '3', '4'], ['a'], 'concatTuple1', ['1', '2', '3', '4', 'a']],
+            [['1', '2', '3', '4'], ['a', 'b'], 'concatTuple2', ['1', '2', '3', '4', 'a', 'b']],
+            [['1', '2', '3', '4'], ['a', 'b', 'c'], 'concatTuple3', ['1', '2', '3', '4', 'a', 'b', 'c']],
+            [['1', '2', '3', '4'], ['a', 'b', 'c', 'd'], 'concatTuple4', ['1', '2', '3', '4', 'a', 'b', 'c', 'd']],
+            [['1', '2', '3', '4', '5'], [], 'concatTuple0', ['1', '2', '3', '4', '5']],
+            [['1', '2', '3', '4', '5'], ['a'], 'concatTuple1', ['1', '2', '3', '4', '5', 'a']],
+            [['1', '2', '3', '4', '5'], ['a', 'b'], 'concatTuple2', ['1', '2', '3', '4', '5', 'a', 'b']],
+            [['1', '2', '3', '4', '5'], ['a', 'b', 'c'], 'concatTuple3', ['1', '2', '3', '4', '5', 'a', 'b', 'c']],
+            [['1', '2', '3', '4', '5', '6'], [], 'concatTuple0', ['1', '2', '3', '4', '5', '6']],
+            [['1', '2', '3', '4', '5', '6'], ['a'], 'concatTuple1', ['1', '2', '3', '4', '5', '6', 'a']],
+            [['1', '2', '3', '4', '5', '6'], ['a', 'b'], 'concatTuple2', ['1', '2', '3', '4', '5', '6', 'a', 'b']],
+            [['1', '2', '3', '4', '5', '6', '7'], [], 'concatTuple0', ['1', '2', '3', '4', '5', '6', '7']],
+            [['1', '2', '3', '4', '5', '6', '7'], ['a'], 'concatTuple1', ['1', '2', '3', '4', '5', '6', '7', 'a']],
+            [['1', '2', '3', '4', '5', '6', '7', '8'], [], 'concatTuple0', ['1', '2', '3', '4', '5', '6', '7', '8']],
+        ];
     }
 
     public function testTupleConcatFail(): void
@@ -113,12 +175,18 @@ final class TupleTest extends TestCase
 
     /**
      * @dataProvider appendTestData
+     *
+     * @param array<string> $expected
+     * @param array<string> $values
      */
     public function testTupleAppend(array $expected, array $values, string $appendValue): void
     {
         self::assertEquals($expected, Tuple::of(...$values)->append($appendValue)->toArray());
     }
 
+    /**
+     * @return array<array<array<string>|string>>
+     */
     public static function appendTestData(): array
     {
         return [
@@ -135,12 +203,18 @@ final class TupleTest extends TestCase
 
     /**
      * @dataProvider prependTestData
+     *
+     * @param array<string> $expected
+     * @param array<string> $values
      */
     public function testTuplePrepend(array $expected, array $values, string $appendValue): void
     {
         self::assertEquals($expected, Tuple::of(...$values)->prepend($appendValue)->toArray());
     }
 
+    /**
+     * @return array<array<array<string>|string>>
+     */
     public static function prependTestData(): array
     {
         return [

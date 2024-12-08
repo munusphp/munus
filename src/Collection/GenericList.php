@@ -19,13 +19,16 @@ abstract class GenericList extends Sequence
      *
      * @param U ...$elements
      *
-     * @return GenericList<U>
+     * @return self<U>
      */
     public static function of(...$elements): self
     {
         return self::ofAll($elements);
     }
 
+    /**
+     * @return self<T>
+     */
     public static function empty(): self
     {
         return Nil::instance();
@@ -36,7 +39,7 @@ abstract class GenericList extends Sequence
      *
      * @param iterable<U> $elements
      *
-     * @return GenericList<U>
+     * @return self<U>
      */
     public static function ofAll(iterable $elements): self
     {
@@ -65,7 +68,7 @@ abstract class GenericList extends Sequence
      *
      * @param callable(T):U $mapper
      *
-     * @return GenericList<U>
+     * @return self<U>
      */
     public function map(callable $mapper): self
     {
@@ -81,10 +84,11 @@ abstract class GenericList extends Sequence
      *
      * @param callable(T): Traversable<U> $mapper
      *
-     * @return GenericList<U>
+     * @return self<U>
      */
     public function flatMap(callable $mapper)
     {
+        /** @var self<U> $list */
         $list = self::empty();
         foreach ($this as $value) {
             foreach ($mapper($value) as $mapped) {
@@ -98,7 +102,7 @@ abstract class GenericList extends Sequence
     /**
      * @param callable(T):bool $predicate
      *
-     * @return GenericList<T>
+     * @return self<T>
      */
     public function filter(callable $predicate)
     {

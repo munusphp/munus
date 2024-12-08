@@ -11,6 +11,8 @@ use Munus\Tuple\Tuple2;
 /**
  * @template K
  * @template V
+ *
+ * @template-extends Iterator<Tuple2<K, V>>
  */
 final class MapIterator extends Iterator
 {

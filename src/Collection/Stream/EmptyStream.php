@@ -22,6 +22,9 @@ final class EmptyStream extends Stream
     {
     }
 
+    /**
+     * @return self<T>
+     */
     public static function instance(): self
     {
         return new self();

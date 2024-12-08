@@ -1,9 +1,17 @@
 includes:
 	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
+	- vendor/phpstan/phpstan-phpunit/extension.neon
 parameters:
 	phpVersion: 80100
-	level: 5
+	level: 6
 	paths:
 		- src
 		- tests
 		- generators
+	ignoreErrors:
+		-
+			identifier: argument.templateType
+			path: tests/Collection/MapTest.php
+		-
+			identifier: missingType.generics
+			path: src/Collection/Stream/Collectors.php
