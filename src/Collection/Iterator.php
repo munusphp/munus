@@ -11,6 +11,8 @@ use Munus\Exception\NoSuchElementException;
 
 /**
  * @template T
+ *
+ * @implements \Iterator<int, T>
  */
 class Iterator implements \Iterator
 {
@@ -51,11 +53,21 @@ class Iterator implements \Iterator
         return new ArrayIterator($elements);
     }
 
+    /**
+     * @return self<T>
+     */
     public static function empty(): self
     {
         return EmptyIterator::instance();
     }
 
+    /**
+     * @template U
+     *
+     * @param iterable<U> $elements
+     *
+     * @return self<U>
+     */
     public static function fromIterable(iterable $elements): self
     {
         if ($elements instanceof self) {

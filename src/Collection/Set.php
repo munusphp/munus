@@ -17,8 +17,11 @@ final class Set extends Traversable
     /**
      * @var T[]
      */
-    private $elements = [];
+    private array $elements = [];
 
+    /**
+     * @param T[] $elements
+     */
     private function __construct(array $elements = [])
     {
         foreach ($elements as $element) {
@@ -30,6 +33,13 @@ final class Set extends Traversable
         }
     }
 
+    /**
+     * @template U
+     *
+     * @param U[] $elements
+     *
+     * @return self<U>
+     */
     private static function fromPointer(array &$elements): self
     {
         $set = new self();
@@ -38,6 +48,9 @@ final class Set extends Traversable
         return $set;
     }
 
+    /**
+     * @return self<T>
+     */
     public static function empty(): self
     {
         return new self();
@@ -48,7 +61,7 @@ final class Set extends Traversable
      *
      * @param U ...$elements
      *
-     * @return Set<U>
+     * @return self<U>
      */
     public static function of(...$elements): self
     {
@@ -60,7 +73,7 @@ final class Set extends Traversable
      *
      * @param U[] $elements
      *
-     * @return Set<U>
+     * @return self<U>
      */
     public static function ofAll(array $elements): self
     {
@@ -75,7 +88,7 @@ final class Set extends Traversable
     /**
      * @param T $element
      *
-     * @return Set<T>
+     * @return self<T>
      */
     public function add($element): self
     {
@@ -90,9 +103,9 @@ final class Set extends Traversable
     }
 
     /**
-     * @param Set<T> $elements
+     * @param self<T> $elements
      *
-     * @return Set<T>
+     * @return self<T>
      */
     public function addAll(Set $elements): self
     {
@@ -109,7 +122,7 @@ final class Set extends Traversable
     /**
      * @param T $element
      *
-     * @return Set<T>
+     * @return self<T>
      */
     public function remove($element): self
     {
@@ -128,9 +141,9 @@ final class Set extends Traversable
     }
 
     /**
-     * @param Set<T> $elements
+     * @param self<T> $elements
      *
-     * @return Set<T>
+     * @return self<T>
      */
     public function removeAll(Set $elements): self
     {
@@ -145,9 +158,9 @@ final class Set extends Traversable
     }
 
     /**
-     * @param Set<T> $set
+     * @param self<T> $set
      *
-     * @return Set<T>
+     * @return self<T>
      */
     public function union(Set $set): self
     {
@@ -172,9 +185,9 @@ final class Set extends Traversable
     }
 
     /**
-     * @param Set<T> $set
+     * @param self<T> $set
      *
-     * @return Set<T>
+     * @return self<T>
      */
     public function diff(Set $set): self
     {
@@ -183,6 +196,11 @@ final class Set extends Traversable
         return self::fromPointer($diff);
     }
 
+    /**
+     * @param self<T> $set
+     *
+     * @return self<T>
+     */
     public function intersect(Set $set): self
     {
         $intersect = array_intersect($this->elements, $set->elements);
@@ -216,7 +234,10 @@ final class Set extends Traversable
         return $element;
     }
 
-    public function tail()
+    /**
+     * @return self<T>
+     */
+    public function tail(): self
     {
         $tail = $this->iterator()->toArray();
         unset($tail[0]);
@@ -229,9 +250,9 @@ final class Set extends Traversable
      *
      * @param callable(T):U $mapper
      *
-     * @return Set<U>
+     * @return self<U>
      */
-    public function map(callable $mapper)
+    public function map(callable $mapper): self
     {
         $mapped = [];
         $iterator = $this->iterator();
@@ -242,7 +263,14 @@ final class Set extends Traversable
         return self::fromPointer($mapped);
     }
 
-    public function flatMap(callable $mapper)
+    /**
+     * @template U
+     *
+     * @param callable(T):U $mapper
+     *
+     * @return self<T>
+     */
+    public function flatMap(callable $mapper): self
     {
         $mapped = [];
         $iterator = $this->iterator();
@@ -259,9 +287,9 @@ final class Set extends Traversable
     /**
      * @param callable(T):bool $predicate
      *
-     * @return Set<T>
+     * @return self<T>
      */
-    public function filter(callable $predicate)
+    public function filter(callable $predicate): self
     {
         $filtered = array_filter($this->elements, $predicate);
 
@@ -269,9 +297,9 @@ final class Set extends Traversable
     }
 
     /**
-     * @return Set<T>
+     * @return self<T>
      */
-    public function sorted()
+    public function sorted(): self
     {
         $elements = $this->elements;
         asort($elements);
@@ -282,9 +310,9 @@ final class Set extends Traversable
     /**
      * @param callable(T):bool $predicate
      *
-     * @return Set<T>
+     * @return self<T>
      */
-    public function dropWhile(callable $predicate)
+    public function dropWhile(callable $predicate): self
     {
         $elements = $this->elements;
         while ($elements !== [] && $predicate(current($elements)) === true) {
@@ -295,9 +323,9 @@ final class Set extends Traversable
     }
 
     /**
-     * @return Set<T>
+     * @return self<T>
      */
-    public function take(int $n)
+    public function take(int $n): self
     {
         if ($n <= 0) {
             return self::empty();
@@ -312,9 +340,9 @@ final class Set extends Traversable
     }
 
     /**
-     * @return Set<T>
+     * @return self<T>
      */
-    public function drop(int $n)
+    public function drop(int $n): self
     {
         if ($n <= 0) {
             return $this;

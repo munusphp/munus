@@ -21,7 +21,7 @@ abstract class TryTo extends Value
      *
      * @param callable():U $supplier
      *
-     * @return TryTo<U>
+     * @return self<U>
      */
     public static function run(callable $supplier): self
     {
@@ -42,7 +42,7 @@ abstract class TryTo extends Value
      *
      * @param callable(T): U $mapper
      *
-     * @return TryTo<U>
+     * @return self<U>
      */
     public function map(callable $mapper)
     {
@@ -67,7 +67,7 @@ abstract class TryTo extends Value
      *
      * @param callable(\Throwable):U $recovery
      *
-     * @return TryTo<U>
+     * @return self<U>
      */
     public function recover(string $throwable, callable $recovery): self
     {
@@ -83,6 +83,9 @@ abstract class TryTo extends Value
         return $this;
     }
 
+    /**
+     * @return self<T>
+     */
     public function andThen(callable $callable): self
     {
         if ($this->isFailure()) {
@@ -98,6 +101,9 @@ abstract class TryTo extends Value
         }
     }
 
+    /**
+     * @return self<T>
+     */
     public function andFinally(callable $callable): self
     {
         try {
@@ -109,6 +115,9 @@ abstract class TryTo extends Value
         }
     }
 
+    /**
+     * @return self<T>
+     */
     public function onSuccess(callable $consumer): self
     {
         if ($this->isSuccess()) {
@@ -118,6 +127,9 @@ abstract class TryTo extends Value
         return $this;
     }
 
+    /**
+     * @return self<T>
+     */
     public function onFailure(callable $consumer): self
     {
         if ($this->isFailure()) {
@@ -127,6 +139,9 @@ abstract class TryTo extends Value
         return $this;
     }
 
+    /**
+     * @return self<T>
+     */
     public function onSpecificFailure(string $throwable, callable $consumer): self
     {
         if ($this->isFailure()) {

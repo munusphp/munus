@@ -16,6 +16,8 @@ use Munus\Value\Comparator;
  * @template T
  *
  * @template-extends Value<T>
+ *
+ * @implements \IteratorAggregate<int, T>
  */
 abstract class Traversable extends Value implements \IteratorAggregate
 {

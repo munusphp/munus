@@ -286,7 +286,7 @@ final class MapTest extends TestCase
 
     public function testFlatMap(): void
     {
-        self::assertTrue(Map::fromArray(['a' => 'b', 'c' => 'd'])->flatMap(fn ($tuple) => GenericList::of($tuple, Tuple::of($tuple[1], $tuple[0])))->equals(
+        self::assertTrue(Map::fromArray(['a' => 'b', 'c' => 'd'])->flatMap(fn ($tuple) => GenericList::of($tuple, Tuple::of($tuple[1], $tuple[0])))->equals( // @phpstan-ignore argument.type
             Map::fromArray(['a' => 'b', 'b' => 'a', 'c' => 'd', 'd' => 'c'])
         ));
     }

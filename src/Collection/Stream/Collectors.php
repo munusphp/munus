@@ -93,7 +93,7 @@ final class Collectors
     }
 
     /**
-     * @return Collector<mixed,int|float|Tuple2>
+     * @return Collector<mixed,int|float|Tuple2<int,int>>
      */
     public static function averaging(): Collector
     {

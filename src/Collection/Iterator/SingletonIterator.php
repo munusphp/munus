@@ -9,6 +9,8 @@ use Munus\Exception\NoSuchElementException;
 
 /**
  * @template T
+ *
+ * @template-extends Iterator<T>
  */
 final class SingletonIterator extends Iterator
 {
